@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <title>Outfit Suggester</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="styles/style.css">
+    <script src="scripts/main.js" defer></script>
+  </head>
+  <body>
+    <h1>Outfit Suggester</h1>
+    <h2>Add Clothing Items</h2>
+    <div id="new-item">
+      <label>Name: </label>
+      <input id="name">
+      <form id="upload">
+        <label>Picture: </label>
+        <input type="file" id="file" accept="image/*">
+        <button>Upload</button>
+        <div id="new-item-img"></div>
+      </form>
+      <label>Type of Clothing: </label>
+      <select id="type">
+        <option>Shirt</option>
+        <option>Pants</option>
+        <option>Skirt</option>
+        <option>Dress</option>
+      </select>
+      <label>Color: </label>
+      <select id="color">
+        <option>White</option>
+        <option>Pink</option>
+        <option>Red</option>
+        <option>Orange</option>
+        <option>Yellow</option>
+        <option>Green</option>
+        <option>Blue</option>
+        <option>Purple</option>
+        <option>Black</option>
+        <option>Grey</option>
+      </select>
+      <label>Short/Long: </label>
+      <select id="short-long">
+          <option>Short</option>
+          <option>Long</option>
+      </select>
+      <label>Wash Type: </label>
+      <select id="wash">
+        <option>Regular</option>
+        <option>Delicate</option>
+      </select>
+      <label>Dress Code: </label>
+      <select id="dress-code">
+        <option>Yes</option>
+        <option>No</option>
+      </select>
+      <label>Last Worn: </label>
+      <input id="last-worn" type="date">
+      <button id="create-item">Create Item</button>
+    </div>
+    <div id="items-list"></div>
+    <h2>Find Outfits</h2>
+    <label>Occasion</label>
+    <select id="occasion">
+        <option>School</option>
+        <option>Other</option>
+    </select>
+    <label>Weather</label>
+    <select id="weather">
+        <option>Hot</option>
+        <option>Moderate</option>
+        <option>Cold</option>
+    </select>
+    <button id="create-outfits">Create Outfits</button>
+    <div id="outfits"></div>
+  </body>
+</html>
