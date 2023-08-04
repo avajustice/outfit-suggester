@@ -78,7 +78,7 @@
         const today = new Date();
         const past = new Date(pastDate);
 
-        // Finds the number of miilliseconds between dates
+        // Finds the number of milliseconds between dates
         const timeDifference = today.getTime() - past.getTime();
 
         // Divide by the number of milliseconds in a day
@@ -99,7 +99,7 @@
     function handleSubmit(event) {
         // Read the path of the submitted picture
 
-        // Stop the form rom reloading the oage
+        // Stop the form from reloading the page
         event.preventDefault();
 
         // If there is no file, do nothing
