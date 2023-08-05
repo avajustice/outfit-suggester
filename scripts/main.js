@@ -29,7 +29,7 @@
         this.clothingType = clothingType;
         this.color = color;
         this.shortLong = shortLong;
-        this.type = washType;
+        this.washType = washType;
         this.dressCode = dressCode;
         this.lastWorn = lastWorn;
 
@@ -53,12 +53,27 @@
             this.updateItemCard();
         }
 
+        this.addItemToDatabase = async function() {
+        // Sends a POST request to outfit-suggester-service on Replit, which
+        // adds the clothing item to the database also on Replt
+            const rawResponse = await fetch('https://outfit-suggester-service.avajustice.repl.co/api/items', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({"name" : this.name, "clothingType" : this.clothingType, 
+                    "color" : this.color, "shortLong" : this.shortLong, "washType" : this.washType,
+                    "lastWorn" : this.lastWorn})
+            });
+        }
+
         this.updateItemCard = function() {
             // Update item card with relavent information
 
             this.itemInfo.textContent = "Name: " + this.name + "\nType of Clothing: "
              + this.clothingType + "\nColor: " + this.color + "\nShort/Long: " 
-             + this.shortLong + "\nWash Type: " + this.type + "\nDress Code: " +
+             + this.shortLong + "\nWash Type: " + this.washType + "\nDress Code: " +
              this.dressCode + "\nLast Worn: " + this.lastWorn;
             this.image.src = this.imgSrc;
 
@@ -72,20 +87,6 @@
         }
     }
 
-    function findDaysAgo(pastDate) {
-        // Given a date, calulate and return how many days ago that date was
-
-        const today = new Date();
-        const past = new Date(pastDate);
-
-        // Finds the number of milliseconds between dates
-        const timeDifference = today.getTime() - past.getTime();
-
-        // Divide by the number of milliseconds in a day
-        const dayDifference = Math.floor(timeDifference / 86400000);
-        return dayDifference;
-    }
-
     function createItem() {
         // Uses the current values of the text boxes / drop down menus to create 
         // new object and add to itemArry
@@ -93,6 +94,7 @@
          shortLongSelect.value, washSelect.value, dressCodeSelect.value, 
          lastWornSelect.value);
         itemArray.push(item); 
+        item.addItemToDatabase();
         item.createItemCard();
     }
 
@@ -126,6 +128,20 @@
         let img = document.createElement("img");
         img.src = imageFilePath;
         newItemImageContainer.appendChild(img);
+    }
+
+    function findDaysAgo(pastDate) {
+        // Given a date, calulate and return how many days ago that date was
+
+        const today = new Date();
+        const past = new Date(pastDate);
+
+        // Finds the number of milliseconds between dates
+        const timeDifference = today.getTime() - past.getTime();
+
+        // Divide by the number of milliseconds in a day
+        const dayDifference = Math.floor(timeDifference / 86400000);
+        return dayDifference;
     }
 
     function matchDisplayOutfits() {
