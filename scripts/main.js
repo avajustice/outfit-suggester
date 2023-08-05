@@ -4,7 +4,6 @@
     const colorSelect = document.getElementById("color");
     const shortLongSelect = document.getElementById("short-long")
     const washSelect = document.getElementById("wash");
-    const dressCodeSelect = document.getElementById("dress-code");
     const lastWornSelect = document.getElementById("last-worn");
     const createItemButton = document.getElementById("create-item");
     const itemsList = document.getElementById("items-list");
@@ -22,15 +21,13 @@
     let outfitArray = [];
 
     // Item objects represent each article of clothing
-    function Item(name, imgSrc, clothingType, color, shortLong, washType, 
-     dressCode, lastWorn) {
+    function Item(name, imgSrc, clothingType, color, shortLong, washType, lastWorn) {
         this.name = name;
         this.imgSrc = imgSrc;
         this.clothingType = clothingType;
         this.color = color;
         this.shortLong = shortLong;
         this.washType = washType;
-        this.dressCode = dressCode;
         this.lastWorn = lastWorn;
 
         this.createItemCard = function() {
@@ -73,8 +70,7 @@
 
             this.itemInfo.textContent = "Name: " + this.name + "\nType of Clothing: "
              + this.clothingType + "\nColor: " + this.color + "\nShort/Long: " 
-             + this.shortLong + "\nWash Type: " + this.washType + "\nDress Code: " +
-             this.dressCode + "\nLast Worn: " + this.lastWorn;
+             + this.shortLong + "\nWash Type: " + this.washType + "\nLast Worn: " + this.lastWorn;
             this.image.src = this.imgSrc;
 
             // If the item has been worn before, calculate and display how
@@ -91,8 +87,7 @@
         // Uses the current values of the text boxes / drop down menus to create 
         // new object and add to itemArry
         const item = new Item(nameSelect.value, imageFilePath, typeSelect.value, colorSelect.value, 
-         shortLongSelect.value, washSelect.value, dressCodeSelect.value, 
-         lastWornSelect.value);
+         shortLongSelect.value, washSelect.value, lastWornSelect.value);
         itemArray.push(item); 
         item.addItemToDatabase();
         item.createItemCard();
@@ -322,11 +317,6 @@
         const occasion = occasionSelect.value;
         const weather = weatherSelect.value; 
         let allowedItemsArray = itemArray;
-        // Filter out non-dress code items
-        if (occasion == "School") {
-            allowedItemsArray = allowedItemsArray.filter(item => 
-             item.dressCode == "Yes");
-        }
         if (weather == "Hot") {
             allowedItemsArray = allowedItemsArray.filter(item => 
              item.shortLong == "Short");
