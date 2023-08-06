@@ -1,4 +1,6 @@
 (function(){
+    const itemsListContainer = document.getElementById("items-list");
+    const viewItemContainer = document.getElementById("view-item");
     const nameSelect = document.getElementById("name");
     const typeSelect = document.getElementById("type");
     const colorSelect = document.getElementById("color");
@@ -6,7 +8,6 @@
     const washSelect = document.getElementById("wash");
     const lastWornSelect = document.getElementById("last-worn");
     const createItemButton = document.getElementById("create-item");
-    const itemsList = document.getElementById("items-list");
     const form = document.getElementById("upload");
     const file = document.getElementById("file");
     const occasionSelect = document.getElementById("occasion");
@@ -16,38 +17,83 @@
     const outfitsContainer = document.getElementById("outfits");
     let imageFilePath = "";
 
-    // Contains all of the objects for the articles of clothing
-    const itemArray = [];
+    // Will contain all of the objects for the articles of clothing
+    let itemArray = [];
+
     let outfitArray = [];
 
+    async function retrieveDisplayItemsFromDatabase() {
+        const rawResponse = await fetch('https://outfit-suggester-service.avajustice.repl.co/api/items', {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            },
+        });
+
+        // An array of javascript objects is returned
+        const responseItemArray = await rawResponse.json();
+
+        for (const item of responseItemArray)
+        {
+            createItemObject(item.name, item.clothingType, item.color, item.shortLong, item.washType, item.lastWorn);
+        }
+
+    }
+
     // Item objects represent each article of clothing
-    function Item(name, imgSrc, clothingType, color, shortLong, washType, lastWorn) {
+    function Item(name, clothingType, color, shortLong, washType, lastWorn) {
         this.name = name;
-        this.imgSrc = imgSrc;
         this.clothingType = clothingType;
         this.color = color;
         this.shortLong = shortLong;
         this.washType = washType;
         this.lastWorn = lastWorn;
 
-        this.createItemCard = function() {
+        this.displayItemCard = function() {
+            // Create the item card container
             this.itemCard = document.createElement("div");
             this.itemCard.class = "card";
-            itemsList.appendChild(this.itemCard);
-            this.itemInfo = document.createElement("p");
-            this.image = document.createElement("img");
-            this.deleteButton = document.createElement("button");
-            this.deleteButton.textContent = "Delete";
-            this.deleteButton.onclick = () => {
+            viewItemContainer.appendChild(this.itemCard);
+            // Create button to remove the item card from the viewItemContainer
+            this.closeButton = document.createElement("button");
+            this.closeButton.textContent = "x";
+            this.closeButton.onclick = () => {
                 this.itemCard.remove();
-                const index = itemArray.indexOf(this);
-                itemArray.splice(index, 1);
-                console.log(itemArray)
             }
-            this.itemCard.append(this.deleteButton);
+            this.itemCard.append(this.closeButton);
+
+            // this.image = document.createElement("img");
+            // this.deleteButton = document.createElement("button");
+            // this.deleteButton.textContent = "Delete";
+            // this.deleteButton.onclick = () => {
+            //     this.itemCard.remove();
+            //     const index = itemArray.indexOf(this);
+            //     itemArray.splice(index, 1);
+            //     console.log(itemArray)
+            // }
+            // this.itemCard.append(this.deleteButton);
+
+            // Create item info paragraph and fill in information
+            this.itemInfo = document.createElement("p");
             this.itemCard.append(this.itemInfo);
-            this.itemCard.append(this.image);
             this.updateItemCard();
+        }
+
+        this.updateItemCard = function() {
+            // Update item card with relavent information
+
+            this.itemInfo.textContent = "Name: " + this.name + "\nType of Clothing: "
+             + this.clothingType + "\nColor: " + this.color + "\nShort/Long: " 
+             + this.shortLong + "\nWash Type: " + this.washType + "\nLast Worn: " + this.lastWorn;
+            // this.image.src = this.imgSrc;
+
+            // If the item has been worn before, calculate and display how
+            // many days it has been since the item was last worn
+            if (this.lastWorn != "") {
+                this.daysSinceWorn = findDaysAgo(this.lastWorn);
+                this.itemInfo.textContent += (" (" + this.daysSinceWorn + 
+                 " days ago)");
+            }
         }
 
         this.addItemToDatabase = async function() {
@@ -65,32 +111,34 @@
             });
         }
 
-        this.updateItemCard = function() {
-            // Update item card with relavent information
-
-            this.itemInfo.textContent = "Name: " + this.name + "\nType of Clothing: "
-             + this.clothingType + "\nColor: " + this.color + "\nShort/Long: " 
-             + this.shortLong + "\nWash Type: " + this.washType + "\nLast Worn: " + this.lastWorn;
-            this.image.src = this.imgSrc;
-
-            // If the item has been worn before, calculate and display how
-            // many days it has been since the item was last worn
-            if (this.lastWorn != "") {
-                this.daysSinceWorn = findDaysAgo(this.lastWorn);
-                this.itemInfo.textContent += (" (" + this.daysSinceWorn + 
-                 " days ago)");
+        this.createItemInformationButton = function() {
+        // Creates a button with the name of the clothing item and add to
+        // itemsListContainer
+            const itemButton = document.createElement("button");
+            itemButton.textContent = this.name;
+            // When the button is clicked, show the item information card
+            itemButton.onclick = () => {
+                this.displayItemCard();
             }
+            itemsListContainer.append(itemButton);
+            itemsListContainer.append('\n');
         }
     }
 
-    function createItem() {
-        // Uses the current values of the text boxes / drop down menus to create 
-        // new object and add to itemArry
-        const item = new Item(nameSelect.value, imageFilePath, typeSelect.value, colorSelect.value, 
-         shortLongSelect.value, washSelect.value, lastWornSelect.value);
-        itemArray.push(item); 
+    function addNewItem(name, type, color, shortLong, wash, lastWorn) {
+        // Use this function when creating a completely new item from the item editor
+        // Creates a new item object and adds it to the database
+        const item = createItemObject(name, type, color, shortLong, wash, lastWorn);
         item.addItemToDatabase();
-        item.createItemCard();
+    }
+
+    function createItemObject(name, type, color, shortLong, wash, lastWorn) {
+        // Creates a new Item object, add new item to Current Items list, add
+        // new item to itemArray, and add new item to the database
+        const item = new Item(name, type, color, shortLong, wash, lastWorn);
+        item.createItemInformationButton();
+        itemArray.push(item); 
+        return item;
     }
 
     function handleSubmit(event) {
@@ -338,7 +386,15 @@
         }
     }
 
-    createItemButton.onclick = createItem;
+    // Get items from the database every time the page is loaded
+    retrieveDisplayItemsFromDatabase();
+
+    // Uses the current values of the text boxes / drop down menus to create new item
+    createItemButton.addEventListener('click', function(){
+        addNewItem(nameSelect.value, typeSelect.value, colorSelect.value, 
+            shortLongSelect.value, washSelect.value, lastWornSelect.value);
+    });
+
     createOutfitsButton.onclick = matchDisplayOutfits;
     form.addEventListener("submit", handleSubmit);
 })();
