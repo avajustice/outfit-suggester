@@ -111,7 +111,7 @@
                 },
                 body: JSON.stringify({"name" : this.name, "clothingType" : this.clothingType, 
                     "color" : this.color, "shortLong" : this.shortLong, "washType" : this.washType,
-                    "lastWorn" : this.lastWorn})
+                    "lastWorn" : this.lastWorn, "id" : id})
             });
 
             // Delete id problem: trying to get the item information so that I can know the assigned id
@@ -148,10 +148,10 @@
         // Creates a new item object and adds it to the database
 
         // 0 is a placeholder id because the database has not yet assigned an id
-        const item = createItemObject(name, type, color, shortLong, wash, lastWorn, 0);
+        const item = createItemObject(name, type, color, shortLong, wash, lastWorn, generateId());
 
         // delete item id problem: should return the item information, including id TT
-        // const response = item.addItemToDatabase();
+        const response = item.addItemToDatabase();
         // console.log(response);
     }
 
@@ -162,6 +162,12 @@
         item.createItemInformationButton();
         itemArray.push(item); 
         return item;
+    }
+
+    function generateId() {
+        // generate random ID to use as a key for the item in the database
+        let id = [...Array(16)].map(() => Math.floor(Math.random() * 16).toString(16)).join('');
+        return id;
     }
 
     function handleSubmit(event) {
