@@ -123,7 +123,6 @@
         // Sends a DELETE request to outfit-suggester-service on Replit, which
         // removes the clothing item from the database also on Replt
             const itemURL = 'https://outfit-suggester-service.avajustice.repl.co/api/items/' + this.id;
-            console.log(itemURL);
             const rawResponse = await fetch(itemURL, {
                 method: 'DELETE'
             });
@@ -199,7 +198,30 @@
         }
         let img = document.createElement("img");
         img.src = imageFilePath;
+        img.src = resizeImage(img);
         newItemImageContainer.appendChild(img);
+    }
+
+    function resizeImage (img) {
+    // resize image to store it in the database
+
+        // create an off-screen canvas
+        var canvas = document.createElement ('canvas'),
+            ctx = canvas.getContext ('2d');
+
+        // all of my pictures are 3000 x 4000
+        let width = 150;   // 3000 / 20
+        let height = 200;  // 4000 / 20
+      
+        // set its dimension to target size
+        canvas.width = width;
+        canvas.height = height;
+      
+        // draw source image into the off-screen canvas:
+        ctx.drawImage (img, 0, 0, width, height);
+      
+        // encode image to data-uri with base64 version of compressed image
+        return canvas.toDataURL();
     }
 
     function findDaysAgo(pastDate) {
