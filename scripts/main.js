@@ -35,25 +35,28 @@
 
         for (const item of responseItemArray)
         {
-            createItemObject(item.name, item.clothingType, item.color, item.shortLong, item.washType, item.lastWorn);
+            createItemObject(item.name, item.clothingType, item.color, item.shortLong, 
+                item.washType, item.lastWorn, item.id);
         }
 
     }
 
     // Item objects represent each article of clothing
-    function Item(name, clothingType, color, shortLong, washType, lastWorn) {
+    function Item(name, clothingType, color, shortLong, washType, lastWorn, id) {
         this.name = name;
         this.clothingType = clothingType;
         this.color = color;
         this.shortLong = shortLong;
         this.washType = washType;
         this.lastWorn = lastWorn;
+        this.id = id;
 
         this.displayItemCard = function() {
             // Create the item card container
             this.itemCard = document.createElement("div");
             this.itemCard.class = "card";
             viewItemContainer.appendChild(this.itemCard);
+
             // Create button to remove the item card from the viewItemContainer
             this.closeButton = document.createElement("button");
             this.closeButton.textContent = "x";
@@ -62,16 +65,17 @@
             }
             this.itemCard.append(this.closeButton);
 
-            // this.image = document.createElement("img");
-            // this.deleteButton = document.createElement("button");
-            // this.deleteButton.textContent = "Delete";
-            // this.deleteButton.onclick = () => {
-            //     this.itemCard.remove();
-            //     const index = itemArray.indexOf(this);
-            //     itemArray.splice(index, 1);
-            //     console.log(itemArray)
-            // }
-            // this.itemCard.append(this.deleteButton);
+            // Create button to delete an item from the database
+            this.deleteButton = document.createElement("button");
+            this.deleteButton.textContent = "Delete Item";
+            this.deleteButton.onclick = () => {
+                this.deleteItemFromDatabase();
+                this.itemCard.remove();
+                const index = itemArray.indexOf(this);
+                itemArray.splice(index, 1);
+                this.itemButton.remove();
+            }
+            this.itemCard.append(this.deleteButton);
 
             // Create item info paragraph and fill in information
             this.itemInfo = document.createElement("p");
@@ -109,18 +113,32 @@
                     "color" : this.color, "shortLong" : this.shortLong, "washType" : this.washType,
                     "lastWorn" : this.lastWorn})
             });
+
+            // Delete id problem: trying to get the item information so that I can know the assigned id
+            // const responseNewItem = await rawResponse.json();
+            // return responseNewItem;
+        }
+
+        this.deleteItemFromDatabase = async function() {
+        // Sends a DELETE request to outfit-suggester-service on Replit, which
+        // removes the clothing item from the database also on Replt
+            const itemURL = 'https://outfit-suggester-service.avajustice.repl.co/api/items/' + this.id;
+            console.log(itemURL);
+            const rawResponse = await fetch(itemURL, {
+                method: 'DELETE'
+            });
         }
 
         this.createItemInformationButton = function() {
         // Creates a button with the name of the clothing item and add to
         // itemsListContainer
-            const itemButton = document.createElement("button");
-            itemButton.textContent = this.name;
+            this.itemButton = document.createElement("button");
+            this.itemButton.textContent = this.name;
             // When the button is clicked, show the item information card
-            itemButton.onclick = () => {
+            this.itemButton.onclick = () => {
                 this.displayItemCard();
             }
-            itemsListContainer.append(itemButton);
+            itemsListContainer.append(this.itemButton);
             itemsListContainer.append('\n');
         }
     }
@@ -128,14 +146,19 @@
     function addNewItem(name, type, color, shortLong, wash, lastWorn) {
         // Use this function when creating a completely new item from the item editor
         // Creates a new item object and adds it to the database
-        const item = createItemObject(name, type, color, shortLong, wash, lastWorn);
-        item.addItemToDatabase();
+
+        // 0 is a placeholder id because the database has not yet assigned an id
+        const item = createItemObject(name, type, color, shortLong, wash, lastWorn, 0);
+
+        // delete item id problem: should return the item information, including id TT
+        // const response = item.addItemToDatabase();
+        // console.log(response);
     }
 
-    function createItemObject(name, type, color, shortLong, wash, lastWorn) {
+    function createItemObject(name, type, color, shortLong, wash, lastWorn, id) {
         // Creates a new Item object, add new item to Current Items list, add
         // new item to itemArray, and add new item to the database
-        const item = new Item(name, type, color, shortLong, wash, lastWorn);
+        const item = new Item(name, type, color, shortLong, wash, lastWorn, id);
         item.createItemInformationButton();
         itemArray.push(item); 
         return item;
