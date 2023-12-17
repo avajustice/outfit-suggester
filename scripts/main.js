@@ -113,10 +113,6 @@
                     "color" : this.color, "shortLong" : this.shortLong, "washType" : this.washType,
                     "lastWorn" : this.lastWorn, "id" : id})
             });
-
-            // Delete id problem: trying to get the item information so that I can know the assigned id
-            // const responseNewItem = await rawResponse.json();
-            // return responseNewItem;
         }
 
         this.deleteItemFromDatabase = async function() {
@@ -146,12 +142,9 @@
         // Use this function when creating a completely new item from the item editor
         // Creates a new item object and adds it to the database
 
-        // 0 is a placeholder id because the database has not yet assigned an id
         const item = createItemObject(name, type, color, shortLong, wash, lastWorn, generateId());
 
-        // delete item id problem: should return the item information, including id TT
-        const response = item.addItemToDatabase();
-        // console.log(response);
+        item.addItemToDatabase();
     }
 
     function createItemObject(name, type, color, shortLong, wash, lastWorn, id) {
@@ -164,12 +157,12 @@
     }
 
     function generateId() {
-        // generate random ID to use as a key for the item in the database
+        // Generate random ID to use as a key for the item in the database
         let id = [...Array(16)].map(() => Math.floor(Math.random() * 16).toString(16)).join('');
         return id;
     }
 
-    function handleSubmit(event) {
+    function readPicturePath(event) {
         // Read the path of the submitted picture
 
         // Stop the form from reloading the page
@@ -184,21 +177,21 @@
 	    let reader = new FileReader();
 
         // Set up the callback event to run when the file is read
-	    reader.onload = addPicture;
+	    reader.onload = addPictureToItem;
 
 	    // Read the file
 	    reader.readAsDataURL(file.files[0]);
     }
 
-    function addPicture(event) {
-        // Remove old picture and add new picture
+    function addPictureToItem(event) {
+        // Remove old picture from screen and add new picture to item object
         imageFilePath = event.target.result;
         if (newItemImageContainer.hasChildNodes()) {
             newItemImageContainer.firstChild.remove();
         }
         let img = document.createElement("img");
         img.src = imageFilePath;
-        // wait until image is loaded before resizing
+        // Wait until image is loaded before resizing
         img.addEventListener('load', function() {
             img.src = resizeImage(img);
             newItemImageContainer.appendChild(img);
@@ -206,24 +199,24 @@
     }
 
     function resizeImage(img) {
-        // resize image to store it in the database
+        // Resize image to store it in the database
 
-        // create an off-screen canvas
+        // Create an off-screen canvas
         var canvas = document.createElement ('canvas'),
             ctx = canvas.getContext ('2d');
 
-        // all of my pictures are 3000 x 4000
+        // All of my pictures are 3000 x 4000
         let width = 150;   // 3000 / 20
         let height = 200;  // 4000 / 20
       
-        // set its dimension to target size
+        // Set its dimension to target size
         canvas.width = width;
         canvas.height = height;
       
-        // draw source image into the off-screen canvas:
+        // Draw source image into the off-screen canvas
         ctx.drawImage (img, 0, 0, width, height);
       
-        // encode image to data-url with base64 version of compressed image
+        // Encode image to data-url with base64 version of compressed image
         return canvas.toDataURL();
     }
 
@@ -450,5 +443,5 @@
     });
 
     createOutfitsButton.onclick = matchDisplayOutfits;
-    form.addEventListener("submit", handleSubmit);
+    form.addEventListener("submit", readPicturePath);
 })();
