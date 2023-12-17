@@ -198,12 +198,15 @@
         }
         let img = document.createElement("img");
         img.src = imageFilePath;
-        img.src = resizeImage(img);
-        newItemImageContainer.appendChild(img);
+        // wait until image is loaded before resizing
+        img.addEventListener('load', function() {
+            img.src = resizeImage(img);
+            newItemImageContainer.appendChild(img);
+        });
     }
 
-    function resizeImage (img) {
-    // resize image to store it in the database
+    function resizeImage(img) {
+        // resize image to store it in the database
 
         // create an off-screen canvas
         var canvas = document.createElement ('canvas'),
@@ -220,7 +223,7 @@
         // draw source image into the off-screen canvas:
         ctx.drawImage (img, 0, 0, width, height);
       
-        // encode image to data-uri with base64 version of compressed image
+        // encode image to data-url with base64 version of compressed image
         return canvas.toDataURL();
     }
 
