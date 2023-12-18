@@ -22,6 +22,10 @@
 
     let outfitArray = [];
 
+    // Should always be set to the id and data of the most recently added and resized image
+    let currentImageId;
+    let currentImageData;
+
     async function retrieveDisplayItemsFromDatabase() {
         const rawResponse = await fetch('https://outfit-suggester-service.avajustice.repl.co/api/items', {
             method: 'GET',
@@ -36,13 +40,13 @@
         for (const item of responseItemArray)
         {
             createItemObject(item.name, item.clothingType, item.color, item.shortLong, 
-                item.washType, item.lastWorn, item.id);
+                item.washType, item.lastWorn, item.id, item.imgId);
         }
 
     }
 
     // Item objects represent each article of clothing
-    function Item(name, clothingType, color, shortLong, washType, lastWorn, id) {
+    function Item(name, clothingType, color, shortLong, washType, lastWorn, id, imgId) {
         this.name = name;
         this.clothingType = clothingType;
         this.color = color;
@@ -50,6 +54,7 @@
         this.washType = washType;
         this.lastWorn = lastWorn;
         this.id = id;
+        this.imgId = imgId;
 
         this.displayItemCard = function() {
             // Create the item card container
@@ -77,19 +82,23 @@
             }
             this.itemCard.append(this.deleteButton);
 
-            // Create item info paragraph and fill in information
+            // Create item info paragraph and image and fill in information
             this.itemInfo = document.createElement("p");
             this.itemCard.append(this.itemInfo);
+            this.image = document.createElement("img");
+            this.itemCard.append(this.image);
             this.updateItemCard();
         }
 
         this.updateItemCard = function() {
             // Update item card with relavent information
 
+            let imagePath = 'https://outfit-suggester-service.avajustice.repl.co/images/' + imgId;
+
             this.itemInfo.textContent = "Name: " + this.name + "\nType of Clothing: "
              + this.clothingType + "\nColor: " + this.color + "\nShort/Long: " 
              + this.shortLong + "\nWash Type: " + this.washType + "\nLast Worn: " + this.lastWorn;
-            // this.image.src = this.imgSrc;
+            this.image.src = imagePath;
 
             // If the item has been worn before, calculate and display how
             // many days it has been since the item was last worn
@@ -111,7 +120,7 @@
                 },
                 body: JSON.stringify({"name" : this.name, "clothingType" : this.clothingType, 
                     "color" : this.color, "shortLong" : this.shortLong, "washType" : this.washType,
-                    "lastWorn" : this.lastWorn, "id" : id})
+                    "lastWorn" : this.lastWorn, "id" : this.id, "imgId" : this.imgId})
             });
         }
 
@@ -139,26 +148,37 @@
     }
 
     function addNewItem(name, type, color, shortLong, wash, lastWorn) {
-        // Use this function when creating a completely new item from the item editor
+        // Use this function when creating a completely NEW item from the item editor
         // Creates a new item object and adds it to the database
 
-        const item = createItemObject(name, type, color, shortLong, wash, lastWorn, generateId());
+        const item = createItemObject(name, type, color, shortLong, wash, lastWorn, generateItemId(), currentImageId);
 
         item.addItemToDatabase();
+        addImageToDatabase(currentImageData, currentImageId);
     }
 
-    function createItemObject(name, type, color, shortLong, wash, lastWorn, id) {
-        // Creates a new Item object, add new item to Current Items list, add
-        // new item to itemArray, and add new item to the database
-        const item = new Item(name, type, color, shortLong, wash, lastWorn, id);
+    function createItemObject(name, type, color, shortLong, wash, lastWorn, id, imgId) {
+        // Creates a new Item object, add item to itemArray
+        // Use without addNewItem() when creating an object for an item that has already
+        // been added to database, like when reloading the page 
+
+        const item = new Item(name, type, color, shortLong, wash, lastWorn, id, imgId);
         item.createItemInformationButton();
         itemArray.push(item); 
         return item;
     }
 
-    function generateId() {
+    function generateItemId() {
         // Generate random ID to use as a key for the item in the database
         let id = [...Array(16)].map(() => Math.floor(Math.random() * 16).toString(16)).join('');
+        id = "item-" + id;
+        return id;
+    }
+
+    function generateImageId() {
+        // Generate random ID to use as a key for the item in the database
+        let id = [...Array(16)].map(() => Math.floor(Math.random() * 16).toString(16)).join('');
+        id = "image-" + id + ".png";
         return id;
     }
 
@@ -202,6 +222,8 @@
                 img.src = resizeImage(img);
                 newItemImageContainer.appendChild(img);
                 pictureAdded = true;
+                currentImageId = generateImageId();
+                currentImageData = img.src;
             }
         });
     }
@@ -227,6 +249,19 @@
         // Encode image to data-url with base64 version of compressed image
         return canvas.toDataURL();
     }
+
+    addImageToDatabase = async function(imgData, id) {
+        // Sends a POST request to outfit-suggester-service on Replit, which
+        // adds the image source to the database also on Replt
+            const rawResponse = await fetch('https://outfit-suggester-service.avajustice.repl.co/api/images', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({"imgData" : imgData, "id" : id})
+            });
+        }
 
     function findDaysAgo(pastDate) {
         // Given a date, calulate and return how many days ago that date was
