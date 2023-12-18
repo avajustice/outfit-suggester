@@ -165,6 +165,9 @@
     function readPicturePath(event) {
         // Read the path of the submitted picture
 
+        // To stop the picture from being added over and over, set a flag
+        pictureAdded = false;
+
         // Stop the form from reloading the page
         event.preventDefault();
 
@@ -191,10 +194,15 @@
         }
         let img = document.createElement("img");
         img.src = imageFilePath;
+
         // Wait until image is loaded before resizing
         img.addEventListener('load', function() {
-            img.src = resizeImage(img);
-            newItemImageContainer.appendChild(img);
+            // Make sure this is the first time you are adding the picture
+            if (pictureAdded == false) {
+                img.src = resizeImage(img);
+                newItemImageContainer.appendChild(img);
+                pictureAdded = true;
+            }
         });
     }
 
