@@ -2,8 +2,3 @@ div:not(#upload, #new-item-img, #outfits) {
     border: 2px solid black;
     white-space: pre;
 }
-
-img {
-    max-height: 300px;
-    max-width: 300px;
-}
