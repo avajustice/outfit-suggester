@@ -24,6 +24,8 @@
 
     // Should always be set to the base 64 represenation of the most recently added and resized image
     let currentImageData;
+    // Should always be set to the file extension of the most recently resized image
+    let currentImageFileExtension;
 
     async function retrieveDisplayItemsFromDatabase() {
         const rawResponse = await fetch('https://outfit-suggester-service.avajustice.repl.co/api/items', {
@@ -234,6 +236,10 @@
                 newItemImageContainer.appendChild(img);
                 pictureAdded = true;
                 currentImageData = img.src;
+                const beginningIndex = currentImageData.indexOf("image/");
+                const fileExtensionAndOn = currentImageData.substring(beginningIndex + 6);
+                const splitImgData = fileExtensionAndOn.split(";");
+                currentImageFileExtension = splitImgData[0];
             }
         });
     }
@@ -269,7 +275,7 @@
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({"imgData" : imgData})
+                body: JSON.stringify({"imgData" : imgData, 'fileExtension' : currentImageFileExtension})
             });
             const response = await rawResponse.json();
             
