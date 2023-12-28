@@ -418,6 +418,12 @@
     function matchDisplayOutfits() {
         // Pair allowed items into outfits based on clothing type
 
+        // Empty outfit array and outfits container
+        outfitArray = [];
+        while (outfitsContainer.hasChildNodes()) {
+            outfitsContainer.firstChild.remove();
+        }
+        
         // Find allowed items based on conditions
         let allowedItemsArray = filterItems(); 
 
@@ -425,13 +431,13 @@
         let shirtsArray = allowedItemsArray.filter(item => 
          item.clothingType == "Shirt");
         let bottomsArray = allowedItemsArray.filter(item => 
-         item.clothingType == ("Pants" || "Skirt"));
+         ((item.clothingType == "Pants") || (item.clothingType == "Skirt")
+          || (item.clothingType == "Althelic Pants")));
         let dressArray = allowedItemsArray.filter(item => 
          item.clothingType == "Dress");
-
+        
         // Match shirts with bottoms
         for (const shirt of shirtsArray) {
-            console.log(shirt);
             for (const bottom of bottomsArray) {
                 if (colorsMatch(shirt, bottom)) {
                     const lastWornAverage = (findDaysAgo(shirt.lastWorn) +
@@ -456,9 +462,6 @@
     }
 
     function colorsMatch(shirt, bottom) {
-        console.log("Matching. . .");
-        console.log(bottom.color);
-        console.log(shirt.color);
         if (bottom.color === "Blue" || isNeutralColor(bottom)) {
             return true;
         } else if (bottom.color === "Pink") {
@@ -517,7 +520,7 @@
         if (outfitA.firstChild.textContent < outfitB.firstChild.textContent) {
             return 1;
         } else if (outfitA.firstChild.textContent > outfitB.firstChild.textContent) {
-            return -s1;
+            return -1;
         } else {
             return 0;
         }
@@ -534,7 +537,6 @@
 
         // Add outfit to outfit array
         outfitArray.push(outfit);
-        console.log(outfitArray);
         
         // Add header to show the name of the outfit
         const outfitTitle = document.createElement("h3");
@@ -609,10 +611,13 @@
         // Filter current list of items based on weather and occasion
         // return array of filtered items
 
+        allowedItemsArray = itemArray;
+
         // Find current occasion and weather selections
         const occasion = occasionSelect.value;
         const weather = weatherSelect.value; 
-        let allowedItemsArray = itemArray;
+
+        // Filter based on weather
         if (weather == "Hot") {
             allowedItemsArray = allowedItemsArray.filter(item => 
              item.shortLong == "Short");
@@ -622,6 +627,16 @@
         } else if (weather == "Moderate") {
             allowedItemsArray = allowedItemsArray.filter(isGoodForModerateWeather);
         }
+
+        // Filter based on occasion
+        if (occasion == "Church") {
+            allowedItemsArray = allowedItemsArray.filter(item => 
+                (isGoodForChurch(item)));
+        } else if (occasion == "Exercise") {
+            allowedItemsArray = allowedItemsArray.filter(item => 
+                (isGoodForExercise(item)));
+        }
+
         return allowedItemsArray;
     }
 
@@ -631,6 +646,54 @@
             return item.shortLong == "Long";
         } else if (item.clothingType == "Shirt") {
             return item.shortLong == "Short";
+        }
+    }
+
+    function isGoodForChurch(item) {
+        // Dresses and skirts are always good for church
+        if (item.clothingType == "Dress") {
+            return true;
+        } else if (item.clothingType == "Skirt") {
+            return true;
+        // I only wear pants and long sleeve shirts to church, not short
+        } else if (item.clothingType == "Shirt") {
+            if (item.shortLong == "Long") {
+                return true;
+            } else {
+                return false;
+            }
+        } else if (item.clothingType == "Pants") {
+            if (item.shortLong == "Long") {
+                return true;
+            } else {
+                return false;
+            }
+        // Everything else (althelic pants) is bad for church
+        } else {
+            return false;
+        }
+    }
+
+    function isGoodForExercise(item) {
+        // I only wear short sleeves and shorts to exercise, not
+        // long sleeves or pants
+        if (item.clothingType == "Shirt") {
+            if (item.shortLong == "Short") {
+                return true;
+            } else {
+                return false;
+            }
+        } else if (item.clothingType == "Pants") {
+            if (item.shortLong == "Short") {
+                return true;
+            } else {
+                return false;
+            }
+        // Atheletic pants are okay, though
+        } else if (item.clothingType == "Athletic Pants") {
+            return true;
+        } else {
+            return false;
         }
     }
 
