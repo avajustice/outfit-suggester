@@ -1,6 +1,8 @@
 (function(){
     const itemsListContainer = document.getElementById("items-list");
     const viewItemContainer = document.getElementById("view-item");
+    const selectorsTitle = document.getElementById("selectors-title");
+    const newItemContainer = document.getElementById("new-item");
     const nameSelect = document.getElementById("name");
     const typeSelect = document.getElementById("type");
     const colorSelect = document.getElementById("color");
@@ -21,6 +23,13 @@
     let itemArray = [];
 
     let outfitArray = [];
+
+    // Need to modify these later
+    let updateItemButton;
+    let cancelEditingButton;
+
+    // Set to true if a new picture has just been uploaded
+    let newPictureAdded = false;
 
     // Should always be set to the base 64 represenation of the most recently added and resized image
     let currentImageData;
@@ -56,6 +65,7 @@
         this.lastWorn = lastWorn;
         this.id = id;
         this.imgId = imgId;
+        this.imgPath = 'https://outfit-suggester-service.avajustice.repl.co/images/' + imgId;
 
         this.displayItemCard = function() {
             // Create the item card container
@@ -83,6 +93,14 @@
             }
             this.itemCard.append(this.deleteButton);
 
+            // Create button to edit an item
+            this.editButton = document.createElement("button");
+            this.editButton.textContent = "Edit";
+            this.editButton.onclick = () => {
+                this.editItem();
+            }
+            this.itemCard.append(this.editButton);
+
             // Create item info paragraph and image and fill in information
             this.itemInfo = document.createElement("p");
             this.itemCard.append(this.itemInfo);
@@ -94,12 +112,10 @@
         this.updateItemCard = function() {
             // Update item card with relavent information
 
-            let imagePath = 'https://outfit-suggester-service.avajustice.repl.co/images/' + imgId;
-
             this.itemInfo.textContent = "Name: " + this.name + "\nType of Clothing: "
              + this.clothingType + "\nColor: " + this.color + "\nShort/Long: " 
              + this.shortLong + "\nWash Type: " + this.washType + "\nLast Worn: " + this.lastWorn;
-            this.image.src = imagePath;
+            this.image.src = this.imgPath;
 
             // If the item has been worn before, calculate and display how
             // many days it has been since the item was last worn
@@ -110,9 +126,76 @@
             }
         }
 
+        this.editItem = function() {
+            // Change the Add New Item section to Edit Item
+
+            // Edit title and fill in selectors with current item information
+            selectorsTitle.textContent = "Edit Clothing Item";
+            nameSelect.value = this.name;
+            typeSelect.value = this.clothingType;
+            colorSelect.value = this.color;
+            shortLongSelect.value = this.shortLong;
+            washSelect.value = this.washType;
+            lastWornSelect.value = this.lastWorn;
+            let img = document.createElement("img");
+            img.src = this.imgPath;
+            newItemImageContainer.appendChild(img);
+
+            // Reset to false to track whether or not the image is replaced
+            newPictureAdded = false;
+            
+            // Hide and disable createItemButton
+            createItemButton.style.visibility = "hidden";
+            createItemButton.disabled = true;
+
+            // Create update button
+            updateItemButton = document.createElement("button");
+            updateItemButton.textContent = "Update";
+            updateItemButton.onclick = () => {
+                this.updateItem();
+            }
+            newItemContainer.append(updateItemButton);
+
+            // Create cancel button
+            cancelEditingButton = document.createElement("button");
+            cancelEditingButton.textContent = "Cancel";
+            cancelEditingButton.onclick = () => {
+                resetNewItemContainerPostEditing();
+            }
+            newItemContainer.append(cancelEditingButton);
+        }
+
+        this.updateItem = async function() {
+            // Updates the item object and the item in the database with the cuurent 
+            // selector values
+            // Resets the New Item Container and updates the item card information
+        
+            // Set item attributes to the current selctor values
+            this.name = nameSelect.value;
+            this.clothingType = typeSelect.value;
+            this.color = colorSelect.value;
+            this.shortLong = shortLongSelect.value;
+            this.washType = washSelect.value;
+            this.lastWorn = lastWornSelect.value;
+
+            if (newPictureAdded) {
+                // Add new image to database and update the item's image ID and path
+                const newImgId = await addImageToDatabase(currentImageData);
+                this.imgId = newImgId;
+                this.imgPath = 'https://outfit-suggester-service.avajustice.repl.co/images/' + this.imgId;
+            }
+
+            this.updateItemInDatabase();
+            resetNewItemContainerPostEditing();
+
+            // Update the item card and button to show that the edit was successful
+            this.updateItemCard();
+            this.itemButton.textContent = this.name;
+        }
+
         this.addItemToDatabase = async function() {
-        // Sends a POST request to outfit-suggester-service on Replit, which
-        // adds the clothing item to the database also on Replt
+            // Sends a POST request to outfit-suggester-service on Replit, which
+            // adds the clothing item to the database also on Replt
             const rawResponse = await fetch('https://outfit-suggester-service.avajustice.repl.co/api/items', {
                 method: 'POST',
                 headers: {
@@ -130,15 +213,15 @@
         }
 
         this.deleteItemFromDatabase = async function() {
-        // Sends a DELETE request to outfit-suggester-service on Replit, which
-        // removes the clothing item from the database also on Replt
+            // Sends a DELETE request to outfit-suggester-service on Replit, which
+            // removes the clothing item from the database also on Replt
             const itemURL = 'https://outfit-suggester-service.avajustice.repl.co/api/items/' + this.id;
             const rawResponse = await fetch(itemURL, {
                 method: 'DELETE'
             });
         }
 
-        this.editItemInDatabase = async function() {
+        this.updateItemInDatabase = async function() {
             // Sends a PUT request to outfit-suggester-service on Replit, which
             // modifies the clothing item to the database also on Replt
                 const rawResponse = await fetch('https://outfit-suggester-service.avajustice.repl.co/api/items/' + this.id, {
@@ -171,17 +254,19 @@
         // Use this function when creating a completely NEW item from the item editor
         // Creates a new item object and adds it to the database
 
-        // 0 is a placeholder for the IDs until the IDs are generated by the service
-        const item = createItemObject(name, type, color, shortLong, wash, lastWorn, 0, 0);
+        const imgId = await addImageToDatabase(currentImageData);
+
+        // 0 is a placeholder for the ID until the ID is generated by the service
+        const item = createItemObject(name, type, color, shortLong, wash, lastWorn, 0, imgId);
 
         const id = await item.addItemToDatabase();
         item.id = id;
+        item.updateItemInDatabase(name, type, color, shortLong, wash, lastWorn, id, imgId);
 
-        const imgId = await addImageToDatabase(currentImageData);
-        console.log(imgId);
-        item.imgId = imgId;
-        console.log(item);
-        item.editItemInDatabase();
+        resetNewItemContainer();
+
+        // Display the item card to show that the creation was successful
+        item.displayItemCard();
     }
 
     function createItemObject(name, type, color, shortLong, wash, lastWorn, id, imgId) {
@@ -199,7 +284,7 @@
         // Read the path of the submitted picture
 
         // To stop the picture from being added over and over, set a flag
-        pictureAdded = false;
+        newPictureAdded = false;
 
         // Stop the form from reloading the page
         event.preventDefault();
@@ -231,10 +316,10 @@
         // Wait until image is loaded before resizing
         img.addEventListener('load', function() {
             // Make sure this is the first time you are adding the picture
-            if (pictureAdded == false) {
+            if (newPictureAdded == false) {
                 img.src = resizeImage(img);
                 newItemImageContainer.appendChild(img);
-                pictureAdded = true;
+                newPictureAdded = true;
                 currentImageData = img.src;
                 const beginningIndex = currentImageData.indexOf("image/");
                 const fileExtensionAndOn = currentImageData.substring(beginningIndex + 6);
@@ -282,6 +367,27 @@
             // Return the ID generated by the service
             return response.id;
         }
+
+    function resetNewItemContainer() {
+        // Set all inputs to default and remove picture
+        nameSelect.value = "";
+        typeSelect.value = "Shirt";
+        colorSelect.value = "White";
+        shortLongSelect.value = "Short";
+        washSelect.value = "Regular";
+        lastWornSelect.value = "";
+        newItemImageContainer.firstChild.remove();
+    }
+
+    function resetNewItemContainerPostEditing() {
+        // Set all inputs to default and display and enable correct buttons
+        resetNewItemContainer();
+        selectorsTitle.textContent = "Add Clothing Items";
+        createItemButton.style.visibility = "visible";
+        createItemButton.disabled = false;
+        updateItemButton.remove();
+        cancelEditingButton.remove();
+    }
 
     function findDaysAgo(pastDate) {
         // Given a date, calulate and return how many days ago that date was
