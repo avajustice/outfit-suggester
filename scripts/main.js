@@ -418,8 +418,6 @@
     function matchDisplayOutfits() {
         // Pair allowed items into outfits based on clothing type
 
-        outfitArray = [];
-
         // Find allowed items based on conditions
         let allowedItemsArray = filterItems(); 
 
@@ -436,20 +434,20 @@
             console.log(shirt);
             for (const bottom of bottomsArray) {
                 if (colorsMatch(shirt, bottom)) {
-                    const lastWornScore = (findDaysAgo(shirt.lastWorn) +
-                     findDaysAgo(bottom.lastWorn)) / 2;
-                    prepareToDisplayOutfit(shirt, bottom, lastWornScore);
+                    const lastWornAverage = (findDaysAgo(shirt.lastWorn) +
+                    findDaysAgo(bottom.lastWorn)) / 2;
+                    prepareToDisplayOutfit(shirt, bottom, lastWornAverage);
                 }
             }
         }
 
         // Make dresses their own outfit
         for (const dress of dressArray) {
-            const lastWornScore = findDaysAgo(dress.lastWorn);
-            prepareToDisplayOutfit(dress, dress, lastWornScore);
+            const lastWornAverage = findDaysAgo(dress.lastWorn);
+            prepareToDisplayOutfit(dress, dress, lastWornAverage);
         }
 
-        outfitArray.sort(compareLastWornScores);
+        outfitArray.sort(compareLastWornAverages);
         
         for (outfit of outfitArray) {
             outfitsContainer.append(outfit);
@@ -515,7 +513,7 @@
          }
     }
 
-    function compareLastWornScores(outfitA, outfitB) {
+    function compareLastWornAverages(outfitA, outfitB) {
         if (outfitA.firstChild.textContent < outfitB.firstChild.textContent) {
             return 1;
         } else if (outfitA.firstChild.textContent > outfitB.firstChild.textContent) {
@@ -525,24 +523,32 @@
         }
     }
 
-    function prepareToDisplayOutfit(s, b, lastWornScore) {
+    function prepareToDisplayOutfit(s, b, lastWornAverage) {
         // Display grouped names and pictures of items in outfits
 
         const shirt = s;
         const bottom = b;
+
+        // Create outfit container
         const outfit = document.createElement("div");
-        // outfitsContainer.append(outfit);
-        const lastWornScoreText = document.createElement("p");
-        outfit.append(lastWornScoreText);
-        lastWornScoreText.textContent = lastWornScore;
-        const outfitTitle = document.createElement("p");
-        outfit.append(outfitTitle);
+
+        // Add outfit to outfit array
         outfitArray.push(outfit);
         console.log(outfitArray);
+        
+        // Add header to show the name of the outfit
+        const outfitTitle = document.createElement("h3");
+        outfit.append(outfitTitle);
 
+        // Add text to show when the items were last worn
+        const lastWornAverageText = document.createElement("p");
+        lastWornAverageText.textContent = "Average Days Since Worn: " + lastWornAverage;
+        outfit.append(lastWornAverageText);
+
+        // Create wear oufit button
         const wearOutfitButton = document.createElement("button");
-        outfit.append(wearOutfitButton);
         wearOutfitButton.textContent = "Wear Outfit";
+        // Add button later to put at the bottom of the outfit information
 
         // If the item is a dress, the dress if both the top and the bottom
         if (shirt === bottom) {
@@ -557,8 +563,11 @@
                 shirt.updateItemCard();
             }
 
+            // Insert line break to outfit
+            outfit.append(document.createElement("br"));
+            // Add dress image to outfit
             const dressImage = document.createElement("img");
-            dressImage.src = shirt.imgSrc;
+            dressImage.src = shirt.imgPath;
             outfit.append(dressImage);
 
         // If it is a two piece outfit, show both names and pictures
@@ -576,13 +585,24 @@
                 bottom.updateItemCard();
             }
 
+            // Insert line break 
+            outfit.append(document.createElement("br"));
+            // Add shirt image
             const shirtImage = document.createElement("img");
-            shirtImage.src = shirt.imgSrc;
+            shirtImage.src = shirt.imgPath;
             outfit.append(shirtImage);
+            // Insert line break
+            outfit.append(document.createElement("br"));
+            // Add pants/skirt image
             const pantsSkirtImage = document.createElement("img");
-            pantsSkirtImage.src = bottom.imgSrc;
+            pantsSkirtImage.src = bottom.imgPath;
             outfit.append(pantsSkirtImage);
         }
+
+        // Insert line break 
+        outfit.append(document.createElement("br"));
+        // Add wear outfit button
+        outfit.append(wearOutfitButton);
     }
 
     function filterItems() {
