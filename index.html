@@ -9,9 +9,11 @@
   </head>
   <body>
     <h1>Outfit Suggester</h1>
+
     <h2>Current Clothing Items</h2>
     <div id="items-list"></div>
     <div id="view-item"></div>
+
     <h2 id="selectors-title">Add Clothing Items</h2>
     <div id="new-item">
       <label>Name: </label>
@@ -48,6 +50,27 @@
           <option>Short</option>
           <option>Long</option>
       </select>
+      <!-- <fieldset>
+        <legend>Very Patterned:</legend>
+        <div class="item-input">
+          <input type="radio" id="yes" name="patterned" value="Yes" checked />
+          <label for="Yes">Yes</label>
+        </div>   
+        <div class="item-input">
+          <input type="radio" id="no" name="patterned" value="No" />
+          <label for="No">No</label>
+        </div>
+      </fieldset> -->
+      <label>Very Patterned: </label>
+      <select id="patterned">
+          <option>Yes</option>
+          <option>No</option>
+      </select>
+      <label>Currently Available: </label>
+      <select id="available">
+          <option>Yes</option>
+          <option>No</option>
+      </select>
       <label>Wash Type: </label>
       <select id="wash">
         <option>Regular</option>
@@ -57,6 +80,7 @@
       <input id="last-worn" type="date">
       <button id="create-item">Create Item</button>
     </div>
+
     <h2>Find Outfits</h2>
     <label>Occasion</label>
     <select id="occasion">
