@@ -16,7 +16,7 @@
     const weatherSelect = document.getElementById("weather");
     const createOutfitsButton = document.getElementById("create-outfits");
     const newItemImageContainer = document.getElementById("new-item-img");
-    const outfitsContainer = document.getElementById("outfits");
+    const allOutfitsContainer = document.getElementById("outfits");
     let imageFilePath = "";
 
     // Will contain all of the objects for the articles of clothing
@@ -415,20 +415,83 @@
         return dayDifference;
     }
 
+    // Outfit objects represent a combination of clothing items
+    function Outfit(name, top, bottom, lastWornAverage) {
+        this.name = name;
+        this.top = top;
+        this.bottom = bottom;
+        this.lastWornAverage = lastWornAverage;
+
+        this.displayOutfitCard = function() {
+            this.outfitContainer = document.createElement("div");
+
+            // Add header to show the name of the outfit
+            this.outfitTitle = document.createElement("h3");
+            this.outfitTitle.textContent = this.name;
+            this.outfitContainer.append(this.outfitTitle);
+
+            // Add text to show when the items were last worn
+            this.lastWornAverageText = document.createElement("p");
+            this.lastWornAverageText.textContent = "Average Days Since Worn: " + lastWornAverage;
+            this.outfitContainer.append(this.lastWornAverageText);
+
+            // Insert line break to outfit
+            this.outfitContainer.append(document.createElement("br"));
+            // Add top/dress image to outfit
+            this.topImage = document.createElement("img");
+            this.topImage.src = top.imgPath;
+            this.outfitContainer.append(this.topImage);
+
+            // If the outfit is not a dress
+            if (top != bottom) {
+                // Insert line break
+                this.outfitContainer.append(document.createElement("br"));
+                // Add pants/skirt image
+                this.bottomImg = document.createElement("img");
+                this.bottomImg.src = bottom.imgPath;
+                this.outfitContainer.append(this.bottomImg);
+            }
+
+            // Insert line break 
+            this.outfitContainer.append(document.createElement("br"));
+
+            // Add wear outfit button
+            this.wearOutfitButton = document.createElement("button");
+            this.wearOutfitButton.textContent = "Wear Outfit";
+            this.wearOutfitButton.onclick = () => {
+                // Find today's date
+                const d = new Date();
+                const date = (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear();
+                // Update the dress/top's last worn date
+                this.top.lastWorn = date;
+                this.top.updateItemCard();
+                if (top != bottom) {
+                    // Update the bottom's last worn date
+                    this.bottom.updateItemCard();
+                    this.bottom.lastWorn = date;
+                }
+            }
+            this.outfitContainer.append(this.wearOutfitButton);
+
+            // Add the whole outfit info card to the allOutfitsContainer
+            allOutfitsContainer.appendChild(this.outfitContainer);
+        }
+    }
+
     function matchDisplayOutfits() {
         // Pair allowed items into outfits based on clothing type
 
         // Empty outfit array and outfits container
         outfitArray = [];
-        while (outfitsContainer.hasChildNodes()) {
-            outfitsContainer.firstChild.remove();
+        while (allOutfitsContainer.hasChildNodes()) {
+            allOutfitsContainer.firstChild.remove();
         }
         
         // Find allowed items based on conditions
         let allowedItemsArray = filterItems(); 
 
         // Separate clothing types into different arrays
-        let shirtsArray = allowedItemsArray.filter(item => 
+        let topsArray = allowedItemsArray.filter(item => 
          item.clothingType == "Shirt");
         let bottomsArray = allowedItemsArray.filter(item => 
          ((item.clothingType == "Pants") || (item.clothingType == "Skirt")
@@ -436,13 +499,18 @@
         let dressArray = allowedItemsArray.filter(item => 
          item.clothingType == "Dress");
         
-        // Match shirts with bottoms
-        for (const shirt of shirtsArray) {
+        // Match tops with bottoms
+        for (const top of topsArray) {
             for (const bottom of bottomsArray) {
-                if (colorsMatch(shirt, bottom)) {
-                    const lastWornAverage = (findDaysAgo(shirt.lastWorn) +
+                if (colorsMatch(top, bottom)) {
+                    // Find the average of the two last worn dates
+                    const lastWornAverage = (findDaysAgo(top.lastWorn) +
                     findDaysAgo(bottom.lastWorn)) / 2;
-                    prepareToDisplayOutfit(shirt, bottom, lastWornAverage);
+                    // Create a joint name
+                    const name = top.name + " and " + bottom.name
+                    // Create a new outfit object and add it to the outfit array
+                    const outfit = new Outfit(name, top, bottom, lastWornAverage);
+                    outfitArray.push(outfit);
                 }
             }
         }
@@ -450,56 +518,59 @@
         // Make dresses their own outfit
         for (const dress of dressArray) {
             const lastWornAverage = findDaysAgo(dress.lastWorn);
-            prepareToDisplayOutfit(dress, dress, lastWornAverage);
+            // Create a new outfit object and add it to the array
+            const outfit = new Outfit(dress.name, dress, dress, lastWornAverage);
+            outfitArray.push(outfit);
         }
 
-        outfitArray.sort(compareLastWornAverages);
+        // Sort by decending lastWornAverage to show least recently worn outfits first
+        outfitArray.sort(function(a, b){return b.lastWornAverage - a.lastWornAverage});
         
-        for (outfit of outfitArray) {
-            outfitsContainer.append(outfit);
+        for (const outfit of outfitArray) {
+            // Display all the outfit information
+            outfit.displayOutfitCard();
         }
-
     }
 
-    function colorsMatch(shirt, bottom) {
+    function colorsMatch(top, bottom) {
         if (bottom.color === "Blue" || isNeutralColor(bottom)) {
             return true;
         } else if (bottom.color === "Pink") {
-            if (isNeutralColor(shirt) || shirt.color === "Green" ||
-             shirt.color === "Blue") {
+            if (isNeutralColor(top) || top.color === "Green" ||
+             top.color === "Blue") {
                 return true;
             } else {
                 return false;
             }
         } else if (bottom.color === "Red") {
-            if (isNeutralColor(shirt)) {
+            if (isNeutralColor(top)) {
                 return true;
             } else {
                 return false;
             }
         } else if (bottom.color === "Orange") {
-            if (isNeutralColor(shirt) || shirt.color === "Yellow") {
+            if (isNeutralColor(top) || top.color === "Yellow") {
                 return true;
             } else {
                 return false;
             }
         } else if (bottom.color === "Yellow") {
-            if (isNeutralColor(shirt) || shirt.color === "Blue" || 
-             shirt.color == "Pink") {
+            if (isNeutralColor(top) || top.color === "Blue" || 
+             top.color == "Pink") {
                 return true;
             } else {
                 return false;
             }
         } else if (bottom.color === "Green") {
-            if (isNeutralColor(shirt) || shirt.color === "Blue" || 
-             shirt.color == "Purple" || shirt.color == "Pink") {
+            if (isNeutralColor(top) || top.color === "Blue" || 
+             top.color == "Purple" || top.color == "Pink") {
                 return true;
             } else {
                 return false;
             }
         } else if (bottom.color === "Purple") {
-            if (isNeutralColor(shirt) || shirt.color === "Blue" || 
-             shirt.color == "Green") {
+            if (isNeutralColor(top) || top.color === "Blue" || 
+             top.color == "Green") {
                 return true;
             } else {
                 return false;
@@ -514,97 +585,6 @@
          } else {
              return false;
          }
-    }
-
-    function compareLastWornAverages(outfitA, outfitB) {
-        if (outfitA.firstChild.textContent < outfitB.firstChild.textContent) {
-            return 1;
-        } else if (outfitA.firstChild.textContent > outfitB.firstChild.textContent) {
-            return -1;
-        } else {
-            return 0;
-        }
-    }
-
-    function prepareToDisplayOutfit(s, b, lastWornAverage) {
-        // Display grouped names and pictures of items in outfits
-
-        const shirt = s;
-        const bottom = b;
-
-        // Create outfit container
-        const outfit = document.createElement("div");
-
-        // Add outfit to outfit array
-        outfitArray.push(outfit);
-        
-        // Add header to show the name of the outfit
-        const outfitTitle = document.createElement("h3");
-        outfit.append(outfitTitle);
-
-        // Add text to show when the items were last worn
-        const lastWornAverageText = document.createElement("p");
-        lastWornAverageText.textContent = "Average Days Since Worn: " + lastWornAverage;
-        outfit.append(lastWornAverageText);
-
-        // Create wear oufit button
-        const wearOutfitButton = document.createElement("button");
-        wearOutfitButton.textContent = "Wear Outfit";
-        // Add button later to put at the bottom of the outfit information
-
-        // If the item is a dress, the dress if both the top and the bottom
-        if (shirt === bottom) {
-            outfitTitle.textContent = shirt.name;
-
-            // When outfit is chosen, update the dress's last worn value to 
-            // today's date
-            wearOutfitButton.onclick = () => {
-                const d = new Date();
-                const date = (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear();
-                shirt.lastWorn = date;
-                shirt.updateItemCard();
-            }
-
-            // Insert line break to outfit
-            outfit.append(document.createElement("br"));
-            // Add dress image to outfit
-            const dressImage = document.createElement("img");
-            dressImage.src = shirt.imgPath;
-            outfit.append(dressImage);
-
-        // If it is a two piece outfit, show both names and pictures
-        } else {
-            outfitTitle.textContent = shirt.name + " and " + bottom.name;
-
-            // When outfit is chosen, update the both the top and the 
-            // bottom's last worn value to today's date
-            wearOutfitButton.onclick = () => {
-                const d = new Date();
-                const date = (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear();
-                shirt.lastWorn = date;
-                bottom.lastWorn = date;
-                shirt.updateItemCard();
-                bottom.updateItemCard();
-            }
-
-            // Insert line break 
-            outfit.append(document.createElement("br"));
-            // Add shirt image
-            const shirtImage = document.createElement("img");
-            shirtImage.src = shirt.imgPath;
-            outfit.append(shirtImage);
-            // Insert line break
-            outfit.append(document.createElement("br"));
-            // Add pants/skirt image
-            const pantsSkirtImage = document.createElement("img");
-            pantsSkirtImage.src = bottom.imgPath;
-            outfit.append(pantsSkirtImage);
-        }
-
-        // Insert line break 
-        outfit.append(document.createElement("br"));
-        // Add wear outfit button
-        outfit.append(wearOutfitButton);
     }
 
     function filterItems() {
@@ -655,7 +635,7 @@
             return true;
         } else if (item.clothingType == "Skirt") {
             return true;
-        // I only wear pants and long sleeve shirts to church, not short
+        // I only wear pants and long sleeve tops to church, not short
         } else if (item.clothingType == "Shirt") {
             if (item.shortLong == "Long") {
                 return true;
