@@ -519,7 +519,8 @@
         // Match tops with bottoms
         for (const top of topsArray) {
             for (const bottom of bottomsArray) {
-                if (colorsMatch(top, bottom)) {
+                // Make sure that the colors and the patterns of the two items match
+                if ((colorsMatch(top, bottom)) && (patternsMatch(top, bottom))){
                     // Find the average of the two last worn dates
                     const lastWornAverage = (findDaysAgo(top.lastWorn) +
                     findDaysAgo(bottom.lastWorn)) / 2;
@@ -602,6 +603,19 @@
          } else {
              return false;
          }
+    }
+
+    function patternsMatch(top, bottom) {
+        // Determine if a top and botton are both very patterened, and
+        // therefore would not go with each other
+
+        if (top.patterned == "Yes" && bottom.patterned == "Yes") {
+            console.log("Too patterned!");
+            return false;
+        } else {
+            console.log("Not too patterned!");
+            return true;
+        }
     }
 
     function filterItems() {
