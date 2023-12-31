@@ -271,7 +271,7 @@
         }
     }
 
-    addNewItem = async function(name, type, color, shortLong, wash, lastWorn) {
+    addNewItem = async function(name, type, color, shortLong, patterned, available, wash, number, lastWorn) {
         // Use this function when creating a completely NEW item from the item editor
         // Creates a new item object and adds it to the database
 
