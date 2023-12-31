@@ -53,7 +53,7 @@
         for (const item of responseItemArray)
         {
             createItemObject(item.name, item.clothingType, item.color, item.shortLong,
-                item.patterned, item.available, item.washType, item.number, item.lastWorn, item.id, 
+                item.patterned, item.available, item.washType, item.number, item.lastWorn, item.id,
                 item.imgId);
         }
 
@@ -121,9 +121,9 @@
             // Update item card with relavent information
 
             this.itemInfo.textContent = "Name: " + this.name + "\nType of Clothing: "
-             + this.clothingType + "\nColor: " + this.color + "\nShort/Long: " 
-             + this.shortLong + "\nVery Patterned: " + this.patterned + "\nCurrently Avaliable: " 
-             + this.available + "\nWash Type: " + this.washType + "\nNumber of this Item: " 
+             + this.clothingType + "\nColor: " + this.color + "\nShort/Long: "
+             + this.shortLong + "\nVery Patterned: " + this.patterned + "\nCurrently Avaliable: "
+             + this.available + "\nWash Type: " + this.washType + "\nNumber of this Item: "
              + this.number + "\nLast Worn: " + this.lastWorn;
             this.image.src = this.imgPath;
 
@@ -131,7 +131,7 @@
             // many days it has been since the item was last worn
             if (this.lastWorn != "") {
                 this.daysSinceWorn = findDaysAgo(this.lastWorn);
-                this.itemInfo.textContent += (" (" + this.daysSinceWorn + 
+                this.itemInfo.textContent += (" (" + this.daysSinceWorn +
                  " days ago)");
             }
         }
@@ -156,7 +156,7 @@
 
             // Reset to false to track whether or not the image is replaced
             newPictureAdded = false;
-            
+
             // Hide and disable createItemButton
             createItemButton.style.visibility = "hidden";
             createItemButton.disabled = true;
@@ -179,10 +179,10 @@
         }
 
         this.updateItem = async function() {
-            // Updates the item object and the item in the database with the cuurent 
+            // Updates the item object and the item in the database with the cuurent
             // selector values
             // Resets the New Item Container and updates the item card information
-        
+
             // Set item attributes to the current selctor values
             this.name = nameSelect.value;
             this.clothingType = typeSelect.value;
@@ -221,7 +221,7 @@
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({"name" : this.name, "clothingType" : this.clothingType, 
+                body: JSON.stringify({"name" : this.name, "clothingType" : this.clothingType,
                     "color" : this.color, "shortLong" : this.shortLong, "patterned" : this.patterned,
                     "available" : this.available, "washType" : this.washType, "number" : this.number,
                     "lastWorn" : this.lastWorn, "id" : this.id, "imgId" : this.imgId})
@@ -250,7 +250,7 @@
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({"name" : this.name, "clothingType" : this.clothingType, 
+                body: JSON.stringify({"name" : this.name, "clothingType" : this.clothingType,
                     "color" : this.color, "shortLong" : this.shortLong, "patterned" : this.patterned,
                     "available" : this.available, "washType" : this.washType, "number" : this.number,
                     "lastWorn" : this.lastWorn, "id" : this.id, "imgId" : this.imgId})
@@ -293,11 +293,11 @@
     function createItemObject(name, type, color, shortLong, patterned, available, wash, number, lastWorn, id, imgId) {
         // Creates a new Item object, add item to itemArray
         // Use without addNewItem() when creating an object for an item that has already
-        // been added to database, like when reloading the page 
+        // been added to database, like when reloading the page
 
         const item = new Item(name, type, color, shortLong, patterned, available, wash, number, lastWorn, id, imgId);
         item.createItemInformationButton();
-        itemArray.push(item); 
+        itemArray.push(item);
         return item;
     }
 
@@ -360,14 +360,14 @@
         // All of my pictures are 3000 x 4000
         let width = 150;   // 3000 / 20
         let height = 200;  // 4000 / 20
-      
+
         // Set its dimension to target size
         canvas.width = width;
         canvas.height = height;
-      
+
         // Draw source image into the off-screen canvas
         ctx.drawImage (img, 0, 0, width, height);
-      
+
         // Encode image to data-url with base64 version of compressed image
         return canvas.toDataURL();
     }
@@ -384,7 +384,7 @@
                 body: JSON.stringify({"imgData" : imgData, 'fileExtension' : currentImageFileExtension})
             });
             const response = await rawResponse.json();
-            
+
             // Return the ID generated by the service
             return response.id;
         }
@@ -459,17 +459,14 @@
             this.topImage.src = top.imgPath;
             this.outfitContainer.append(this.topImage);
 
-            // If the outfit is not a dress
-            if (top != bottom) {
-                // Insert line break
-                this.outfitContainer.append(document.createElement("br"));
-                // Add pants/skirt image
-                this.bottomImg = document.createElement("img");
-                this.bottomImg.src = bottom.imgPath;
-                this.outfitContainer.append(this.bottomImg);
-            }
+            // Insert line break
+            this.outfitContainer.append(document.createElement("br"));
+            // Add pants/skirt image
+            this.bottomImg = document.createElement("img");
+            this.bottomImg.src = bottom.imgPath;
+            this.outfitContainer.append(this.bottomImg);
 
-            // Insert line break 
+            // Insert line break
             this.outfitContainer.append(document.createElement("br"));
 
             // Add wear outfit button
@@ -503,24 +500,25 @@
         while (allOutfitsContainer.hasChildNodes()) {
             allOutfitsContainer.firstChild.remove();
         }
-        
+
         // Find allowed items based on conditions
-        let allowedItemsArray = filterItems(); 
+        let allowedItemsArray = filterItems();
 
         // Separate clothing types into different arrays
-        let topsArray = allowedItemsArray.filter(item => 
-         item.clothingType == "Shirt");
-        let bottomsArray = allowedItemsArray.filter(item => 
+        let topsArray = allowedItemsArray.filter(item =>
+         (item.clothingType == "Shirt") || (item.clothingType == "Dress"));
+        let bottomsArray = allowedItemsArray.filter(item =>
          ((item.clothingType == "Pants") || (item.clothingType == "Skirt")
-          || (item.clothingType == "Althelic Pants")));
-        let dressArray = allowedItemsArray.filter(item => 
-         item.clothingType == "Dress");
-        
+          || (item.clothingType == "Althelic Pants")
+          || (item.clothingType == "Slip Shorts")));
+
         // Match tops with bottoms
         for (const top of topsArray) {
             for (const bottom of bottomsArray) {
-                // Make sure that the colors and the patterns of the two items match
-                if ((colorsMatch(top, bottom)) && (patternsMatch(top, bottom))){
+                // Make sure that the colors, types, and patterns of the two items match
+                if ((colorsMatch(top, bottom))
+                 && (patternsMatch(top, bottom))
+                 && typesMatch(top, bottom)){
                     // Find the average of the two last worn dates
                     const lastWornAverage = (findDaysAgo(top.lastWorn) +
                     findDaysAgo(bottom.lastWorn)) / 2;
@@ -533,17 +531,9 @@
             }
         }
 
-        // Make dresses their own outfit
-        for (const dress of dressArray) {
-            const lastWornAverage = findDaysAgo(dress.lastWorn);
-            // Create a new outfit object and add it to the array
-            const outfit = new Outfit(dress.name, dress, dress, lastWornAverage);
-            outfitArray.push(outfit);
-        }
-
         // Sort by decending lastWornAverage to show least recently worn outfits first
         outfitArray.sort(function(a, b){return b.lastWornAverage - a.lastWornAverage});
-        
+
         for (const outfit of outfitArray) {
             // Display all the outfit information
             outfit.displayOutfitCard();
@@ -551,54 +541,77 @@
     }
 
     function colorsMatch(top, bottom) {
-        if (bottom.color === "Blue" || isNeutralColor(bottom)) {
-            return true;
-        } else if (bottom.color === "Pink") {
-            if (isNeutralColor(top) || top.color === "Green" ||
-             top.color === "Blue") {
-                return true;
+        // Determine if the colors of the top and bottom go together
+
+        // Dresses have special rules because you ideally don't see
+        // the slip shorts
+        if (top.clothingType == "Dress") {
+            if (top.color == "Pink" || top.color == "White") {
+                if (bottom.color != "Tan") {
+                    // If the dress color is pink or white, the slip
+                    // shorts cannot be any color but tan
+                    return false;
+                } else {
+                    // If the dress color is pink or white and the slip
+                    // shorts are tan, that is acceptable
+                    return true;
+                }
             } else {
-                return false;
+                // If the dress color is not pink or white, any slip
+                // shorts will do
+                return true;
             }
-        } else if (bottom.color === "Red") {
-            if (isNeutralColor(top)) {
+        } else {
+            // All other types have their own rules
+            if (bottom.color === "Blue" || isNeutralColor(bottom)) {
                 return true;
-            } else {
-                return false;
-            }
-        } else if (bottom.color === "Orange") {
-            if (isNeutralColor(top) || top.color === "Yellow") {
-                return true;
-            } else {
-                return false;
-            }
-        } else if (bottom.color === "Yellow") {
-            if (isNeutralColor(top) || top.color === "Blue" || 
-             top.color == "Pink") {
-                return true;
-            } else {
-                return false;
-            }
-        } else if (bottom.color === "Green") {
-            if (isNeutralColor(top) || top.color === "Blue" || 
-             top.color == "Purple" || top.color == "Pink") {
-                return true;
-            } else {
-                return false;
-            }
-        } else if (bottom.color === "Purple") {
-            if (isNeutralColor(top) || top.color === "Blue" || 
-             top.color == "Green") {
-                return true;
-            } else {
-                return false;
+            } else if (bottom.color === "Pink") {
+                if (isNeutralColor(top) || top.color === "Green" ||
+                 top.color === "Blue") {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else if (bottom.color === "Red") {
+                if (isNeutralColor(top)) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else if (bottom.color === "Orange") {
+                if (isNeutralColor(top) || top.color === "Yellow") {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else if (bottom.color === "Yellow") {
+                if (isNeutralColor(top) || top.color === "Blue" ||
+                 top.color == "Pink") {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else if (bottom.color === "Green") {
+                if (isNeutralColor(top) || top.color === "Blue" ||
+                 top.color == "Purple" || top.color == "Pink") {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else if (bottom.color === "Purple") {
+                if (isNeutralColor(top) || top.color === "Blue" ||
+                 top.color == "Green") {
+                    return true;
+                } else {
+                    return false;
+                }
             }
         }
     }
 
     function isNeutralColor(item) {
-        if (item.color === "White" || item.color === "Grey" || 
-         item.color === "Black") {
+        if (item.color == "White" || item.color == "Grey" ||
+         item.color == "Black" || item.color == "Tan") {
              return true;
          } else {
              return false;
@@ -618,6 +631,28 @@
         }
     }
 
+
+    function typesMatch(top, bottom) {
+        // All dresses must be paired with slip shorts, but
+        // no other type should
+        if (top.clothingType == "Dress") {
+            console.log(top.clothingType);
+            if (bottom.clothingType == "Slip Shorts") {
+                console.log("Slip? " + bottom.clothingType);
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            if (bottom.
+                clothingType == "Slip Shorts") {
+                return false;
+            } else {
+                return true;
+            }
+        }
+    }
+
     function filterItems() {
         // Filter current list of items based on weather and occasion
         // return array of filtered items
@@ -626,14 +661,14 @@
 
         // Find current occasion and weather selections
         const occasion = occasionSelect.value;
-        const weather = weatherSelect.value; 
+        const weather = weatherSelect.value;
 
         // Filter based on weather
         if (weather == "Hot") {
-            allowedItemsArray = allowedItemsArray.filter(item => 
+            allowedItemsArray = allowedItemsArray.filter(item =>
              item.shortLong == "Short");
         } else if (weather == "Cold") {
-            allowedItemsArray = allowedItemsArray.filter(item => 
+            allowedItemsArray = allowedItemsArray.filter(item =>
              item.shortLong == "Long");
         } else if (weather == "Moderate") {
             allowedItemsArray = allowedItemsArray.filter(isGoodForModerateWeather);
@@ -641,10 +676,10 @@
 
         // Filter based on occasion
         if (occasion == "Church") {
-            allowedItemsArray = allowedItemsArray.filter(item => 
+            allowedItemsArray = allowedItemsArray.filter(item =>
                 (isGoodForChurch(item)));
         } else if (occasion == "Exercise") {
-            allowedItemsArray = allowedItemsArray.filter(item => 
+            allowedItemsArray = allowedItemsArray.filter(item =>
                 (isGoodForExercise(item)));
         }
 
@@ -713,7 +748,7 @@
 
     // Uses the current values of the text boxes / drop down menus to create new item
     createItemButton.addEventListener('click', function(){
-        addNewItem(nameSelect.value, typeSelect.value, colorSelect.value, 
+        addNewItem(nameSelect.value, typeSelect.value, colorSelect.value,
             shortLongSelect.value, patternedSelect.value, availableSelect.value,
             washSelect.value, numberSelect.value, lastWornSelect.value);
     });
