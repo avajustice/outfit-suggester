@@ -109,6 +109,20 @@
             }
             this.itemCard.append(this.editButton);
 
+            // Create wear button
+            this.wearItemButton = document.createElement("button");
+            this.wearItemButton.textContent = "Wear Item";
+            this.wearItemButton.onclick = () => {
+                // Find today's date
+                const d = new Date();
+                const date = (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear();
+                // Update the item's last worn date
+                this.lastWorn = date;
+                this.updateItemCard();
+                this.updateItemInDatabase();;
+            }
+            this.itemCard.append(this.wearItemButton);
+
             // Create item info paragraph and image and fill in information
             this.itemInfo = document.createElement("p");
             this.itemCard.append(this.itemInfo);
