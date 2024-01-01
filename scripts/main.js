@@ -478,12 +478,10 @@
                 const date = (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear();
                 // Update the dress/top's last worn date
                 this.top.lastWorn = date;
-                this.top.updateItemCard();
-                if (top != bottom) {
-                    // Update the bottom's last worn date
-                    this.bottom.updateItemCard();
-                    this.bottom.lastWorn = date;
-                }
+                this.top.updateItemInDatabase();
+                // Update the bottom's last worn date
+                this.bottom.lastWorn = date;
+                this.bottom.updateItemInDatabase();
             }
             this.outfitContainer.append(this.wearOutfitButton);
 
@@ -623,10 +621,8 @@
         // therefore would not go with each other
 
         if (top.patterned == "Yes" && bottom.patterned == "Yes") {
-            console.log("Too patterned!");
             return false;
         } else {
-            console.log("Not too patterned!");
             return true;
         }
     }
@@ -636,9 +632,7 @@
         // All dresses must be paired with slip shorts, but
         // no other type should
         if (top.clothingType == "Dress") {
-            console.log(top.clothingType);
             if (bottom.clothingType == "Slip Shorts") {
-                console.log("Slip? " + bottom.clothingType);
                 return true;
             } else {
                 return false;
