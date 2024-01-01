@@ -20,6 +20,9 @@
     const createOutfitsButton = document.getElementById("create-outfits");
     const newItemImageContainer = document.getElementById("new-item-img");
     const allOutfitsContainer = document.getElementById("outfits");
+    const washContainer = document.getElementById("wash-container");
+    const washRegularButton = document.getElementById("wash-regular");
+    const washDelicateButton = document.getElementById("wash-delicate");
     let imageFilePath = "";
 
     // Will contain all of the objects for the articles of clothing
@@ -119,7 +122,10 @@
                 // Update the item's last worn date
                 this.lastWorn = date;
                 this.updateItemCard();
-                this.updateItemInDatabase();;
+                // Make item unavailable
+                this.available = "No";
+                // Update item in database
+                this.updateItemInDatabase();
             }
             this.itemCard.append(this.wearItemButton);
 
@@ -490,11 +496,13 @@
                 // Find today's date
                 const d = new Date();
                 const date = (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear();
-                // Update the dress/top's last worn date
+                // Update the dress/top's last worn date and availability
                 this.top.lastWorn = date;
+                this.top.available = "No";
                 this.top.updateItemInDatabase();
-                // Update the bottom's last worn date
+                // Update the bottom's last worn date and availability
                 this.bottom.lastWorn = date;
+                this.bottom.available = "No";
                 this.bottom.updateItemInDatabase();
             }
             this.outfitContainer.append(this.wearOutfitButton);
@@ -757,6 +765,31 @@
         }
     }
 
+    function washRegular() {
+        // Make unavailable regular items available
+        for (const item of itemArray) {
+            if (item.available == "No" && item.washType == "Regular") {
+                item.available = "Yes";
+                item.updateItemInDatabase();
+            }
+        }
+        const washSuccessMessage = document.createElement("p");
+        washSuccessMessage.textContent = "Done!";
+        washContainer.append(washSuccessMessage);
+    }
+
+    function washDelicate() {
+        for (const item of itemArray) {
+            if (item.available == "No" && item.washType == "Delicate") {
+                item.available = "Yes";
+                item.updateItemInDatabase();
+            }
+        }
+        const washSuccessMessage = document.createElement("p");
+        washSuccessMessage.textContent = "Done!";
+        washContainer.append(washSuccessMessage);
+    }
+
     // Get items from the database every time the page is loaded
     retrieveDisplayItemsFromDatabase();
 
@@ -769,4 +802,7 @@
 
     createOutfitsButton.onclick = matchDisplayOutfits;
     form.addEventListener("submit", readPicturePath);
+
+    washRegularButton.onclick = washRegular;
+    washDelicateButton.onclick = washDelicate;
 })();
