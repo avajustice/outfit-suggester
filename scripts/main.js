@@ -508,7 +508,7 @@
         let bottomsArray = allowedItemsArray.filter(item =>
          ((item.clothingType == "Pants") || (item.clothingType == "Skirt")
           || (item.clothingType == "Althelic Pants")
-          || (item.clothingType == "Slip Shorts")));
+          || (item.clothingType == "Leggings")));
 
         // Match tops with bottoms
         for (const top of topsArray) {
@@ -543,7 +543,8 @@
 
         // Dresses have special rules because you ideally don't see
         // the slip shorts
-        if (top.clothingType == "Dress") {
+        if (top.clothingType == "Dress" && bottom.shortLong == "Short") {
+            console.log(top.name + " " + bottom.name);
             if (top.color == "Pink" || top.color == "White") {
                 if (bottom.color != "Tan") {
                     // If the dress color is pink or white, the slip
@@ -629,17 +630,17 @@
 
 
     function typesMatch(top, bottom) {
-        // All dresses must be paired with slip shorts, but
+        // All dresses must be paired with leggings, but
         // no other type should
         if (top.clothingType == "Dress") {
-            if (bottom.clothingType == "Slip Shorts") {
+            if (bottom.clothingType == "Leggings") {
                 return true;
             } else {
                 return false;
             }
         } else {
             if (bottom.
-                clothingType == "Slip Shorts") {
+                clothingType == "Leggings") {
                 return false;
             } else {
                 return true;
@@ -681,11 +682,14 @@
     }
 
     function isGoodForModerateWeather(item) {
-        // Select long bottoms and short tops
-        if (item.clothingType == ("Pants" || "Skirt" || "Dress")) {
+        // Select long bottoms, short tops, and all leggings
+        if (item.clothingType == "Pants" || item.clothingType == "Skirt" 
+         || item.clothingType == "Dress") {
             return item.shortLong == "Long";
         } else if (item.clothingType == "Shirt") {
             return item.shortLong == "Short";
+        } else if (item.clothingType == "Leggings") {
+            return true;
         }
     }
 
