@@ -558,7 +558,6 @@
         // Dresses have special rules because you ideally don't see
         // the slip shorts
         if (top.clothingType == "Dress" && bottom.shortLong == "Short") {
-            console.log(top.name + " " + bottom.name);
             if (top.color == "Pink" || top.color == "White") {
                 if (bottom.color != "Tan") {
                     // If the dress color is pink or white, the slip
@@ -671,6 +670,9 @@
         // Find current occasion and weather selections
         const occasion = occasionSelect.value;
         const weather = weatherSelect.value;
+
+        // Filter based on availability
+        allowedItemsArray = allowedItemsArray.filter(item => item.available == "Yes");
 
         // Filter based on weather
         if (weather == "Hot") {
