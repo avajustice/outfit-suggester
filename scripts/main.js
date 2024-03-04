@@ -508,11 +508,11 @@
                 const date = (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear();
                 // Update the dress/top's last worn date and availability
                 this.top.lastWorn = date;
-                this.top.available = "No";
+                this.top.available--;
                 this.top.updateItemInDatabase();
                 // Update the bottom's last worn date and availability
                 this.bottom.lastWorn = date;
-                this.bottom.available = "No";
+                this.bottom.available--;
                 this.bottom.updateItemInDatabase();
             }
             this.outfitContainer.append(this.wearOutfitButton);
@@ -710,7 +710,7 @@
         const weather = weatherSelect.value;
 
         // Filter based on availability
-        allowedItemsArray = allowedItemsArray.filter(item => item.available == "Yes");
+        allowedItemsArray = allowedItemsArray.filter(item => item.available > 0);
 
         // Filter based on weather
         if (weather == "Hot") {
@@ -798,8 +798,8 @@
     function washRegular() {
         // Make unavailable regular items available
         for (const item of itemArray) {
-            if (item.available == "No" && item.washType == "Regular") {
-                item.available = "Yes";
+            if (item.available != item.number && item.washType == "Regular") {
+                item.available = item.number;
                 item.updateItemInDatabase();
             }
         }
@@ -810,8 +810,8 @@
 
     function washDelicate() {
         for (const item of itemArray) {
-            if (item.available == "No" && item.washType == "Delicate") {
-                item.available = "Yes";
+            if (item.available != item.number && item.washType == "Delicate") {
+                item.available = item.number;
                 item.updateItemInDatabase();
             }
         }
