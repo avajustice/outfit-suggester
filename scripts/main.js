@@ -23,6 +23,7 @@
     const washContainer = document.getElementById("wash-container");
     const washRegularButton = document.getElementById("wash-regular");
     const washDelicateButton = document.getElementById("wash-delicate");
+    const webServiceURL = "https://5a562d9d-ecb7-4661-b268-bcc1ac3ef0c2-00-2u3o7ifjw9vh1.worf.repl.co/"
     let imageFilePath = "";
 
     // Will contain all of the objects for the articles of clothing
@@ -43,7 +44,7 @@
     let currentImageFileExtension;
 
     async function retrieveDisplayItemsFromDatabase() {
-        const rawResponse = await fetch('https://outfit-suggester-service.avajustice.repl.co/api/items', {
+        const rawResponse = await fetch(webServiceURL + 'api/items/', {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
@@ -57,13 +58,14 @@
         {
             createItemObject(item.name, item.clothingType, item.color, item.shortLong,
                 item.patterned, item.available, item.washType, item.number, item.lastWorn, item.id,
-                item.imgId);
+                item.imgId, item.bannedPairs);
         }
 
     }
 
     // Item objects represent each article of clothing
-    function Item(name, clothingType, color, shortLong, patterned, available, washType, number, lastWorn, id, imgId) {
+    function Item(name, clothingType, color, shortLong, patterned, available, 
+         washType, number, lastWorn, id, imgId, bannedPairs) {
         this.name = name;
         this.clothingType = clothingType;
         this.color = color;
@@ -75,7 +77,8 @@
         this.lastWorn = lastWorn;
         this.id = id;
         this.imgId = imgId;
-        this.imgPath = 'https://outfit-suggester-service.avajustice.repl.co/images/' + imgId;
+        this.bannedPairs = bannedPairs;
+        this.imgPath = webServiceURL + 'images/' + imgId;
 
         this.displayItemCard = function() {
             // Create the item card container
@@ -221,7 +224,7 @@
                 // Add new image to database and update the item's image ID and path
                 const newImgId = await addImageToDatabase(currentImageData);
                 this.imgId = newImgId;
-                this.imgPath = 'https://outfit-suggester-service.avajustice.repl.co/images/' + this.imgId;
+                this.imgPath = webServiceURL + 'images/' + this.imgId;
             }
 
             this.updateItemInDatabase();
@@ -235,7 +238,7 @@
         this.addItemToDatabase = async function() {
             // Sends a POST request to outfit-suggester-service on Replit, which
             // adds the clothing item to the database also on Replt
-            const rawResponse = await fetch('https://outfit-suggester-service.avajustice.repl.co/api/items', {
+            const rawResponse = await fetch(webServiceURL + 'api/items', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -244,7 +247,8 @@
                 body: JSON.stringify({"name" : this.name, "clothingType" : this.clothingType,
                     "color" : this.color, "shortLong" : this.shortLong, "patterned" : this.patterned,
                     "available" : this.available, "washType" : this.washType, "number" : this.number,
-                    "lastWorn" : this.lastWorn, "id" : this.id, "imgId" : this.imgId})
+                    "lastWorn" : this.lastWorn, "id" : this.id, "imgId" : this.imgId, 
+                    "bannedPairs" : this.bannedPairs})
             });
             const response = await rawResponse.json();
 
@@ -255,7 +259,7 @@
         this.deleteItemFromDatabase = async function() {
             // Sends a DELETE request to outfit-suggester-service on Replit, which
             // removes the clothing item from the database also on Replt
-            const itemURL = 'https://outfit-suggester-service.avajustice.repl.co/api/items/' + this.id;
+            const itemURL = webServiceURL + 'api/items/' + this.id;
             const rawResponse = await fetch(itemURL, {
                 method: 'DELETE'
             });
@@ -264,7 +268,7 @@
         this.updateItemInDatabase = async function() {
             // Sends a PUT request to outfit-suggester-service on Replit, which
             // modifies the clothing item to the database also on Replt
-            const rawResponse = await fetch('https://outfit-suggester-service.avajustice.repl.co/api/items/' + this.id, {
+            const rawResponse = await fetch(webServiceURL + 'api/items/' + this.id, {
                 method: 'PUT',
                 headers: {
                     'Accept': 'application/json',
@@ -273,7 +277,8 @@
                 body: JSON.stringify({"name" : this.name, "clothingType" : this.clothingType,
                     "color" : this.color, "shortLong" : this.shortLong, "patterned" : this.patterned,
                     "available" : this.available, "washType" : this.washType, "number" : this.number,
-                    "lastWorn" : this.lastWorn, "id" : this.id, "imgId" : this.imgId})
+                    "lastWorn" : this.lastWorn, "id" : this.id, "imgId" : this.imgId, 
+                    "bannedPairs" : this.bannedPairs})
             });
         }
 
@@ -291,18 +296,21 @@
         }
     }
 
-    addNewItem = async function(name, type, color, shortLong, patterned, available, wash, number, lastWorn) {
+    addNewItem = async function(name, type, color, shortLong, patterned, available, 
+         wash, number, lastWorn) {
         // Use this function when creating a completely NEW item from the item editor
         // Creates a new item object and adds it to the database
 
         const imgId = await addImageToDatabase(currentImageData);
 
         // 0 is a placeholder for the ID until the ID is generated by the service
-        const item = createItemObject(name, type, color, shortLong, patterned, available, wash, number, lastWorn, 0, imgId);
+        const item = createItemObject(name, type, color, shortLong, patterned, available, 
+         wash, number, lastWorn, 0, imgId, []);
 
         const id = await item.addItemToDatabase();
         item.id = id;
-        item.updateItemInDatabase(name, type, color, shortLong, patterned, available, wash, number, lastWorn, id, imgId);
+        item.updateItemInDatabase(name, type, color, shortLong, patterned, available,
+         wash, number, lastWorn, id, imgId, []);
 
         resetNewItemContainer();
 
@@ -310,12 +318,14 @@
         item.displayItemCard();
     }
 
-    function createItemObject(name, type, color, shortLong, patterned, available, wash, number, lastWorn, id, imgId) {
+    function createItemObject(name, type, color, shortLong, patterned, available, wash, 
+         number, lastWorn, id, imgId, bannedPairs) {
         // Creates a new Item object, add item to itemArray
         // Use without addNewItem() when creating an object for an item that has already
         // been added to database, like when reloading the page
 
-        const item = new Item(name, type, color, shortLong, patterned, available, wash, number, lastWorn, id, imgId);
+        const item = new Item(name, type, color, shortLong, patterned, available, wash, 
+         number, lastWorn, id, imgId, bannedPairs);
         item.createItemInformationButton();
         itemArray.push(item);
         return item;
@@ -395,7 +405,7 @@
     addImageToDatabase = async function(imgData) {
         // Sends a POST request to outfit-suggester-service on Replit, which
         // adds the image to the Replit filesystem
-            const rawResponse = await fetch('https://outfit-suggester-service.avajustice.repl.co/api/images', {
+            const rawResponse = await fetch(webServiceURL + 'api/images', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -412,7 +422,7 @@
     deleteImageFromDatabase = async function(id) {
         // Sends a DELETE request to outfit-suggester-service on Replit, which
         // deletes the image with the specified ID from the Replit filesystem
-        const rawResponse = await fetch('https://outfit-suggester-service.avajustice.repl.co/api/images/' + id, {
+        const rawResponse = await fetch(webServiceURL + 'api/images/' + id, {
             method: 'DELETE'
         });
     }
@@ -507,6 +517,15 @@
             }
             this.outfitContainer.append(this.wearOutfitButton);
 
+            // Add ban outfit button
+            this.banOutfitButton = document.createElement("button");
+            this.banOutfitButton.textContent = "Don't make this outfit again";
+            this.banOutfitButton.onclick = () => {
+                this.top.bannedPairs.push(this.bottom.id);
+                this.top.updateItemInDatabase();
+            }
+            this.outfitContainer.append(this.banOutfitButton);
+
             // Add the whole outfit info card to the allOutfitsContainer
             allOutfitsContainer.appendChild(this.outfitContainer);
         }
@@ -538,7 +557,8 @@
                 // Make sure that the colors, types, and patterns of the two items match
                 if ((colorsMatch(top, bottom))
                  && (patternsMatch(top, bottom))
-                 && typesMatch(top, bottom)){
+                 && typesMatch(top, bottom)
+                 && !isBanned(top, bottom)){
                     // Find the average of the two last worn dates
                     const lastWornAverage = (findDaysAgo(top.lastWorn) +
                     findDaysAgo(bottom.lastWorn)) / 2;
@@ -660,13 +680,23 @@
                 return false;
             }
         } else {
-            if (bottom.
-                clothingType == "Leggings") {
+            if (bottom.clothingType == "Leggings") {
                 return false;
             } else {
                 return true;
             }
         }
+    }
+
+    function isBanned(top, bottom) {
+        for (const id of top.bannedPairs) {
+            if (id == bottom.id) {
+                return true;
+            }
+        }
+        // If you've made it through all the banned IDs without returning true, it
+        // must not be banned
+        return false;
     }
 
     function filterItems() {
