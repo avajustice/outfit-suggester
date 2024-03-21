@@ -115,23 +115,6 @@
             }
             this.itemCard.append(this.editButton);
 
-            // Create wear button
-            this.wearItemButton = document.createElement("button");
-            this.wearItemButton.textContent = "Wear Item";
-            this.wearItemButton.onclick = () => {
-                // Find today's date
-                const d = new Date();
-                const date = (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear();
-                // Update the item's last worn date
-                this.lastWorn = date;
-                this.updateItemCard();
-                // Make item unavailable
-                this.available = "No";
-                // Update item in database
-                this.updateItemInDatabase();
-            }
-            this.itemCard.append(this.wearItemButton);
-
             // Create item info paragraph and image and fill in information
             this.itemInfo = document.createElement("p");
             this.itemCard.append(this.itemInfo);
@@ -427,6 +410,64 @@
         });
     }
 
+    addDateToDatabase = async function(date, itemIDs) {
+        // Sends a POST request to outfit-suggester-service on Replit, which
+        // adds the date to the database also on Replt
+        const rawResponse = await fetch(webServiceURL + 'api/dates', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({"id" : "0", "date" : date, "itemIDs" : itemIDs})
+        });
+        const response = await rawResponse.json();
+
+        // Return the date data now stored in the database
+        return response;
+    }
+
+    updateDateInDatabase = async function(id, date, itemIDs) {
+        // Sends a PUT request to outfit-suggester-service on Replit, which
+        // modifies the clothing item to the database also on Replt
+        const rawResponse = await fetch(webServiceURL + 'api/dates/' + id, {
+            method: 'PUT',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({"id" : id, "date" : date, "itemIDs" : itemIDs})
+        });
+        const response = await rawResponse.json();
+
+        // Return the date data now stored in the database
+        return response;
+    }
+
+    getDateFromDatabase = async function(id) {
+        // Sends a PUT request to outfit-suggester-service on Replit, which
+        // modifies the clothing item to the database also on Replt
+        const rawResponse = await fetch(webServiceURL + 'api/dates/' + id, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        });
+
+        let response;
+
+        // If the date cannot be retrieved from the database (likely it does not exist yet)
+        // return "Failed"
+        try {
+            response = await rawResponse.json();
+        } catch (error) {
+            response = "Failed";
+        }
+
+        return response;
+    }
+
     function resetNewItemContainer() {
         // Set all inputs to default and remove picture
         nameSelect.value = "";
@@ -469,6 +510,36 @@
         this.bottom = bottom;
         this.lastWornAverage = lastWornAverage;
 
+        this.wearOutfit = async function() {
+            // Find today's date
+            // This includes seconds and other extra information
+            const d = new Date();
+            // Convert to the format YYYY-(M)M-(D)D
+            const date = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+            // Update the dress/top's last worn date and availability
+            this.top.lastWorn = date;
+            this.top.available--;
+            this.top.updateItemInDatabase();
+            // Update the bottom's last worn date and availability
+            this.bottom.lastWorn = date;
+            this.bottom.available--;
+            this.bottom.updateItemInDatabase();
+
+            databaseDate = await getDateFromDatabase("date-" + date);
+
+            if (databaseDate == "Failed") {
+                // If the date cannot be retrieved, create a new date
+                addDateToDatabase(date, [this.top.id, this.bottom.id]);
+            } else {
+                // Otherwise, add the ids of the current outfit items to the list 
+                // of ids for the date
+                itemIDs = databaseDate.itemIDs;
+                itemIDs.push(this.top.id);
+                itemIDs.push(this.bottom.id);
+                updateDateInDatabase(databaseDate.id, databaseDate.date, itemIDs);
+            }
+        }
+
         this.displayOutfitCard = function() {
             this.outfitContainer = document.createElement("div");
 
@@ -503,17 +574,7 @@
             this.wearOutfitButton = document.createElement("button");
             this.wearOutfitButton.textContent = "Wear Outfit";
             this.wearOutfitButton.onclick = () => {
-                // Find today's date
-                const d = new Date();
-                const date = (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear();
-                // Update the dress/top's last worn date and availability
-                this.top.lastWorn = date;
-                this.top.available--;
-                this.top.updateItemInDatabase();
-                // Update the bottom's last worn date and availability
-                this.bottom.lastWorn = date;
-                this.bottom.available--;
-                this.bottom.updateItemInDatabase();
+                this.wearOutfit();
             }
             this.outfitContainer.append(this.wearOutfitButton);
 
