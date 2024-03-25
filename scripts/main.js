@@ -23,6 +23,8 @@
     const washContainer = document.getElementById("wash-container");
     const washRegularButton = document.getElementById("wash-regular");
     const washDelicateButton = document.getElementById("wash-delicate");
+    const historyContainer = document.getElementById("history-container");
+    const historyText = document.getElementById("history-text");
     const webServiceURL = "https://5a562d9d-ecb7-4661-b268-bcc1ac3ef0c2-00-2u3o7ifjw9vh1.worf.repl.co/"
     let imageFilePath = "";
 
@@ -313,6 +315,32 @@
         itemArray.push(item);
         return item;
     }
+
+    getItemFromDatabase = async function(id) {
+        // Sends a GET request to outfit-suggester-service on Replit, which gets the
+        // item information from the database
+        const rawResponse = await fetch(webServiceURL + 'api/items/' + id, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        });
+
+        let response;
+
+        // If the item cannot be retrieved from the database return "Failed"
+        try {
+            response = await rawResponse.json();
+        } catch (error) {
+            response = "Failed";
+        }
+
+        // All the item information (name, clothingType, color, shortLong, patterned, available, 
+        // washType, number, lastWorn, id, imgId, bannedPairs) stored in the database
+        return response;
+    }
+
 
     function readPicturePath(event) {
         // Read the path of the submitted picture
@@ -881,8 +909,41 @@
         washContainer.append(washSuccessMessage);
     }
 
+    async function getDisplayHistory() {
+        // date will start out as today
+        let date = new Date();
+
+        // Show the past week
+        for (i = 0; i < 7; i++) {
+            // Get the information about the current day from the database
+            const dateYMD = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+            const dateID = "date-" + dateYMD;
+            const dateData = await getDateFromDatabase(dateID);
+
+            if (dateData != "Failed") {
+                // Add the date to the displayed history
+                historyText.textContent += '\n' + dateYMD + ": ";
+
+                const itemIDs = dateData.itemIDs;
+
+                for (const itemID of itemIDs) {
+                    // Get the item information from the database
+                    const item = await getItemFromDatabase(itemID);
+
+                    // Add the name of the item to the displayed history
+                    historyText.textContent += item.name + ', ';
+                }
+            }
+
+            // Subtract milliseconds in a day to get the previous day
+            date = new Date(date.getTime() - (24 * 60 * 60 * 1000));
+        }
+    }
+
     // Get items from the database every time the page is loaded
     retrieveDisplayItemsFromDatabase();
+
+    getDisplayHistory();
 
     // Uses the current values of the text boxes / drop down menus to create new item
     createItemButton.addEventListener('click', function(){
@@ -896,4 +957,4 @@
 
     washRegularButton.onclick = washRegular;
     washDelicateButton.onclick = washDelicate;
-})();
+})(); 
