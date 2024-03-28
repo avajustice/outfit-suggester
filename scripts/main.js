@@ -25,6 +25,8 @@
     const washDelicateButton = document.getElementById("wash-delicate");
     const historyContainer = document.getElementById("history-container");
     const historyText = document.getElementById("history-text");
+    const historyDateSelect = document.getElementById("history-date");
+    const updateHistoryButton = document.getElementById("update-history");
     const webServiceURL = "https://5a562d9d-ecb7-4661-b268-bcc1ac3ef0c2-00-2u3o7ifjw9vh1.worf.repl.co/"
     let imageFilePath = "";
 
@@ -909,9 +911,11 @@
         washContainer.append(washSuccessMessage);
     }
 
-    async function getDisplayHistory() {
+    async function getDisplayHistory(d) {
         // date will start out as today
-        let date = new Date();
+        let date = new Date(d);
+
+        historyText.textContent = "";
 
         // Show the past week
         for (i = 0; i < 7; i++) {
@@ -943,7 +947,8 @@
     // Get items from the database every time the page is loaded
     retrieveDisplayItemsFromDatabase();
 
-    getDisplayHistory();
+    let today = new Date();
+    getDisplayHistory(today);
 
     // Uses the current values of the text boxes / drop down menus to create new item
     createItemButton.addEventListener('click', function(){
@@ -957,4 +962,8 @@
 
     washRegularButton.onclick = washRegular;
     washDelicateButton.onclick = washDelicate;
+
+    updateHistoryButton.addEventListener('click', function() {
+        getDisplayHistory(historyDateSelect.value);
+    })
 })(); 
