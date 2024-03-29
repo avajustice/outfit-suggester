@@ -27,8 +27,15 @@
     const historyText = document.getElementById("history-text");
     const historyDateSelect = document.getElementById("history-date");
     const updateHistoryButton = document.getElementById("update-history");
+
     const webServiceURL = "https://5a562d9d-ecb7-4661-b268-bcc1ac3ef0c2-00-2u3o7ifjw9vh1.worf.repl.co/"
     let imageFilePath = "";
+    const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const monthNames = [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+      ];
+      
 
     // Will contain all of the objects for the articles of clothing
     let itemArray = [];
@@ -924,19 +931,29 @@
             const dateID = "date-" + dateYMD;
             const dateData = await getDateFromDatabase(dateID);
 
-            if (dateData != "Failed") {
-                // Add the date to the displayed history
-                historyText.textContent += '\n' + dateYMD + ": ";
+            // Add the date to the displayed history
+            const day = dayNames[date.getDay()];
+            const month = monthNames[date.getMonth()];
+            const dayNumber = date.getDate();
+            // Should be in the format "\nMonday, January 1: "
+            historyText.textContent += '\n' + day + ", " + month + " " + dayNumber + ": ";
 
+            if (dateData != "Failed") {
                 const itemIDs = dateData.itemIDs;
 
-                for (const itemID of itemIDs) {
+                // First item will not have a comma and space before it
+                const item =  await getItemFromDatabase(itemIDs[0]);
+                historyText.textContent += item.name;
+
+                for (let i = 1; i < itemIDs.length; i++) {
                     // Get the item information from the database
-                    const item = await getItemFromDatabase(itemID);
+                    const item = await getItemFromDatabase(itemIDs[i]);
 
                     // Add the name of the item to the displayed history
-                    historyText.textContent += item.name + ', ';
+                    historyText.textContent += ', ' + item.name ;
                 }
+            } else {
+                historyText.textContent += "None";
             }
 
             // Subtract milliseconds in a day to get the previous day
