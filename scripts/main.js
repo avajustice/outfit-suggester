@@ -25,6 +25,7 @@
     const washDelicateButton = document.getElementById("wash-delicate");
     const historyContainer = document.getElementById("history-container");
     const historyText = document.getElementById("history-text");
+    const previousWeekHistoryButton = document.getElementById("previous-week-history");
     const historyDateSelect = document.getElementById("history-date");
     const updateHistoryButton = document.getElementById("update-history");
 
@@ -35,6 +36,8 @@
         "January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"
       ];
+    
+    let date = new Date();
       
 
     // Will contain all of the objects for the articles of clothing
@@ -918,11 +921,9 @@
         washContainer.append(washSuccessMessage);
     }
 
-    async function getDisplayHistory(d) {
-        // date will start out as today
-        let date = new Date(d);
+    async function getDisplayWeekHistory() {
 
-        historyText.textContent = "";
+        // historyText.textContent = "";
 
         // Show the past week
         for (i = 0; i < 7; i++) {
@@ -961,11 +962,16 @@
         }
     }
 
+    async function displayHistoryAfterDateSelect() {
+        historyText.textContent = "";
+        date = new Date(historyDateSelect.value);
+        getDisplayWeekHistory();
+    }
+
     // Get items from the database every time the page is loaded
     retrieveDisplayItemsFromDatabase();
 
-    let today = new Date();
-    getDisplayHistory(today);
+    getDisplayWeekHistory();
 
     // Uses the current values of the text boxes / drop down menus to create new item
     createItemButton.addEventListener('click', function(){
@@ -980,7 +986,11 @@
     washRegularButton.onclick = washRegular;
     washDelicateButton.onclick = washDelicate;
 
+    previousWeekHistoryButton.addEventListener('click', function() {
+        getDisplayWeekHistory(new Date(date.getTime() - (24 * 60 * 60 * 1000)))
+    });
+    
     updateHistoryButton.addEventListener('click', function() {
-        getDisplayHistory(historyDateSelect.value);
-    })
+        displayHistoryAfterDateSelect();
+    });
 })(); 
