@@ -26,7 +26,7 @@
     const historyContainer = document.getElementById("history-container");
     const historyText = document.getElementById("history-text");
     const previousWeekHistoryButton = document.getElementById("previous-week-history");
-    const historyDateSelect = document.getElementById("history-date");
+    const historyStartDateSelect = document.getElementById("history-date");
     const updateHistoryButton = document.getElementById("update-history");
 
     const webServiceURL = "https://5a562d9d-ecb7-4661-b268-bcc1ac3ef0c2-00-2u3o7ifjw9vh1.worf.repl.co/"
@@ -37,7 +37,7 @@
         "July", "August", "September", "October", "November", "December"
       ];
     
-    let date = new Date();
+    let historyStartDate = new Date();
       
 
     // Will contain all of the objects for the articles of clothing
@@ -578,6 +578,16 @@
                 itemIDs.push(this.bottom.id);
                 updateDateInDatabase(databaseDate.id, databaseDate.date, itemIDs);
             }
+
+            // Clear the outfit container because probably the user isn't going to wear two outfits of
+            // the same type in one day
+            allOutfitsContainer.replaceChildren();
+
+            // Reset historyStartDate to today and redisplay the history
+            // to show the new change in the history
+            historyStartDate = new Date();
+            historyText.textContent = ""
+            getDisplayWeekHistory();
         }
 
         this.displayOutfitCard = function() {
@@ -928,14 +938,14 @@
         // Show the past week
         for (i = 0; i < 7; i++) {
             // Get the information about the current day from the database
-            const dateYMD = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+            const dateYMD = historyStartDate.getFullYear() + "-" + (historyStartDate.getMonth() + 1) + "-" + historyStartDate.getDate();
             const dateID = "date-" + dateYMD;
             const dateData = await getDateFromDatabase(dateID);
 
             // Add the date to the displayed history
-            const day = dayNames[date.getDay()];
-            const month = monthNames[date.getMonth()];
-            const dayNumber = date.getDate();
+            const day = dayNames[historyStartDate.getDay()];
+            const month = monthNames[historyStartDate.getMonth()];
+            const dayNumber = historyStartDate.getDate();
             // Should be in the format "\nMonday, January 1: "
             historyText.textContent += '\n' + day + ", " + month + " " + dayNumber + ": ";
 
@@ -958,13 +968,13 @@
             }
 
             // Subtract milliseconds in a day to get the previous day
-            date = new Date(date.getTime() - (24 * 60 * 60 * 1000));
+            historyStartDate = new Date(historyStartDate.getTime() - (24 * 60 * 60 * 1000));
         }
     }
 
     async function displayHistoryAfterDateSelect() {
         historyText.textContent = "";
-        date = new Date(historyDateSelect.value);
+        historyStartDate = new Date(historyStartDateSelect.value);
         getDisplayWeekHistory();
     }
 
@@ -987,7 +997,7 @@
     washDelicateButton.onclick = washDelicate;
 
     previousWeekHistoryButton.addEventListener('click', function() {
-        getDisplayWeekHistory(new Date(date.getTime() - (24 * 60 * 60 * 1000)))
+        getDisplayWeekHistory();
     });
     
     updateHistoryButton.addEventListener('click', function() {
