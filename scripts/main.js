@@ -551,43 +551,15 @@
         this.lastWornAverage = lastWornAverage;
 
         this.wearOutfit = async function() {
-            // Find today's date
-            // This includes seconds and other extra information
-            const d = new Date();
-            // Convert to the format YYYY-(M)M-(D)D
-            const date = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
-            // Update the dress/top's last worn date and availability
-            this.top.lastWorn = date;
-            this.top.available--;
-            this.top.updateItemInDatabase();
-            // Update the bottom's last worn date and availability
-            this.bottom.lastWorn = date;
-            this.bottom.available--;
-            this.bottom.updateItemInDatabase();
 
-            databaseDate = await getDateFromDatabase("date-" + date);
-
-            if (databaseDate == "Failed") {
-                // If the date cannot be retrieved, create a new date
-                addDateToDatabase(date, [this.top.id, this.bottom.id]);
-            } else {
-                // Otherwise, add the ids of the current outfit items to the list 
-                // of ids for the date
-                itemIDs = databaseDate.itemIDs;
-                itemIDs.push(this.top.id);
-                itemIDs.push(this.bottom.id);
-                updateDateInDatabase(databaseDate.id, databaseDate.date, itemIDs);
-            }
-
+            await wearItem(top);
+            await wearItem(bottom);
+            
             // Clear the outfit container because probably the user isn't going to wear two outfits of
             // the same type in one day
             allOutfitsContainer.replaceChildren();
 
-            // Reset historyStartDate to today and redisplay the history
-            // to show the new change in the history
-            historyStartDate = new Date();
-            historyText.textContent = ""
-            getDisplayWeekHistory();
+            await resetHistory();
         }
 
         this.displayOutfitCard = function() {
@@ -639,6 +611,33 @@
 
             // Add the whole outfit info card to the allOutfitsContainer
             allOutfitsContainer.appendChild(this.outfitContainer);
+        }
+    }
+
+    async function wearItem(item) {
+        // Find today's date
+        // This includes seconds and other extra information
+        const d = new Date();
+        // Convert to the format YYYY-(M)M-(D)D
+        const date = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+
+        // Update the item's last worn date and availability
+        item.lastWorn = date;
+        item.available--;
+        item.updateItemInDatabase();
+
+        databaseDate = await getDateFromDatabase("date-" + date);
+
+        if (databaseDate == "Failed") {
+            // If the date cannot be retrieved, create a new date
+            addDateToDatabase(date, [item.id]);
+            console.log("Failed!")
+        } else {
+            // Otherwise, add the id of item to the list of ids for the date
+            itemIDs = databaseDate.itemIDs;
+            itemIDs.push(item.id);
+            updateDateInDatabase(databaseDate.id, databaseDate.date, itemIDs);
+            console.log("adding" + item.name + " " + item.id);
         }
     }
 
@@ -933,8 +932,6 @@
 
     async function getDisplayWeekHistory() {
 
-        // historyText.textContent = "";
-
         // Show the past week
         for (i = 0; i < 7; i++) {
             // Get the information about the current day from the database
@@ -957,11 +954,18 @@
                 historyText.textContent += item.name;
 
                 for (let i = 1; i < itemIDs.length; i++) {
+
                     // Get the item information from the database
                     const item = await getItemFromDatabase(itemIDs[i]);
 
-                    // Add the name of the item to the displayed history
-                    historyText.textContent += ', ' + item.name ;
+                    if (i % 5 == 0) {
+                        // Add a line break every fifth item
+                        // Add the name of the item to the displayed history
+                        historyText.textContent += ', \n' + item.name;
+                    } else {
+                        // Add the name of the item to the displayed history
+                        historyText.textContent += ', ' + item.name ;
+                    }
                 }
             } else {
                 historyText.textContent += "None";
@@ -976,6 +980,14 @@
         historyText.textContent = "";
         historyStartDate = new Date(historyStartDateSelect.value);
         getDisplayWeekHistory();
+    }
+
+    async function resetHistory() {
+        // Reset historyStartDate to today and redisplay the history
+        // to show the new change in the history
+        historyStartDate = new Date();
+        historyText.textContent = ""
+        getDisplayWeekHistory(); 
     }
 
     // Get items from the database every time the page is loaded
