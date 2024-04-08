@@ -94,7 +94,7 @@
         this.bannedPairs = bannedPairs;
         this.imgPath = webServiceURL + 'images/' + imgId;
 
-        this.displayItemCard = function() {
+        this.displayItemCard = async function() {
             // Create the item card container
             this.itemCard = document.createElement("div");
             this.itemCard.class = "card";
@@ -134,6 +134,16 @@
             this.itemCard.append(this.itemInfo);
             this.image = document.createElement("img");
             this.itemCard.append(this.image);
+
+            wearItemButton = document.createElement("button");
+            wearItemButton.textContent = "Wear";
+            wearItemButton.onclick = async () => {
+                await wearItem(this);
+                await resetHistory();
+            }
+
+            this.itemCard.append(wearItemButton);
+
             this.updateItemCard();
         }
 
@@ -631,13 +641,11 @@
         if (databaseDate == "Failed") {
             // If the date cannot be retrieved, create a new date
             addDateToDatabase(date, [item.id]);
-            console.log("Failed!")
         } else {
             // Otherwise, add the id of item to the list of ids for the date
             itemIDs = databaseDate.itemIDs;
             itemIDs.push(item.id);
             updateDateInDatabase(databaseDate.id, databaseDate.date, itemIDs);
-            console.log("adding" + item.name + " " + item.id);
         }
     }
 
