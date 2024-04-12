@@ -1,4 +1,41 @@
-div:not(#upload, #new-item-img, #outfits) {
+div:not(#upload, #new-item-img, #outfits, .bar) {
     border: 2px solid black;
     white-space: pre;
+}
+
+.hamburger {
+    position: relative;
+    display: block;
+    width: 35px;
+    cursor: pointer;
+    appearance: none;
+    background: none;
+    outline: none;
+    border: none;
+}
+
+/* Makes three hamburger lines */
+.hamburger .bar, .hamburger:after, .hamburger:before {
+    content: '';
+    display: block;
+    width: 100%;
+    height:  5px;
+    background-color: #000000;
+    margin: 6px 8px;
+    transition: 0.4s;
+}
+
+/* Twist top line*/
+.hamburger.is-active:before {
+    transform: rotate(-45deg) translate(-8px, 6px);
+}
+
+/* Make middle line disappear */
+.hamburger.is-active .bar {
+    opacity: 0;
+}
+
+/* Twist bottom line other direction*/
+.hamburger.is-active:after {
+    transform: rotate(45deg) translate(-9px, -8px);
 }
