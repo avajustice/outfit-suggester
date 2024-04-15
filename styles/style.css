@@ -27,7 +27,7 @@ div:not(#upload, #new-item-img, #outfits, .bar) {
 
 /* Twist top line*/
 .hamburger.is-active:before {
-    transform: rotate(-45deg) translate(-8px, 6px);
+    transform: rotate(45deg) translate(0px, 15px);
 }
 
 /* Make middle line disappear */
@@ -37,5 +37,5 @@ div:not(#upload, #new-item-img, #outfits, .bar) {
 
 /* Twist bottom line other direction*/
 .hamburger.is-active:after {
-    transform: rotate(45deg) translate(-9px, -8px);
+    transform: rotate(-45deg) translate(0px, -16px);
 }
