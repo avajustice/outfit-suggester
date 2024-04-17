@@ -39,3 +39,37 @@ div:not(#upload, #new-item-img, #outfits, .bar) {
 .hamburger.is-active:after {
     transform: rotate(-45deg) translate(0px, -16px);
 }
+
+.ham-nav {
+    display: block;
+    position: fixed;
+    top: 0;
+    right: 100%;
+    width: 50%;
+    min-height: 100vh;
+    z-index: 98;
+    background-color: blueviolet;
+    padding-top: 120px;
+    transition: 0.4s;
+}
+
+.ham-nav.is-active {
+    right: 50%;
+}
+
+.ham-nav a {
+    display: block;
+    width: 100%;
+    max-width: 200px;
+    margin: 0 auto 16px;
+    text-align: center;
+    margin-bottom: 16px;
+    padding: 12px 16px;
+    background-color: forestgreen;
+
+    color: white;
+}
+
+.ham-nav a:hover {
+    background-color: lightgreen;
+}

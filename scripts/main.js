@@ -29,6 +29,7 @@
     const historyStartDateSelect = document.getElementById("history-date");
     const updateHistoryButton = document.getElementById("update-history");
     const menuButton = document.getElementById("hambuger");
+    const hamMenu = document.querySelector(".ham-nav");
 
     const webServiceURL = "https://5a562d9d-ecb7-4661-b268-bcc1ac3ef0c2-00-2u3o7ifjw9vh1.worf.repl.co/"
     let imageFilePath = "";
@@ -1027,6 +1028,7 @@
 
     menuButton.addEventListener("click", function() {
         menuButton.classList.toggle("is-active");
+        hamMenu.classList.toggle("is-active");
     });
 
 })(); 
