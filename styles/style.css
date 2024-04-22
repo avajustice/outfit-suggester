@@ -73,3 +73,18 @@ div:not(#upload, #new-item-img, #outfits, .bar) {
 .ham-nav a:hover {
     background-color: lightgreen;
 }
+
+header {
+    position: fixed;
+    z-index: 99;
+    background-color: aliceblue;
+    width: 100%;
+    top: 0;
+    left: 0;
+    display: flex;
+}
+
+h1 {
+    font-size: x-large;
+    padding-left: 25px;
+}
