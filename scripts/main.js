@@ -140,8 +140,15 @@
             wearItemButton = document.createElement("button");
             wearItemButton.textContent = "Wear";
             wearItemButton.onclick = async () => {
+                // Disable button so that the user will see that wearing was successful
+                wearItemButton.disabled = true;
                 await wearItem(this);
                 await resetHistory();
+            }
+
+            // If none of this item are available, it cannot be worn
+            if (available == 0) {
+                wearItemButton.disabled = true;
             }
 
             this.itemCard.append(wearItemButton);
