@@ -48,7 +48,7 @@ div:not(#upload, #new-item-img, #outfits, .bar) {
     width: 50%;
     min-height: 100vh;
     z-index: 98;
-    background-color: blueviolet;
+    background-color: rgb(200, 226, 249);
     padding-top: 120px;
     transition: 0.4s;
 }
@@ -65,9 +65,9 @@ div:not(#upload, #new-item-img, #outfits, .bar) {
     text-align: center;
     margin-bottom: 16px;
     padding: 12px 16px;
-    background-color: forestgreen;
+    background-color: rgb(255, 216, 255);
 
-    color: white;
+    color: black;
 }
 
 .ham-nav a:hover {
