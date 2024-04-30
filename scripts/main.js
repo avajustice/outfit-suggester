@@ -634,6 +634,8 @@
     }
 
     async function wearItem(item) {
+        //console.log("wearing " + item.name);
+
         // Find today's date
         // This includes seconds and other extra information
         const d = new Date();
@@ -646,14 +648,20 @@
         item.updateItemInDatabase();
 
         databaseDate = await getDateFromDatabase("date-" + date);
+        //console.log("Date from database: " + databaseDate);
 
         if (databaseDate == "Failed") {
             // If the date cannot be retrieved, create a new date
             addDateToDatabase(date, [item.id]);
+            //console.log("Only " + item.id + "in " + date);
         } else {
             // Otherwise, add the id of item to the list of ids for the date
             itemIDs = databaseDate.itemIDs;
+            //console.log("past ids: " + itemIDs);
+            //console.log("new id: " + item.id);
             itemIDs.push(item.id);
+            //console.log("updated ids: " + itemIDs);
+            // itemIDs is updating correctly
             updateDateInDatabase(databaseDate.id, databaseDate.date, itemIDs);
         }
     }
@@ -955,6 +963,7 @@
             const dateYMD = historyStartDate.getFullYear() + "-" + (historyStartDate.getMonth() + 1) + "-" + historyStartDate.getDate();
             const dateID = "date-" + dateYMD;
             const dateData = await getDateFromDatabase(dateID);
+            //console.log(dateData);
 
             // Add the date to the displayed history
             const day = dayNames[historyStartDate.getDay()];
@@ -994,8 +1003,13 @@
     }
 
     async function displayHistoryAfterDateSelect() {
-        historyText.textContent = "";
+        // Get the date from the date selector
         historyStartDate = new Date(historyStartDateSelect.value);
+
+        // Oddly enough, historyStartDate is at 20:00 on the previous day, so we need to add 
+        // four hours worth of milliseconds to get it to the next day
+        historyStartDate = new Date(historyStartDate.getTime() + 4 * 60 * 60 * 1000);
+        
         getDisplayWeekHistory();
     }
 
@@ -1030,7 +1044,11 @@
     });
     
     updateHistoryButton.addEventListener('click', function() {
-        displayHistoryAfterDateSelect();
+        // If the user doesn't select a date, but still clicks the button, 
+        // don't do anything
+        if (historyStartDateSelect.value != "") {
+            displayHistoryAfterDateSelect();
+        }
     });
 
     menuButton.addEventListener("click", function() {
