@@ -682,9 +682,11 @@
         let topsArray = allowedItemsArray.filter(item =>
          (item.clothingType == "Shirt") || (item.clothingType == "Dress"));
         let bottomsArray = allowedItemsArray.filter(item =>
-         ((item.clothingType == "Pants") || (item.clothingType == "Skirt")
-          || (item.clothingType == "Althelic Pants")
+         ((item.clothingType == "Pants") 
+          || (item.clothingType == "Skirt")
+          || (item.clothingType == "Athletic Pants")
           || (item.clothingType == "Leggings")));
+        console.log(bottomsArray);
 
         // Match tops with bottoms
         for (const top of topsArray) {
@@ -842,12 +844,32 @@
 
         // Find current occasion and weather selections
         const occasion = occasionSelect.value;
-        const weather = weatherSelect.value;
 
         // Filter based on availability
         allowedItemsArray = allowedItemsArray.filter(item => item.available > 0);
 
-        // Filter based on weather
+        // Filter based on occasion
+        if (occasion == "Church") {
+            allowedItemsArray = allowedItemsArray.filter(item =>
+                (isGoodForChurch(item)));
+            allowedItemsArray = filterBasedOnWeather(allowedItemsArray);
+        } else if (occasion == "Exercise") {
+            allowedItemsArray = allowedItemsArray.filter(item =>
+                (isGoodForExercise(item)));
+            // Don't filter based on weather for exercise because I don't want to
+            // exercise in long sleeves, even if it's cold
+        } else {
+            allowedItemsArray = allowedItemsArray.filter(item =>
+                (isGoodForOtherOccation(item)));
+            allowedItemsArray = filterBasedOnWeather(allowedItemsArray);
+        }
+
+        return allowedItemsArray;
+    }
+
+    function filterBasedOnWeather(allowedItemsArray) {
+        const weather = weatherSelect.value;
+
         if (weather == "Hot") {
             allowedItemsArray = allowedItemsArray.filter(item =>
              item.shortLong == "Short");
@@ -857,16 +879,6 @@
         } else if (weather == "Moderate") {
             allowedItemsArray = allowedItemsArray.filter(isGoodForModerateWeather);
         }
-
-        // Filter based on occasion
-        if (occasion == "Church") {
-            allowedItemsArray = allowedItemsArray.filter(item =>
-                (isGoodForChurch(item)));
-        } else if (occasion == "Exercise") {
-            allowedItemsArray = allowedItemsArray.filter(item =>
-                (isGoodForExercise(item)));
-        }
-
         return allowedItemsArray;
     }
 
@@ -901,6 +913,9 @@
             } else {
                 return false;
             }
+        } else if (item.clothingType == "Leggings") {
+            // Leggings are good for church, with skirts and dresses
+            return true;
         // Everything else (althelic pants) is bad for church
         } else {
             return false;
@@ -927,6 +942,15 @@
             return true;
         } else {
             return false;
+        }
+    }
+
+    function isGoodForOtherOccation(item) {
+        // I only wear athletic pants when exercising
+        if(item.clothingType == "Athletic Pants") {
+            return false;
+        } else {
+            return true;
         }
     }
 
