@@ -662,7 +662,7 @@
             itemIDs.push(item.id);
             //console.log("updated ids: " + itemIDs);
             // itemIDs is updating correctly
-            updateDateInDatabase(databaseDate.id, databaseDate.date, itemIDs);
+            await updateDateInDatabase(databaseDate.id, databaseDate.date, itemIDs);
         }
     }
 
