@@ -699,14 +699,14 @@
         // Update the item's last worn date and availability
         item.lastWorn = date;
         item.available--;
-        item.updateItemInDatabase();
+        await item.updateItemInDatabase();
 
         databaseDate = await getDateFromDatabase("date-" + date);
         //console.log("Date from database: " + databaseDate);
 
         if (databaseDate == "Failed") {
             // If the date cannot be retrieved, create a new date
-            addDateToDatabase(date, [item.id]);
+            await addDateToDatabase(date, [item.id]);
             //console.log("Only " + item.id + "in " + date);
         } else {
             // Otherwise, add the id of item to the list of ids for the date
@@ -945,7 +945,7 @@
         } else if (weather == "Moderate") {
             allowedItemsArray = allowedItemsArray.filter(isGoodForModerateWeather);
         }
-        
+
         return allowedItemsArray;
     }
 
