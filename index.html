@@ -29,12 +29,18 @@
     <div id="new-item">
       <label>Name: </label>
       <input id="name">
+      <br>
+
       <form id="upload">
         <label>Picture: </label>
+        <br>
+
         <input type="file" id="file" accept="image/*">
         <button>Upload</button>
         <div id="new-item-img"></div>
       </form>
+      <br>
+
       <label>Type of Clothing: </label>
       <select id="type">
         <option>Shirt</option>
@@ -44,6 +50,15 @@
         <option>Athletic Pants</option>
         <option>Leggings</option>
       </select>
+      <br>
+
+      <label>Length:</label>
+      <input type="radio" id="short" name="length" value="Short" checked />
+      <label for="short">Short</label>
+      <input type="radio" id="long" name="length" value="Long" />
+      <label for="long">Long</label>
+      <br>
+
       <label>Color: </label>
       <select id="color">
         <option>White</option>
@@ -58,62 +73,58 @@
         <option>Grey</option>
         <option>Tan</option>
       </select>
-      <label>Short/Long: </label>
-      <select id="short-long">
-          <option>Short</option>
-          <option>Long</option>
-      </select>
-      <!-- <fieldset>
-        <legend>Very Patterned:</legend>
-        <div class="item-input">
-          <input type="radio" id="yes" name="patterned" value="Yes" checked />
-          <label for="Yes">Yes</label>
-        </div>   
-        <div class="item-input">
-          <input type="radio" id="no" name="patterned" value="No" />
-          <label for="No">No</label>
-        </div>
-      </fieldset> -->
-      <label>Very Patterned: </label>
-      <select id="patterned">
-          <option>Yes</option>
-          <option>No</option>
-      </select>
-      <label>Number of Item Currently Available: </label>
-      <select id="available">
-        <option>1</option>
-        <option>2</option>
-        <option>3</option>
-      </select>
+      <br>
+
+      <label>Very Patterned:</label>
+      <input type="radio" id="not-patterned" name="patterned" value="No" checked/>
+      <label for="not-patterned">No</label>
+      <input type="radio" id="yes-patterned" name="patterned" value="Yes" />
+      <label for="yes-patterned">Yes</label>
+      <br>
+
       <label>Wash Type: </label>
-      <select id="wash">
-        <option>Regular</option>
-        <option>Delicate</option>
-      </select>
-      <label>Number of this Item: </label>
-      <select id="number">
-        <option>1</option>
-        <option>2</option>
-        <option>3</option>
-      </select>
+      <input type="radio" id="regular" name="wash" value="Regular" checked />
+      <label for="regular">Regular</label>
+      <input type="radio" id="delicate" name="wash" value="Delicate" />
+      <label for="delicate">Delicate</label>
+      <br>
+
       <label>Last Worn: </label>
       <input id="last-worn" type="date">
+      <br>
+      
+      <label>Number of this Item: </label>
+      <input id="number" type="number" placeholder="1 to 3" step="1" min="1" max="3" />
+      <br>
+
+      <label>Number of Item Currently Available: </label>
+      <input id="available" type="number" placeholder="0 to 3" step="1" min="0" max="3" />
+      <span class="validity"></span>
+      <br>
+      
       <button id="create-item">Create Item</button>
     </div>
 
     <h2>Find Outfits</h2>
-    <label>Occasion</label>
-    <select id="occasion">
-        <option>Other</option>
-        <option>Church</option>
-        <option>Exercise</option>
-    </select>
-    <label>Weather</label>
-    <select id="weather">
-        <option>Hot</option>
-        <option>Moderate</option>
-        <option>Cold</option>
-    </select>
+
+    <label>Occasion: </label>
+    <input type="radio" id="other" name="occasion" value="Other" checked />
+    <label for="other">Other</label>
+    <input type="radio" id="church" name="occasion" value="Church" />
+    <label for="church">Church</label>
+    <input type="radio" id="exercise" name="occasion" value="Exercise" />
+    <label for="exercise">Exercise</label>
+    <br>
+
+    <label>Weather:</label>
+    <input type="radio" id="hot" name="weather" value="Hot" checked />
+    <label for="hot">Hot</label>
+    <input type="radio" id="moderate" name="weather" value="Moderate" />
+    <label for="moderate">Moderate</label>
+    <input type="radio" id="cold" name="weather" value="Cold" />
+    <label for="cold">Cold</label>
+    <br>
+
     <button id="create-outfits">Create Outfits</button>
     <div id="outfits"></div>
 

@@ -6,17 +6,17 @@
     const nameSelect = document.getElementById("name");
     const typeSelect = document.getElementById("type");
     const colorSelect = document.getElementById("color");
-    const shortLongSelect = document.getElementById("short-long");
-    const patternedSelect = document.getElementById("patterned");
+    const shortLongButtons = document.getElementsByName("length");
+    const patternedButtons = document.getElementsByName("patterned");
     const availableSelect = document.getElementById("available");
-    const washSelect = document.getElementById("wash");
+    const washButtons = document.getElementsByName("wash");
     const numberSelect = document.getElementById("number");
     const lastWornSelect = document.getElementById("last-worn");
     const createItemButton = document.getElementById("create-item");
     const form = document.getElementById("upload");
     const file = document.getElementById("file");
-    const occasionSelect = document.getElementById("occasion");
-    const weatherSelect = document.getElementById("weather");
+    const occasionButtons = document.getElementsByName("occasion");
+    const weatherButtons = document.getElementsByName("weather");
     const createOutfitsButton = document.getElementById("create-outfits");
     const newItemImageContainer = document.getElementById("new-item-img");
     const allOutfitsContainer = document.getElementById("outfits");
@@ -183,12 +183,34 @@
             nameSelect.value = this.name;
             typeSelect.value = this.clothingType;
             colorSelect.value = this.color;
-            shortLongSelect.value = this.shortLong;
-            patternedSelect.value = this.patterned;
             availableSelect.value = this.available;
-            washSelect.value = this.washType;
             numberSelect.value = this.number;
             lastWornSelect.value = this.lastWorn;
+
+            // Fill in radio buttons
+            for (button of shortLongButtons) {
+                if (button.value == this.shortLong) {
+                    button.checked = true;
+                } else {
+                    button.checked = false;
+                }
+            }
+            for (button of patternedButtons) {
+                if (button.value == this.patterned) {
+                    button.checked = true;
+                } else {
+                    button.checked = false;
+                }
+            }
+            for (button of washButtons) {
+                if (button.value == this.washType) {
+                    button.checked = true;
+                } else {
+                    button.checked = false;
+                }
+            }
+
+            // Add image
             let img = document.createElement("img");
             img.src = this.imgPath;
             newItemImageContainer.appendChild(img);
@@ -226,12 +248,25 @@
             this.name = nameSelect.value;
             this.clothingType = typeSelect.value;
             this.color = colorSelect.value;
-            this.shortLong = shortLongSelect.value;
-            this.patterned = patternedSelect.value;
             this.available = availableSelect.value;
-            this.washType = washSelect.value;
             this.number = numberSelect.value;
             this.lastWorn = lastWornSelect.value;
+            // Get values from radio buttons
+            for (let button of shortLongButtons) {
+                if (button.checked) {
+                    shortLong = button.value;
+                }
+            }
+            for (let button of patternedButtons) {
+                if (button.checked) {
+                    patterned = button.value;
+                }
+            }
+            for (let button of washButtons) {
+                if (button.checked) {
+                    washType = button.value;
+                }
+            }
 
             if (newPictureAdded) {
                 // Delete past image
@@ -532,8 +567,27 @@
         nameSelect.value = "";
         typeSelect.value = "Shirt";
         colorSelect.value = "White";
-        shortLongSelect.value = "Short";
-        washSelect.value = "Regular";
+        for (button of shortLongButtons) {
+            if (button.id == "short") {
+                button.checked = true;
+            } else {
+                button.checked = false;
+            }
+        }
+        for (button of patternedButtons) {
+            if (button.id == "not-patterned") {
+                button.checked = true;
+            } else {
+                button.checked = false;
+            }
+        }
+        for (button of washButtons) {
+            if (button.id == "regular") {
+                button.checked = true;
+            } else {
+                button.checked = false;
+            }
+        }
         lastWornSelect.value = "";
         newItemImageContainer.firstChild.remove();
     }
@@ -842,8 +896,13 @@
 
         allowedItemsArray = itemArray;
 
-        // Find current occasion and weather selections
-        const occasion = occasionSelect.value;
+        // Find current occasion selection
+        let occasion;
+        for (let button of occasionButtons) {
+            if (button.checked) {
+                occasion = button.value;
+            }
+        }
 
         // Filter based on availability
         allowedItemsArray = allowedItemsArray.filter(item => item.available > 0);
@@ -868,8 +927,15 @@
     }
 
     function filterBasedOnWeather(allowedItemsArray) {
-        const weather = weatherSelect.value;
+        // Get current weather value from radio buttons
+        let weather;
+        for (let button of weatherButtons) {
+            if (button.checked) {
+                weather = button.value;
+            }
+        }
 
+        // Filter items based on weather
         if (weather == "Hot") {
             allowedItemsArray = allowedItemsArray.filter(item =>
              item.shortLong == "Short");
@@ -879,6 +945,7 @@
         } else if (weather == "Moderate") {
             allowedItemsArray = allowedItemsArray.filter(isGoodForModerateWeather);
         }
+        
         return allowedItemsArray;
     }
 
@@ -1050,11 +1117,32 @@
 
     getDisplayWeekHistory();
 
-    // Uses the current values of the text boxes / drop down menus to create new item
+    // Uses the current values of the text boxes / drop down menus / radio buttons to create new item
     createItemButton.addEventListener('click', function(){
+
+        // Get current values of radio buttons
+        let currentShortLong;
+        let currentPatterned;
+        let currentWashType;
+        for (let button of shortLongButtons) {
+            if (button.checked) {
+                currentShortLong = button.value;
+            }
+        }
+        for (let button of patternedButtons) {
+            if (button.checked) {
+                currentPatterned = button.value;
+            }
+        }
+        for (let button of washButtons) {
+            if (button.checked) {
+                currentWashType = button.value;
+            }
+        }
+
         addNewItem(nameSelect.value, typeSelect.value, colorSelect.value,
-            shortLongSelect.value, patternedSelect.value, availableSelect.value,
-            washSelect.value, numberSelect.value, lastWornSelect.value);
+            currentShortLong, currentPatterned, availableSelect.value,
+            currentWashType, numberSelect.value, lastWornSelect.value);
     });
 
     createOutfitsButton.onclick = matchDisplayOutfits;
