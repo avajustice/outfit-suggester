@@ -1,4 +1,8 @@
-div:not(#upload, #new-item-img, #outfits, .bar, .item-input) {
+body {
+    padding-top: 50px;
+}
+
+div:not(#upload, #new-item-img, #outfits, .bar, .item-input, #body-except-header) {
     border: 2px solid black;
 }
 
@@ -75,7 +79,7 @@ h1 {
     right: 50%;
 }
 
-.ham-nav a {
+.ham-nav button {
     display: block;
     width: 100%;
     max-width: 200px;

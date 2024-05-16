@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-US">
+
   <head>
     <meta charset="utf-8">
     <title>Outfit Suggester</title>
@@ -7,6 +8,7 @@
     <link rel="stylesheet" href="styles/style.css">
     <script src="scripts/main.js" defer></script>
   </head>
+
   <body>
     <header>
       <button class = "hamburger" id = "hambuger">
@@ -14,132 +16,137 @@
       </button>
       <h1>Outfit Suggester</h1>
     </header>
+
     <nav class="ham-nav">
-      <a href="">Closet</a>
-      <a href="">Outfits</a>
-      <a href="">Wash</a>
-      <a href="">History</a>
+      <button id="closet-nav">Closet</button>
+      <button id="outfits-nav">Outfits</button>
+      <button id="wash-nav">Wash</button>
+      <button id="history-nav">History</button>
     </nav>
 
-    <h2>Current Clothing Items</h2>
-    <div id="items-list"></div>
-    <div id="view-item"></div>
-
-    <h2 id="selectors-title">Add Clothing Items</h2>
-    <div id="new-item">
-      <label>Name: </label>
-      <input id="name">
-      <br>
-
-      <form id="upload">
-        <label>Picture: </label>
+    <div id="body-except-header">
+      <h2 id="items-title">Current Clothing Items</h2>
+      <div id="items-list"></div>
+      <div id="view-item"></div>
+  
+      <h2 id="selectors-title">Add Clothing Items</h2>
+      <div id="new-item">
+        <label>Name: </label>
+        <input id="name">
         <br>
-
-        <input type="file" id="file" accept="image/*">
-        <button>Upload</button>
-        <div id="new-item-img"></div>
-      </form>
-      <br>
-
-      <label>Type of Clothing: </label>
-      <select id="type">
-        <option>Shirt</option>
-        <option>Pants</option>
-        <option>Skirt</option>
-        <option>Dress</option>
-        <option>Athletic Pants</option>
-        <option>Leggings</option>
-      </select>
-      <br>
-
-      <label>Length:</label>
-      <input type="radio" id="short" name="length" value="Short" checked />
-      <label for="short">Short</label>
-      <input type="radio" id="long" name="length" value="Long" />
-      <label for="long">Long</label>
-      <br>
-
-      <label>Color: </label>
-      <select id="color">
-        <option>White</option>
-        <option>Pink</option>
-        <option>Red</option>
-        <option>Orange</option>
-        <option>Yellow</option>
-        <option>Green</option>
-        <option>Blue</option>
-        <option>Purple</option>
-        <option>Black</option>
-        <option>Grey</option>
-        <option>Tan</option>
-      </select>
-      <br>
-
-      <label>Very Patterned:</label>
-      <input type="radio" id="not-patterned" name="patterned" value="No" checked/>
-      <label for="not-patterned">No</label>
-      <input type="radio" id="yes-patterned" name="patterned" value="Yes" />
-      <label for="yes-patterned">Yes</label>
-      <br>
-
-      <label>Wash Type: </label>
-      <input type="radio" id="regular" name="wash" value="Regular" checked />
-      <label for="regular">Regular</label>
-      <input type="radio" id="delicate" name="wash" value="Delicate" />
-      <label for="delicate">Delicate</label>
-      <br>
-
-      <label>Last Worn: </label>
-      <input id="last-worn" type="date">
-      <br>
-      
-      <label>Number of this Item: </label>
-      <input id="number" type="number" placeholder="1 to 3" step="1" min="1" max="3" />
-      <br>
-
-      <label>Number of Item Currently Available: </label>
-      <input id="available" type="number" placeholder="0 to 3" step="1" min="0" max="3" />
-      <span class="validity"></span>
-      <br>
-      
-      <button id="create-item">Create Item</button>
+  
+        <form id="upload">
+          <label>Picture: </label>
+          <br>
+  
+          <input type="file" id="file" accept="image/*">
+          <button>Upload</button>
+          <div id="new-item-img"></div>
+        </form>
+        <br>
+  
+        <label>Type of Clothing: </label>
+        <select id="type">
+          <option>Shirt</option>
+          <option>Pants</option>
+          <option>Skirt</option>
+          <option>Dress</option>
+          <option>Athletic Pants</option>
+          <option>Leggings</option>
+        </select>
+        <br>
+  
+        <label>Length:</label>
+        <input type="radio" id="short" name="length" value="Short" checked />
+        <label for="short">Short</label>
+        <input type="radio" id="long" name="length" value="Long" />
+        <label for="long">Long</label>
+        <br>
+  
+        <label>Color: </label>
+        <select id="color">
+          <option>White</option>
+          <option>Pink</option>
+          <option>Red</option>
+          <option>Orange</option>
+          <option>Yellow</option>
+          <option>Green</option>
+          <option>Blue</option>
+          <option>Purple</option>
+          <option>Black</option>
+          <option>Grey</option>
+          <option>Tan</option>
+        </select>
+        <br>
+  
+        <label>Very Patterned:</label>
+        <input type="radio" id="not-patterned" name="patterned" value="No" checked/>
+        <label for="not-patterned">No</label>
+        <input type="radio" id="yes-patterned" name="patterned" value="Yes" />
+        <label for="yes-patterned">Yes</label>
+        <br>
+  
+        <label>Wash Type: </label>
+        <input type="radio" id="regular" name="wash" value="Regular" checked />
+        <label for="regular">Regular</label>
+        <input type="radio" id="delicate" name="wash" value="Delicate" />
+        <label for="delicate">Delicate</label>
+        <br>
+  
+        <label>Last Worn: </label>
+        <input id="last-worn" type="date">
+        <br>
+        
+        <label>Number of this Item: </label>
+        <input id="number" type="number" placeholder="1 to 3" step="1" min="1" max="3" />
+        <br>
+  
+        <label>Number of Item Currently Available: </label>
+        <input id="available" type="number" placeholder="0 to 3" step="1" min="0" max="3" />
+        <span class="validity"></span>
+        <br>
+        
+        <button id="create-item">Create Item</button>
+      </div>
+  
+      <h2 id="outfits-title">Find Outfits</h2>
+      <div id="outfits-body">
+        <label>Occasion: </label>
+        <input type="radio" id="other" name="occasion" value="Other" checked />
+        <label for="other">Other</label>
+        <input type="radio" id="church" name="occasion" value="Church" />
+        <label for="church">Church</label>
+        <input type="radio" id="exercise" name="occasion" value="Exercise" />
+        <label for="exercise">Exercise</label>
+        <br>
+  
+        <label>Weather:</label>
+        <input type="radio" id="hot" name="weather" value="Hot" checked />
+        <label for="hot">Hot</label>
+        <input type="radio" id="moderate" name="weather" value="Moderate" />
+        <label for="moderate">Moderate</label>
+        <input type="radio" id="cold" name="weather" value="Cold" />
+        <label for="cold">Cold</label>
+        <br>
+  
+        <button id="create-outfits">Create Outfits</button>
+        <div id="outfits"></div>
+      </div>
+  
+      <h2 id="wash-title">Wash Clothes</h3>
+      <div id = "wash-container">
+        <button id="wash-regular">Wash Regular</button>
+        <button id="wash-delicate">Wash Delicates</button>
+      </div>
+  
+      <h2 id="history-title">History</h4>
+      <div id = "history-container">
+        <p id = "history-text"></p>
+        <button id = "previous-week-history">Load Another Week</button>
+        <input id = "history-date" type = "date" />
+        <button id = "update-history">See History For This Date</button>
+      </div>
     </div>
-
-    <h2>Find Outfits</h2>
-
-    <label>Occasion: </label>
-    <input type="radio" id="other" name="occasion" value="Other" checked />
-    <label for="other">Other</label>
-    <input type="radio" id="church" name="occasion" value="Church" />
-    <label for="church">Church</label>
-    <input type="radio" id="exercise" name="occasion" value="Exercise" />
-    <label for="exercise">Exercise</label>
-    <br>
-
-    <label>Weather:</label>
-    <input type="radio" id="hot" name="weather" value="Hot" checked />
-    <label for="hot">Hot</label>
-    <input type="radio" id="moderate" name="weather" value="Moderate" />
-    <label for="moderate">Moderate</label>
-    <input type="radio" id="cold" name="weather" value="Cold" />
-    <label for="cold">Cold</label>
-    <br>
-
-    <button id="create-outfits">Create Outfits</button>
-    <div id="outfits"></div>
-
-    <h2>Wash Clothes</h3>
-    <div id = "wash-container">
-      <button id="wash-regular">Wash Regular</button>
-      <button id="wash-delicate">Wash Delicates</button>
-    </div>
-
-    <h2>History</h4>
-    <div id = "history-container">
-      <p id = "history-text"></p>
-    </div>
-    <button id = "previous-week-history">Load Another Week</button>
-    <input id = "history-date" type = "date" />
-    <button id = "update-history">See History For This Date</button>
+    
   </body>
 </html>

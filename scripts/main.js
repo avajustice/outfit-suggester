@@ -1,6 +1,13 @@
 (function(){
+    // Body
+    const bodyExceptHeader = document.getElementById("body-except-header");
+
+    // Items list
+    const itemsTitle = document.getElementById("items-title");
     const itemsListContainer = document.getElementById("items-list");
     const viewItemContainer = document.getElementById("view-item");
+
+    // New / edit item
     const selectorsTitle = document.getElementById("selectors-title");
     const newItemContainer = document.getElementById("new-item");
     const nameSelect = document.getElementById("name");
@@ -15,22 +22,39 @@
     const createItemButton = document.getElementById("create-item");
     const form = document.getElementById("upload");
     const file = document.getElementById("file");
+    const newItemImageContainer = document.getElementById("new-item-img");
+
+    // Outfits
+    const allOutfitsContainer = document.getElementById("outfits");
+    const outfitsTitle = document.getElementById("outfits-title");
+    const outfitsBody = document.getElementById("outfits-body");
     const occasionButtons = document.getElementsByName("occasion");
     const weatherButtons = document.getElementsByName("weather");
     const createOutfitsButton = document.getElementById("create-outfits");
-    const newItemImageContainer = document.getElementById("new-item-img");
-    const allOutfitsContainer = document.getElementById("outfits");
+
+    // Wash
+    const washTitle = document.getElementById("wash-title");
     const washContainer = document.getElementById("wash-container");
     const washRegularButton = document.getElementById("wash-regular");
     const washDelicateButton = document.getElementById("wash-delicate");
+
+    // History
+    const historyTitle = document.getElementById("history-title");
     const historyContainer = document.getElementById("history-container");
     const historyText = document.getElementById("history-text");
     const previousWeekHistoryButton = document.getElementById("previous-week-history");
     const historyStartDateSelect = document.getElementById("history-date");
     const updateHistoryButton = document.getElementById("update-history");
+    
+    // Hamburger menu
     const menuButton = document.getElementById("hambuger");
     const hamMenu = document.querySelector(".ham-nav");
+    const goClosetButton = document.getElementById("closet-nav");
+    const goOutfitsButton = document.getElementById("outfits-nav");
+    const goWashButton = document.getElementById("wash-nav");
+    const goHistoryButton = document.getElementById("history-nav");
 
+    // Constants
     const webServiceURL = "https://5a562d9d-ecb7-4661-b268-bcc1ac3ef0c2-00-2u3o7ifjw9vh1.worf.repl.co/";
     let imageFilePath = "";
     const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -38,9 +62,12 @@
         "January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"
       ];
-    
-    let historyStartDate = new Date();
-      
+
+    // True if a new picture has just been uploaded
+    let newPictureAdded = false;
+
+    // True once the past week's history has been retrieved from the database
+    let historyRetrieved = false;
 
     // Will contain all of the objects for the articles of clothing
     let itemArray = [];
@@ -51,15 +78,82 @@
     let updateItemButton;
     let cancelEditingButton;
 
-    // Set to true if a new picture has just been uploaded
-    let newPictureAdded = false;
-
     // Should always be set to the base 64 represenation of the most recently added and resized image
     let currentImageData;
     // Should always be set to the file extension of the most recently resized image
     let currentImageFileExtension;
 
-    async function retrieveDisplayItemsFromDatabase() {
+    // Create a new date representing today
+    let historyStartDate = new Date();
+
+    function hideAll() {
+        // Hide all the elements on the page except for the header
+        itemsTitle.style.display = "none";
+        itemsListContainer.style.display = "none";
+        viewItemContainer.style.display = "none";
+        selectorsTitle.style.display = "none";
+        newItemContainer.style.display = "none";
+        outfitsTitle.style.display = "none";
+        outfitsBody.style.display = "none";
+        washTitle.style.display = "none";
+        washContainer.style.display = "none";
+        historyTitle.style.display = "none";
+        historyContainer.style.display = "none";
+    }
+
+    function displayClosetPage() {
+       // Display only the item elements
+       hideAll();
+
+       displayItemList();
+       itemsTitle.style.display = "block";
+       itemsListContainer.style.display = "block";
+       viewItemContainer.style.display = "block";
+       selectorsTitle.style.display = "block";
+       newItemContainer.style.display = "block";
+       
+       // Collapse menu
+       toggleHamburgerMenu(); 
+    }
+
+    function displayOutfitsPage() {
+        // Display only the outfit elements
+        hideAll();
+        outfitsTitle.style.display = "block";
+        outfitsBody.style.display = "block";
+        
+        // Collapse menu
+        toggleHamburgerMenu();
+    }
+
+    function displayWashPage() {
+        // Display only the wash elements
+        hideAll();
+        washTitle.style.display = "block";
+        washContainer.style.display = "block";
+
+        // Collapse menu
+        toggleHamburgerMenu();
+    }
+
+    function displayHistoryPage() {
+        // Display only the history elements
+        hideAll();
+
+        // Only retrieve the history for this week once
+        if (!historyRetrieved) {
+            getDisplayWeekHistory();
+            historyRetrieved = true;
+        }
+
+        historyTitle.style.display = "block";
+        historyContainer.style.display = "block";
+        
+        // Collapse menu
+        toggleHamburgerMenu();
+    }
+
+    async function retrieveItemsFromDatabase() {
         const rawResponse = await fetch(webServiceURL + 'api/items/', {
             method: 'GET',
             headers: {
@@ -377,9 +471,14 @@
 
         const item = new Item(name, type, color, shortLong, patterned, available, wash, 
          number, lastWorn, id, imgId, bannedPairs);
-        item.createItemInformationButton();
         itemArray.push(item);
         return item;
+    }
+
+    function displayItemList() {
+        for (let item of itemArray) {
+            item.createItemInformationButton();
+        }
     }
 
     getItemFromDatabase = async function(id) {
@@ -1112,13 +1211,9 @@
         getDisplayWeekHistory(); 
     }
 
-    // Get items from the database every time the page is loaded
-    retrieveDisplayItemsFromDatabase();
-
-    getDisplayWeekHistory();
-
-    // Uses the current values of the text boxes / drop down menus / radio buttons to create new item
-    createItemButton.addEventListener('click', function(){
+    function createItem() {
+        // Uses the current values of the text boxes / drop down menus / radio buttons 
+        // to create new item
 
         // Get current values of radio buttons
         let currentShortLong;
@@ -1143,18 +1238,30 @@
         addNewItem(nameSelect.value, typeSelect.value, colorSelect.value,
             currentShortLong, currentPatterned, availableSelect.value,
             currentWashType, numberSelect.value, lastWornSelect.value);
-    });
+    }
 
+    function toggleHamburgerMenu() {
+        // Switch whether the hamburger menu is active or not
+        menuButton.classList.toggle("is-active");
+        hamMenu.classList.toggle("is-active");
+    }
+
+    // Assign functions to buttons
+    createItemButton.onclick = createItem;
     createOutfitsButton.onclick = matchDisplayOutfits;
-    form.addEventListener("submit", readPicturePath);
-
+    goClosetButton.onclick = displayClosetPage;
+    goOutfitsButton.onclick = displayOutfitsPage;
+    goWashButton.onclick = displayWashPage;
+    goHistoryButton.onclick = displayHistoryPage;
     washRegularButton.onclick = washRegular;
     washDelicateButton.onclick = washDelicate;
+    menuButton.onclick = toggleHamburgerMenu
 
+    // Add eventListeners to buttons
     previousWeekHistoryButton.addEventListener('click', function() {
         getDisplayWeekHistory();
     });
-    
+
     updateHistoryButton.addEventListener('click', function() {
         // If the user doesn't select a date, but still clicks the button, 
         // don't do anything
@@ -1163,9 +1270,23 @@
         }
     });
 
-    menuButton.addEventListener("click", function() {
-        menuButton.classList.toggle("is-active");
-        hamMenu.classList.toggle("is-active");
+    bodyExceptHeader.addEventListener('click', function() {
+        // When the body is clicked while the menu is open, close the menu
+        // When the menuButton is active its classList will contain "is-active"
+        if (menuButton.classList.contains("is-active")) {
+            toggleHamburgerMenu();
+        }
     });
+
+    form.addEventListener("submit", readPicturePath);
+
+    // Get items from the database every time the page is loaded
+    retrieveItemsFromDatabase();
+
+    // Start with outfits page
+    displayOutfitsPage();
+
+    // Hamburger menu starts as active (not sure why), so make it not active
+    toggleHamburgerMenu();
 
 })(); 
