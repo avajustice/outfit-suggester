@@ -37,6 +37,8 @@
     const washContainer = document.getElementById("wash-container");
     const washRegularButton = document.getElementById("wash-regular");
     const washDelicateButton = document.getElementById("wash-delicate");
+    const regularCheck = document.getElementById("regular-check");
+    const delicateCheck = document.getElementById("delicate-check");
 
     // History
     const historyTitle = document.getElementById("history-title");
@@ -807,6 +809,16 @@
             // itemIDs is updating correctly
             await updateDateInDatabase(databaseDate.id, databaseDate.date, itemIDs);
         }
+
+        if (item.washType == "Regular") {
+            // Once you wear a regular item, make the regular wash check disappear to
+            // show that the regular clothes are no longer all clean
+            regularCheck.style.visibility = "hidden";
+        } else {
+            // Once you wear a delicate item, make the delicate wash check disappear to
+            // show that the delicate clothes are no longer all clean
+            delicateCheck.style.visibility = "hidden";
+        }
     }
 
     function matchDisplayOutfits() {
@@ -1118,9 +1130,9 @@
                 item.updateItemInDatabase();
             }
         }
-        const washSuccessMessage = document.createElement("p");
-        washSuccessMessage.textContent = "Done!";
-        washContainer.append(washSuccessMessage);
+
+        // Show the check to indicate success
+        regularCheck.style.visibility = "visible";
     }
 
     function washDelicate() {
@@ -1130,9 +1142,9 @@
                 item.updateItemInDatabase();
             }
         }
-        const washSuccessMessage = document.createElement("p");
-        washSuccessMessage.textContent = "Done!";
-        washContainer.append(washSuccessMessage);
+
+        // Show the check to indicate success
+        delicateCheck.style.visibility = "visible";
     }
 
     async function getDisplayWeekHistory() {

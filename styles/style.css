@@ -29,6 +29,24 @@ h1 {
     padding-left: 25px;
 }
 
+img {
+    max-height: 400px;
+}
+
+.check {
+    position: fixed;
+    top:200px;
+    visibility: hidden;
+}
+
+#regular-check {
+    left:20px;
+}
+
+#delicate-check {
+    left:430px;
+}
+
 .hamburger {
     position: relative;
     display: block;
