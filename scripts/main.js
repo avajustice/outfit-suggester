@@ -66,9 +66,6 @@
     // True if a new picture has just been uploaded
     let newPictureAdded = false;
 
-    // True once the past week's history has been retrieved from the database
-    let historyRetrieved = false;
-
     // Will contain all of the objects for the articles of clothing
     let itemArray = [];
 
@@ -139,13 +136,6 @@
     function displayHistoryPage() {
         // Display only the history elements
         hideAll();
-
-        // Only retrieve the history for this week once
-        if (!historyRetrieved) {
-            getDisplayWeekHistory();
-            historyRetrieved = true;
-        }
-
         historyTitle.style.display = "block";
         historyContainer.style.display = "block";
         
@@ -1282,6 +1272,10 @@
 
     // Get items from the database every time the page is loaded
     retrieveItemsFromDatabase();
+
+    // Go ahead and get this week's history so that by the time the 
+    // user navigates to that section, it will probably be ready to view
+    getDisplayWeekHistory();
 
     // Start with outfits page
     displayOutfitsPage();
