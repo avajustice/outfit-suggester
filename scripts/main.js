@@ -1150,7 +1150,7 @@
             const month = monthNames[historyStartDate.getMonth()];
             const dayNumber = historyStartDate.getDate();
             // Should be in the format "\nMonday, January 1: "
-            historyText.textContent += '\n' + day + ", " + month + " " + dayNumber + ": ";
+            historyText.textContent += '\n\n' + day + ", " + month + " " + dayNumber + ": ";
 
             if (dateData != "Failed") {
                 const itemIDs = dateData.itemIDs;
@@ -1164,14 +1164,7 @@
                     // Get the item information from the database
                     const item = await getItemFromDatabase(itemIDs[i]);
 
-                    if (i % 5 == 0) {
-                        // Add a line break every fifth item
-                        // Add the name of the item to the displayed history
-                        historyText.textContent += ', \n' + item.name;
-                    } else {
-                        // Add the name of the item to the displayed history
-                        historyText.textContent += ', ' + item.name ;
-                    }
+                    historyText.textContent += ', ' + item.name ;
                 }
             } else {
                 historyText.textContent += "None";
@@ -1189,6 +1182,9 @@
         // Oddly enough, historyStartDate is at 20:00 on the previous day, so we need to add 
         // four hours worth of milliseconds to get it to the next day
         historyStartDate = new Date(historyStartDate.getTime() + 4 * 60 * 60 * 1000);
+
+        // Clear the history displayed so that the requested history is easily seen
+        historyText.textContent = "";
         
         getDisplayWeekHistory();
     }

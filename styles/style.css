@@ -2,6 +2,10 @@ body {
     padding-top: 50px;
 }
 
+p {
+    white-space: pre-wrap;
+}
+
 div:not(#upload, #new-item-img, #outfits, .bar, .item-input, #body-except-header) {
     border: 2px solid black;
 }
