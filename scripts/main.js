@@ -31,6 +31,8 @@
     const occasionButtons = document.getElementsByName("occasion");
     const weatherButtons = document.getElementsByName("weather");
     const createOutfitsButton = document.getElementById("create-outfits");
+    const outfitCheck = document.getElementById("outfit-check");
+    const loadingSymbol = document.getElementById("loading");
 
     // Wash
     const washTitle = document.getElementById("wash-title");
@@ -163,6 +165,8 @@
                 item.imgId, item.bannedPairs);
         }
 
+        // Show that retrieval is complete by removing the loading symbol
+        loadingSymbol.style.display = "none";
     }
 
     // Item objects represent each article of clothing
@@ -723,6 +727,9 @@
             // the same type in one day
             allOutfitsContainer.replaceChildren();
 
+            // Also make the check hidden
+            outfitCheck.style.visibility = "hidden";
+
             await resetHistory();
         }
 
@@ -760,7 +767,17 @@
             this.wearOutfitButton = document.createElement("button");
             this.wearOutfitButton.textContent = "Wear Outfit";
             this.wearOutfitButton.onclick = () => {
-                this.wearOutfit();
+                // Find the coordinates of the top image
+                const topImgRect = this.topImage.getBoundingClientRect();
+                // The check should be further down the page so that it overlaps
+                // both the top and bottom image
+                const checkTopCoordinate = topImgRect.top + 150;
+                // Set the new location for the check
+                outfitCheck.style.top = checkTopCoordinate + "px";
+                // Make it visible
+                outfitCheck.style.visibility = "visible";
+                // Wait for one second to show the check, then call wear outfit
+                setTimeout(this.wearOutfit, 1000);
             }
             this.outfitContainer.append(this.wearOutfitButton);
 
@@ -1290,5 +1307,4 @@
 
     // Hamburger menu starts as active (not sure why), so make it not active
     toggleHamburgerMenu();
-
 })(); 

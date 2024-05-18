@@ -47,6 +47,10 @@ img {
     left:430px;
 }
 
+#outfit-check {
+    max-height: 100px;
+}
+
 .hamburger {
     position: relative;
     display: block;
