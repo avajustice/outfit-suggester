@@ -6,6 +6,7 @@
     const itemsTitle = document.getElementById("items-title");
     const itemsListContainer = document.getElementById("items-list");
     const viewItemContainer = document.getElementById("view-item");
+    const collapseButtons = document.getElementsByClassName("collapse-button");
 
     // New / edit item
     const selectorsTitle = document.getElementById("selectors-title");
@@ -1292,6 +1293,20 @@
             toggleHamburgerMenu();
         }
     });
+
+    // Expand content under buttons for different item categories 
+    // when the buttons are clicked
+    for (let i = 0; i < collapseButtons.length; i++) {
+        collapseButtons[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            let content = this.nextElementSibling;
+            if (content.style.maxHeight) {
+                content.style.maxHeight = null;
+            } else {
+                content.style.maxHeight = content.scrollHeight + "px";
+            }
+        })
+    }
 
     form.addEventListener("submit", readPicturePath);
 

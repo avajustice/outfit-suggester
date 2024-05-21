@@ -45,6 +45,17 @@ img {
     background-color:  rgb(216, 255, 242);
 }
 
+.collapse-button:before {
+    content: '⮟';
+    font-size: 13px;
+    float: right;
+    margin-left: 5px;
+  }
+  
+.active:before {
+content: '⮝'; 
+}
+
 .item-section {
     max-height: 0;
     overflow: hidden;
