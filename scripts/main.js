@@ -111,18 +111,22 @@
     }
 
     function displayClosetPage() {
-       // Display only the item elements
-       hideAll();
+        // Display only the item elements
+        hideAll();
+        itemsTitle.style.display = "block";
+        itemsListContainer.style.display = "block";
+        viewItemContainer.style.display = "block";
+        selectorsTitle.style.display = "block";
+        newItemContainer.style.display = "block";
 
-       displayItemLists();
-       itemsTitle.style.display = "block";
-       itemsListContainer.style.display = "block";
-       viewItemContainer.style.display = "block";
-       selectorsTitle.style.display = "block";
-       newItemContainer.style.display = "block";
-       
-       // Collapse menu
-       toggleHamburgerMenu(); 
+        // Make buttons for all current items and put them in
+        // the correct containers
+        for (let item of itemArray) {
+            createDisplayItemButton(item);
+        }
+
+        // Collapse menu
+        toggleHamburgerMenu(); 
     }
 
     function displayOutfitsPage() {
@@ -465,6 +469,9 @@
 
         // Display the item card to show that the creation was successful
         item.displayItemCard();
+
+        // Also, add the button to display the item card to the correct container
+        createDisplayItemButton(item);
     }
 
     function createItemObject(name, type, color, shortLong, patterned, available, wash, 
@@ -479,11 +486,10 @@
         return item;
     }
 
-    function displayItemLists() {
-        for (let item of itemArray) {
-            // For every item, create a button and add it to the correct
-            // item container based on clothing type
-            let button = item.createItemInformationButton();
+    function createDisplayItemButton(item) {
+        // Create a button for the item and add it to the correct
+        // item container based on clothing type
+        let button = item.createItemInformationButton();
             if (item.clothingType == "Shirt") {
                 if (item.shortLong == "Short") {
                     shortSleeveContainer.append(button);
@@ -503,7 +509,6 @@
             } else {
                 leggingsContainer.append(button);
             }
-        }
     }
 
     getItemFromDatabase = async function(id) {
