@@ -7,6 +7,13 @@
     const itemsListContainer = document.getElementById("items-list");
     const viewItemContainer = document.getElementById("view-item");
     const collapseButtons = document.getElementsByClassName("collapse-button");
+    const shortSleeveContainer = document.getElementById("ss-container");
+    const longSleeveContainer = document.getElementById("ls-container");
+    const shortsContainer = document.getElementById("shorts-container");
+    const pantsContainer = document.getElementById("pants-container");
+    const skirtsContainer = document.getElementById("skirts-container");
+    const dressContainer = document.getElementById("dress-container");
+    const leggingsContainer = document.getElementById("leggings-container");
 
     // New / edit item
     const selectorsTitle = document.getElementById("selectors-title");
@@ -107,7 +114,7 @@
        // Display only the item elements
        hideAll();
 
-       displayItemList();
+       displayItemLists();
        itemsTitle.style.display = "block";
        itemsListContainer.style.display = "block";
        viewItemContainer.style.display = "block";
@@ -425,16 +432,16 @@
         }
 
         this.createItemInformationButton = function() {
-        // Creates a button with the name of the clothing item and add to
-        // itemsListContainer
+        // Creates a button with the name of the clothing item
             this.itemButton = document.createElement("button");
             this.itemButton.textContent = this.name;
             // When the button is clicked, show the item information card
             this.itemButton.onclick = () => {
                 this.displayItemCard();
             }
-            itemsListContainer.append(this.itemButton);
-            itemsListContainer.append('\n');
+            // Return the button so that it can be added to the correct
+            // item list
+            return this.itemButton;
         }
     }
 
@@ -472,9 +479,30 @@
         return item;
     }
 
-    function displayItemList() {
+    function displayItemLists() {
         for (let item of itemArray) {
-            item.createItemInformationButton();
+            // For every item, create a button and add it to the correct
+            // item container based on clothing type
+            let button = item.createItemInformationButton();
+            if (item.clothingType == "Shirt") {
+                if (item.shortLong == "Short") {
+                    shortSleeveContainer.append(button);
+                } else {
+                    longSleeveContainer.append(button);
+                }
+            } else if (item.clothingType == "Pants" || item.clothingType == "Athletic Pants") {
+                if (item.shortLong == "Short") {
+                    shortsContainer.append(button);
+                } else {
+                    pantsContainer.append(button);
+                }
+            } else if (item.clothingType == "Dress") {
+                dressContainer.append(button);
+            } else if (item.clothingType == "Skirt") {
+                skirtsContainer.append(button);
+            } else {
+                leggingsContainer.append(button);
+            }
         }
     }
 

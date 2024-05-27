@@ -10,7 +10,7 @@ div:not(#upload, #new-item-img, #outfits, .bar, .item-input, #body-except-header
     border: 2px solid black;
 }
 
-#items-list, #history-container {
+#history-container {
     white-space: pre;
 }
 
@@ -53,7 +53,7 @@ img {
   }
   
 .active:before {
-content: '⮝'; 
+    content: '⮝'; 
 }
 
 .item-section {
