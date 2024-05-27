@@ -439,10 +439,13 @@
         // Creates a button with the name of the clothing item
             this.itemButton = document.createElement("button");
             this.itemButton.textContent = this.name;
+            this.itemButton.className = "item-button";
+
             // When the button is clicked, show the item information card
             this.itemButton.onclick = () => {
                 this.displayItemCard();
             }
+
             // Return the button so that it can be added to the correct
             // item list
             return this.itemButton;
