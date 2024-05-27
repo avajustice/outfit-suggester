@@ -1122,14 +1122,11 @@
             return true;
         } else if (item.clothingType == "Skirt") {
             return true;
-        // I only wear pants and long sleeve tops to church, not short
         } else if (item.clothingType == "Shirt") {
-            if (item.shortLong == "Long") {
-                return true;
-            } else {
-                return false;
-            }
+            // I wear both long and short sleeve shirts to church
+            return true;
         } else if (item.clothingType == "Pants") {
+            // I only wear pants to church, not shorts
             if (item.shortLong == "Long") {
                 return true;
             } else {
