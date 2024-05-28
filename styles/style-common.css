@@ -1,3 +1,8 @@
+html {
+    font-family: "Segoe UI", SegoeUI, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: normal;
+}
+
 body {
     padding-top: 50px;
 }
@@ -27,6 +32,11 @@ header {
 h1 {
     font-size: x-large;
     padding-left: 25px;
+    font-weight: 450;
+}
+
+h2 {
+    font-weight: normal;
 }
 
 img {
@@ -134,7 +144,7 @@ img {
     position: fixed;
     top: 0;
     right: 100%;
-    width: 50%;
+    width: 100%;
     min-height: 100vh;
     z-index: 98;
     background-color: rgb(200, 226, 249);
@@ -143,10 +153,10 @@ img {
 }
 
 .ham-nav.is-active {
-    right: 50%;
+    right:0;
 }
 
-.ham-nav button {
+.ham-nav p {
     display: block;
     width: 100%;
     max-width: 200px;
@@ -157,8 +167,21 @@ img {
     background-color: rgb(255, 216, 255);
 
     color: black;
+    font-size: large;
+    font-weight: 300;
+    font: "Segoe UI";
 }
 
-.ham-nav a:hover {
-    background-color: lightgreen;
+.ham-nav p:hover {
+    background-color: rgb(247, 230, 247);
+    cursor: pointer;
+}
+
+.page-nav {
+    padding-left: 50px;
+    font-weight: 300;
+}
+
+.page-nav:hover {
+    cursor: pointer;
 }

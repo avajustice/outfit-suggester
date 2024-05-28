@@ -1,0 +1,8 @@
+.page-nav {
+    display: none;
+}
+
+.ham-nav p {
+    max-width: 300px;
+    font-size: 25px;
+}

@@ -1,4 +1,10 @@
 (function(){
+    // Header
+    const goClosetButtonHeader = document.getElementById("closet-nav-header");
+    const goOutfitsButtonHeader = document.getElementById("outfits-nav-header");
+    const goWashButtonHeader = document.getElementById("wash-nav-header");
+    const goHistoryButtonHeader = document.getElementById("history-nav-header");
+
     // Body
     const bodyExceptHeader = document.getElementById("body-except-header");
 
@@ -126,7 +132,9 @@
         }
 
         // Collapse menu
-        toggleHamburgerMenu(); 
+        if (menuButton.classList.contains("is-active")) {
+            toggleHamburgerMenu();
+        } 
     }
 
     function displayOutfitsPage() {
@@ -136,7 +144,9 @@
         outfitsBody.style.display = "block";
         
         // Collapse menu
-        toggleHamburgerMenu();
+        if (menuButton.classList.contains("is-active")) {
+            toggleHamburgerMenu();
+        }
     }
 
     function displayWashPage() {
@@ -146,7 +156,9 @@
         washContainer.style.display = "block";
 
         // Collapse menu
-        toggleHamburgerMenu();
+        if (menuButton.classList.contains("is-active")) {
+            toggleHamburgerMenu();
+        }
     }
 
     function displayHistoryPage() {
@@ -156,7 +168,9 @@
         historyContainer.style.display = "block";
         
         // Collapse menu
-        toggleHamburgerMenu();
+        if (menuButton.classList.contains("is-active")) {
+            toggleHamburgerMenu();
+        }
     }
 
     async function retrieveItemsFromDatabase() {
@@ -1302,9 +1316,13 @@
     goOutfitsButton.onclick = displayOutfitsPage;
     goWashButton.onclick = displayWashPage;
     goHistoryButton.onclick = displayHistoryPage;
+    goClosetButtonHeader.onclick = displayClosetPage;
+    goOutfitsButtonHeader.onclick = displayOutfitsPage;
+    goWashButtonHeader.onclick = displayWashPage;
+    goHistoryButtonHeader.onclick = displayHistoryPage;
     washRegularButton.onclick = washRegular;
     washDelicateButton.onclick = washDelicate;
-    menuButton.onclick = toggleHamburgerMenu
+    menuButton.onclick = toggleHamburgerMenu;
 
     // Add eventListeners to buttons
     previousWeekHistoryButton.addEventListener('click', function() {
@@ -1352,7 +1370,4 @@
 
     // Start with outfits page
     displayOutfitsPage();
-
-    // Hamburger menu starts as active (not sure why), so make it not active
-    toggleHamburgerMenu();
 })(); 

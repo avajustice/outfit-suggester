@@ -5,8 +5,14 @@
     <meta charset="utf-8">
     <title>Outfit Suggester</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="styles/style.css">
+
     <script src="scripts/main.js" defer></script>
+
+    <link rel="stylesheet" href="styles/style-common.css">
+    <link rel="stylesheet" media="screen and (max-width: 479px)" href="styles/style-320.css">
+    <link rel="stylesheet" media="screen and (min-width: 480px) and (max-width: 767px)" href="styles/style-480.css">
+    <link rel="stylesheet" media="screen and (min-width: 768px) and (max-width: 1199px)" href="styles/style-768.css">
+    <link rel="stylesheet" media="screen and (min-width: 1200px)" href="styles/style-1200.css">
   </head>
 
   <body>
@@ -15,13 +21,17 @@
         <div class="bar"></div>
       </button>
       <h1>Outfit Suggester</h1>
+      <h3 id="closet-nav-header" class="page-nav">Closet</h3>
+      <h3 id="outfits-nav-header" class="page-nav">Outfits</h3>
+      <h3 id="wash-nav-header" class="page-nav">Laundry</h3>
+      <h3 id="history-nav-header" class="page-nav">History</h3>
     </header>
 
     <nav class="ham-nav">
-      <button id="closet-nav">Closet</button>
-      <button id="outfits-nav">Outfits</button>
-      <button id="wash-nav">Wash</button>
-      <button id="history-nav">History</button>
+      <p id="closet-nav">Closet</p>
+      <p id="outfits-nav">Outfits</p>
+      <p id="wash-nav">Laundry</p>
+      <p id="history-nav">History</p>
     </nav>
 
     <div id="body-except-header">
