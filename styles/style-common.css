@@ -184,3 +184,16 @@ img {
 .page-nav:hover {
     cursor: pointer;
 }
+
+.view-item-button {
+    background-color: rgb(246, 219, 255);
+    border: none;
+    text-align: center;
+    vertical-align: middle;
+}
+
+#view-item-buttons-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 30px;
+}

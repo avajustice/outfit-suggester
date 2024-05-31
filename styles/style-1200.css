@@ -17,14 +17,9 @@
 #items-container {
     display: grid;
     grid-template-columns: 1fr 2fr;
-
-    /* width: 1000px;
-    column-gap: 10px;
-    row-gap: 10px;
-    margin: auto; */
 }
 
-#view-item-info-img {
+#view-item-info-img-container {
     display: grid;
     grid-template-columns: 1fr 1.5fr;
 }
@@ -36,4 +31,19 @@
 
 #view-item-info {
    font-size: larger;
+   line-height: 28px;
+}
+
+.view-item-button {
+    margin: 20px;
+    min-height: 45px;
+    line-height: 45px;
+}
+
+.view-item-button:hover {
+    background-color: rgb(245, 230, 248);
+}
+
+#view-item {
+    max-width: 700px;
 }

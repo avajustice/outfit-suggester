@@ -12,8 +12,8 @@
     const itemsTitle = document.getElementById("items-title");
     const itemsListContainer = document.getElementById("items-list");
     const viewItemContainer = document.getElementById("view-item");
-    const viewItemButtonsContainer = document.getElementById("view-item-buttons");
-    const viewItemImgAndInfo = document.getElementById("view-item-info-img");
+    const viewItemButtonsContainer = document.getElementById("view-item-buttons-container");
+    const viewItemImgAndInfo = document.getElementById("view-item-info-img-container");
     const collapseButtons = document.getElementsByClassName("collapse-button");
     const shortSleeveContainer = document.getElementById("ss-container");
     const longSleeveContainer = document.getElementById("ls-container");
@@ -223,30 +223,19 @@
         this.displayItemCard = async function() {
             viewItemContainer.style.display = "block";
 
-            // Create button to remove the item card from the viewItemContainer
-            this.closeButton = document.createElement("button");
-            this.closeButton.textContent = "x";
-            this.closeButton.onclick = () => {
-                this.itemCard.remove();
+            // Empty out the view item container if it already is showing
+            // an item
+            while (viewItemButtonsContainer.hasChildNodes()) {
+                viewItemButtonsContainer.firstChild.remove();
             }
-            viewItemButtonsContainer.append(this.closeButton);
-
-            // Create button to delete an item from the database
-            this.deleteButton = document.createElement("button");
-            this.deleteButton.textContent = "Delete Item";
-            this.deleteButton.onclick = () => {
-                this.deleteItemFromDatabase();
-                deleteImageFromDatabase(this.imgId);
-                this.itemCard.remove();
-                const index = itemArray.indexOf(this);
-                itemArray.splice(index, 1);
-                this.itemButton.remove();
+            while (viewItemImgAndInfo.hasChildNodes()) {
+                viewItemImgAndInfo.firstChild.remove();
             }
-            viewItemButtonsContainer.append(this.deleteButton);
 
             // Create button to edit an item
-            this.editButton = document.createElement("button");
+            this.editButton = document.createElement("p");
             this.editButton.textContent = "Edit";
+            this.editButton.className = "view-item-button";
             this.editButton.onclick = () => {
                 this.editItem();
             }
@@ -261,8 +250,9 @@
             this.itemInfo.id = "view-item-info";
             viewItemImgAndInfo.append(this.itemInfo);
 
-            wearItemButton = document.createElement("button");
+            wearItemButton = document.createElement("p");
             wearItemButton.textContent = "Wear";
+            wearItemButton.className = "view-item-button";
             wearItemButton.onclick = async () => {
                 // Disable button so that the user will see that wearing was successful
                 wearItemButton.disabled = true;
@@ -276,6 +266,20 @@
             }
 
             viewItemButtonsContainer.append(wearItemButton);
+
+            // Create button to delete an item from the database
+            this.deleteButton = document.createElement("p");
+            this.deleteButton.textContent = "Delete";
+            this.deleteButton.className = "view-item-button";
+            this.deleteButton.onclick = () => {
+                this.deleteItemFromDatabase();
+                deleteImageFromDatabase(this.imgId);
+                this.itemCard.remove();
+                const index = itemArray.indexOf(this);
+                itemArray.splice(index, 1);
+                this.itemButton.remove();
+            }
+            viewItemButtonsContainer.append(this.deleteButton);
 
             this.updateItemCard();
         }
