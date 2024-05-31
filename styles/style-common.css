@@ -11,7 +11,7 @@ p {
     white-space: pre-wrap;
 }
 
-div:not(#upload, #new-item-img, #outfits, .bar, .item-input, #body-except-header) {
+#new-item, #view-item, .collapse-button{
     border: 2px solid black;
 }
 
@@ -44,15 +44,13 @@ img {
 }
 
 .collapse-button {
-    background-color: rgb(198, 255, 236);
+    background-color: rgb(232, 255, 247);
     padding: 18px;
-    width: 100%;
-    border: none;
     font-size: 15px;
 }
 
 .active, .collapse-button:hover {
-    background-color:  rgb(216, 255, 242);
+    background-color:  rgb(249, 255, 253);
 }
 
 .collapse-button:before {
@@ -72,6 +70,7 @@ img {
     transition: max-height 0.2s ease-out;
     display: flex;
     flex-direction: column;
+    margin: auto;
 }
 
 .item-button {

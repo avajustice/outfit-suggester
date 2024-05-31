@@ -12,6 +12,8 @@
     const itemsTitle = document.getElementById("items-title");
     const itemsListContainer = document.getElementById("items-list");
     const viewItemContainer = document.getElementById("view-item");
+    const viewItemButtonsContainer = document.getElementById("view-item-buttons");
+    const viewItemImgAndInfo = document.getElementById("view-item-info-img");
     const collapseButtons = document.getElementsByClassName("collapse-button");
     const shortSleeveContainer = document.getElementById("ss-container");
     const longSleeveContainer = document.getElementById("ls-container");
@@ -84,6 +86,9 @@
     // True if a new picture has just been uploaded
     let newPictureAdded = false;
 
+    // 
+    let itemButtonsCreated = false;
+
     // Will contain all of the objects for the articles of clothing
     let itemArray = [];
 
@@ -120,15 +125,18 @@
         // Display only the item elements
         hideAll();
         itemsTitle.style.display = "block";
-        itemsListContainer.style.display = "block";
-        viewItemContainer.style.display = "block";
+        viewItemContainer.style.dispay = "block";
+        itemsListContainer.style.display = "grid";
         selectorsTitle.style.display = "block";
         newItemContainer.style.display = "block";
 
-        // Make buttons for all current items and put them in
-        // the correct containers
-        for (let item of itemArray) {
-            createDisplayItemButton(item);
+        if (!itemButtonsCreated) {
+            // Make buttons for all current items and put them in
+            // the correct containers
+            for (let item of itemArray) {
+                createDisplayItemButton(item);
+            }
+            itemButtonsCreated = true;
         }
 
         // Collapse menu
@@ -213,10 +221,7 @@
         this.imgPath = webServiceURL + 'images/' + imgId;
 
         this.displayItemCard = async function() {
-            // Create the item card container
-            this.itemCard = document.createElement("div");
-            this.itemCard.class = "card";
-            viewItemContainer.appendChild(this.itemCard);
+            viewItemContainer.style.display = "block";
 
             // Create button to remove the item card from the viewItemContainer
             this.closeButton = document.createElement("button");
@@ -224,7 +229,7 @@
             this.closeButton.onclick = () => {
                 this.itemCard.remove();
             }
-            this.itemCard.append(this.closeButton);
+            viewItemButtonsContainer.append(this.closeButton);
 
             // Create button to delete an item from the database
             this.deleteButton = document.createElement("button");
@@ -237,7 +242,7 @@
                 itemArray.splice(index, 1);
                 this.itemButton.remove();
             }
-            this.itemCard.append(this.deleteButton);
+            viewItemButtonsContainer.append(this.deleteButton);
 
             // Create button to edit an item
             this.editButton = document.createElement("button");
@@ -245,13 +250,16 @@
             this.editButton.onclick = () => {
                 this.editItem();
             }
-            this.itemCard.append(this.editButton);
+            viewItemButtonsContainer.append(this.editButton);
 
             // Create item info paragraph and image and fill in information
-            this.itemInfo = document.createElement("p");
-            this.itemCard.append(this.itemInfo);
             this.image = document.createElement("img");
-            this.itemCard.append(this.image);
+            this.image.id = "view-item-img";
+            viewItemImgAndInfo.append(this.image);
+
+            this.itemInfo = document.createElement("p");
+            this.itemInfo.id = "view-item-info";
+            viewItemImgAndInfo.append(this.itemInfo);
 
             wearItemButton = document.createElement("button");
             wearItemButton.textContent = "Wear";
@@ -267,7 +275,7 @@
                 wearItemButton.disabled = true;
             }
 
-            this.itemCard.append(wearItemButton);
+            viewItemButtonsContainer.append(wearItemButton);
 
             this.updateItemCard();
         }
@@ -1350,7 +1358,15 @@
     for (let i = 0; i < collapseButtons.length; i++) {
         collapseButtons[i].addEventListener("click", function() {
             this.classList.toggle("active");
-            let content = this.nextElementSibling;
+            let contentID = this.id.substring(0, this.id.length - 6) + "container";
+            console.log(contentID)
+            let content = document.getElementById(contentID);
+            // if (this.nextElementSibling.id == "leggings-container") {
+            //     console.log("yes")
+            //     content = this.nextElementSibling;
+            // } else {
+            //     content = this.nextElementSibling.nextElementSibling.nextElementSibling;
+            // }
             if (content.style.maxHeight) {
                 content.style.maxHeight = null;
             } else {
