@@ -142,7 +142,18 @@
         // Collapse menu
         if (menuButton.classList.contains("is-active")) {
             toggleHamburgerMenu();
-        } 
+        }
+
+        // Display the first short sleeve shirt so there isn't an empty box
+        let itemDisplayed = false;
+        let i = 0;
+        while(!itemDisplayed) {
+            if (itemArray[i].clothingType == "Shirt" && itemArray[i].shortLong == "Short") {
+                itemArray[i].displayItemCard();
+                itemDisplayed = true;
+            }
+            i++;
+        }
     }
 
     function displayOutfitsPage() {

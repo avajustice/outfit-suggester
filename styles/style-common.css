@@ -51,11 +51,12 @@ img {
     background-color: rgb(232, 255, 247);
     overflow: hidden;
     transition: max-height 0.2s ease-out;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .clothes-category-button.hidden {
     max-height: 0px;
-    margin: 0px 0px;
     padding: 0px;
 }
 
@@ -71,6 +72,7 @@ img {
 
 .clothes-category-button:hover {
     cursor: default;
+    background-color: azure;
 }
 
 .item-section {
@@ -79,6 +81,7 @@ img {
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.2s ease-out;
+    margin: auto;
 }
 
 .item-button {
