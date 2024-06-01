@@ -15,6 +15,7 @@
     const viewItemButtonsContainer = document.getElementById("view-item-buttons-container");
     const viewItemImgAndInfo = document.getElementById("view-item-info-img-container");
     const collapseButtons = document.getElementsByClassName("collapse-button");
+    const clothesCategoryButtons = document.getElementsByClassName("clothes-category-button");
     const shortSleeveContainer = document.getElementById("ss-container");
     const longSleeveContainer = document.getElementById("ls-container");
     const shortsContainer = document.getElementById("shorts-container");
@@ -126,7 +127,7 @@
         hideAll();
         itemsTitle.style.display = "block";
         viewItemContainer.style.dispay = "block";
-        itemsListContainer.style.display = "grid";
+        itemsListContainer.style.display = "block";
         selectorsTitle.style.display = "block";
         newItemContainer.style.display = "block";
 
@@ -519,25 +520,25 @@
         // Create a button for the item and add it to the correct
         // item container based on clothing type
         let button = item.createItemInformationButton();
-            if (item.clothingType == "Shirt") {
-                if (item.shortLong == "Short") {
-                    shortSleeveContainer.append(button);
-                } else {
-                    longSleeveContainer.append(button);
-                }
-            } else if (item.clothingType == "Pants" || item.clothingType == "Athletic Pants") {
-                if (item.shortLong == "Short") {
-                    shortsContainer.append(button);
-                } else {
-                    pantsContainer.append(button);
-                }
-            } else if (item.clothingType == "Dress") {
-                dressContainer.append(button);
-            } else if (item.clothingType == "Skirt") {
-                skirtsContainer.append(button);
+        if (item.clothingType == "Shirt") {
+            if (item.shortLong == "Short") {
+                shortSleeveContainer.append(button);
             } else {
-                leggingsContainer.append(button);
+                longSleeveContainer.append(button);
             }
+        } else if (item.clothingType == "Pants" || item.clothingType == "Athletic Pants") {
+            if (item.shortLong == "Short") {
+                shortsContainer.append(button);
+            } else {
+                pantsContainer.append(button);
+            }
+        } else if (item.clothingType == "Dress") {
+            dressContainer.append(button);
+        } else if (item.clothingType == "Skirt") {
+            skirtsContainer.append(button);
+        } else {
+            leggingsContainer.append(button);
+        }
     }
 
     getItemFromDatabase = async function(id) {
@@ -1357,25 +1358,34 @@
         }
     });
 
-    // Expand content under buttons for different item categories 
-    // when the buttons are clicked
-    for (let i = 0; i < collapseButtons.length; i++) {
-        collapseButtons[i].addEventListener("click", function() {
-            this.classList.toggle("active");
-            let contentID = this.id.substring(0, this.id.length - 6) + "container";
-            console.log(contentID)
-            let content = document.getElementById(contentID);
-            // if (this.nextElementSibling.id == "leggings-container") {
-            //     console.log("yes")
-            //     content = this.nextElementSibling;
-            // } else {
-            //     content = this.nextElementSibling.nextElementSibling.nextElementSibling;
-            // }
-            if (content.style.maxHeight) {
-                content.style.maxHeight = null;
-            } else {
-                content.style.maxHeight = content.scrollHeight + "px";
+    let collapseButton = collapseButtons[0];
+
+    collapseButton.addEventListener("click", function() {
+        this.classList.toggle("active");
+        for (button of clothesCategoryButtons) {
+            if (!button.classList.contains("active")) {
+                button.classList.add("active");
             }
+        }
+        shortSleeveContainer.style.display = "none";
+        longSleeveContainer.style.display = "none";
+        shortsContainer.style.display = "none";
+        pantsContainer.style.display = "none";
+        skirtsContainer.style.display = "none";
+        dressContainer.style.display = "none";
+        leggingsContainer.style.display = "none";
+    });
+
+    for (button of clothesCategoryButtons) {
+        button.addEventListener("click", function(event) {
+            // event.target is the thing the event happened to
+            event.target.nextElementSibling.style.display = "flex";
+            // TODO: Change toggle to add or remove maybe
+            collapseButton.classList.toggle("active");
+            for (b of clothesCategoryButtons) {
+                b.classList.toggle("active");
+            }
+            event.target.classList.toggle("active");
         })
     }
 

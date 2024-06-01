@@ -43,13 +43,21 @@ img {
     max-height: 400px;
 }
 
-.collapse-button {
+.clothes-category-button {
     background-color: rgb(232, 255, 247);
-    padding: 18px;
     font-size: 15px;
+    max-height: 0px;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+    margin: 0px 0px;
 }
 
-.active, .collapse-button:hover {
+.clothes-category-button.active {
+    margin: 5px 0px;
+    max-height: 20px;
+}
+
+.collapse-button:hover {
     background-color:  rgb(249, 255, 253);
 }
 
@@ -58,19 +66,15 @@ img {
     font-size: 13px;
     float: right;
     margin-left: 5px;
-  }
+}
   
-.active:before {
+.collapse-button.active:before {
     content: '⮝'; 
 }
 
 .item-section {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.2s ease-out;
-    display: flex;
+    display: none;
     flex-direction: column;
-    margin: auto;
 }
 
 .item-button {
