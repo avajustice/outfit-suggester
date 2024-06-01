@@ -72,3 +72,27 @@
     font-size: 15px;
 }
 
+#new-item {
+    max-width: 704px;
+    font-size: large;
+    line-height: 35px;
+    padding: 15px
+}
+
+select {
+    font-size: medium;
+}
+
+input {
+    font-size: medium;
+}
+
+button {
+    font-size: medium;
+}
+
+input::file-selector-button {
+    font-size: medium;
+    padding: 4px 3px;
+}
+

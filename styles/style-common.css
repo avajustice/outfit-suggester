@@ -13,10 +13,33 @@ p {
 
 button {
     font-family: "Segoe UI", SegoeUI, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    border: 1px solid rgb(156, 156, 156);
+    background-color: rgb(246, 219, 255);
+}
+
+button:hover {
+    background-color: rgb(251, 240, 255);
+}
+
+select {
+    font-family: "Segoe UI", SegoeUI, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+input {
+    font-family: "Segoe UI", SegoeUI, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+input::file-selector-button {
+    background-color: rgb(246, 219, 255);
+    border: 1px solid rgb(156, 156, 156);
+}
+
+input::file-selector-button:hover {
+    background-color: rgb(251, 240, 255);
 }
 
 #new-item, #view-item {
-    border: 2px solid black;
+    border: 1px solid black;
 }
 
 #history-container {
@@ -208,4 +231,8 @@ img {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     column-gap: 30px;
+}
+
+#new-item {
+    margin: auto;
 }
