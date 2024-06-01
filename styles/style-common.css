@@ -11,6 +11,10 @@ p {
     white-space: pre-wrap;
 }
 
+button {
+    font-family: "Segoe UI", SegoeUI, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
 #new-item, #view-item {
     border: 2px solid black;
 }
@@ -45,38 +49,43 @@ img {
 
 .clothes-category-button {
     background-color: rgb(232, 255, 247);
-    font-size: 15px;
-    max-height: 20px;
     overflow: hidden;
     transition: max-height 0.2s ease-out;
-    margin: 5px 0px;
 }
 
 .clothes-category-button.hidden {
     max-height: 0px;
     margin: 0px 0px;
+    padding: 0px;
 }
 
-.clothes-category-button:before {
+.clothes-category-button:after {
     content: '⮟';
     font-size: 13px;
     float: right;
-    margin-left: 5px;
 }
   
-.clothes-category-button.active:before {
+.clothes-category-button.active:after {
     content: '⮝'; 
 }
 
+.clothes-category-button:hover {
+    cursor: default;
+}
+
 .item-section {
-    display: none;
+    display: flex;
     flex-direction: column;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
 }
 
 .item-button {
     max-width: 200px;
     background-color: white;
     border: none;
+    margin: auto;
 }
 
 .item-button:hover {

@@ -125,7 +125,7 @@
         // Display only the item elements
         hideAll();
         itemsTitle.style.display = "block";
-        viewItemContainer.style.dispay = "block";
+        viewItemContainer.style.display = "block";
         itemsListContainer.style.display = "block";
         selectorsTitle.style.display = "block";
         newItemContainer.style.display = "block";
@@ -221,8 +221,6 @@
         this.imgPath = webServiceURL + 'images/' + imgId;
 
         this.displayItemCard = async function() {
-            viewItemContainer.style.display = "block";
-
             // Empty out the view item container if it already is showing
             // an item
             while (viewItemButtonsContainer.hasChildNodes()) {
@@ -1369,10 +1367,13 @@
             if (event.target.classList.contains("active")) {
                 // If the button is currently active, we want to hide the 
                 // currently visible content
-                event.target.nextElementSibling.style.display = "none";
+                event.target.nextElementSibling.style.maxHeight = null;
             } else {
                 // Otherwise, we wan to display it
-                event.target.nextElementSibling.style.display = "flex";  
+                console.log(event.target.nextElementSibling)
+                console.log(event.target.nextElementSibling.scrollHeight)
+                event.target.nextElementSibling.style.maxHeight = 
+                    event.target.nextElementSibling.scrollHeight + "px";
             }
 
             // Hide or reveal all the other buttons

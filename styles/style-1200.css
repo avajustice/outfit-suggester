@@ -2,13 +2,6 @@
     display: none;
 }
 
-.collapse-button {
-    width: 300px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
-
 #body-except-header {
     margin-left: 30px;
     margin-right: 30px;
@@ -17,6 +10,10 @@
 #items-container {
     display: grid;
     grid-template-columns: 1fr 2fr;
+}
+
+#view-item {
+    min-height: 430px;
 }
 
 #view-item-info-img-container {
@@ -47,3 +44,25 @@
 #view-item {
     max-width: 700px;
 }
+
+.clothes-category-button {
+    width: 300px;
+    margin: 7px 0px;
+    font-size: 20px;
+    text-align: center;
+    max-height: 30px;
+    padding: 9px 0px;
+}
+
+.clothes-category-button:after {
+    padding-right: 10px;
+}
+
+.item-section {
+    width: 300px;
+}
+
+.item-button {
+    font-size: 15px;
+}
+
