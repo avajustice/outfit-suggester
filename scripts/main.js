@@ -14,7 +14,6 @@
     const viewItemContainer = document.getElementById("view-item");
     const viewItemButtonsContainer = document.getElementById("view-item-buttons-container");
     const viewItemImgAndInfo = document.getElementById("view-item-info-img-container");
-    const collapseButtons = document.getElementsByClassName("collapse-button");
     const clothesCategoryButtons = document.getElementsByClassName("clothes-category-button");
     const shortSleeveContainer = document.getElementById("ss-container");
     const longSleeveContainer = document.getElementById("ls-container");
@@ -87,7 +86,7 @@
     // True if a new picture has just been uploaded
     let newPictureAdded = false;
 
-    // 
+    // The item buttons will be created if the closet page is selected
     let itemButtonsCreated = false;
 
     // Will contain all of the objects for the articles of clothing
@@ -1358,33 +1357,33 @@
         }
     });
 
-    let collapseButton = collapseButtons[0];
-
-    collapseButton.addEventListener("click", function() {
-        this.classList.toggle("active");
-        for (button of clothesCategoryButtons) {
-            if (!button.classList.contains("active")) {
-                button.classList.add("active");
-            }
-        }
-        shortSleeveContainer.style.display = "none";
-        longSleeveContainer.style.display = "none";
-        shortsContainer.style.display = "none";
-        pantsContainer.style.display = "none";
-        skirtsContainer.style.display = "none";
-        dressContainer.style.display = "none";
-        leggingsContainer.style.display = "none";
-    });
-
     for (button of clothesCategoryButtons) {
+        // There are three states for clothesCategoryButtons
+        // Neutral (no extra class): visible, without content displayed
+        // underneath, down arrow
+        // Active: visible, content displayed underneath, up arrrow
+        // Hidden: not visible, no content displayed underneath
         button.addEventListener("click", function(event) {
             // event.target is the thing the event happened to
-            event.target.nextElementSibling.style.display = "flex";
-            // TODO: Change toggle to add or remove maybe
-            collapseButton.classList.toggle("active");
-            for (b of clothesCategoryButtons) {
-                b.classList.toggle("active");
+
+            if (event.target.classList.contains("active")) {
+                // If the button is currently active, we want to hide the 
+                // currently visible content
+                event.target.nextElementSibling.style.display = "none";
+            } else {
+                // Otherwise, we wan to display it
+                event.target.nextElementSibling.style.display = "flex";  
             }
+
+            // Hide or reveal all the other buttons
+            for (b of clothesCategoryButtons) {
+                b.classList.toggle("hidden");
+            }
+
+            // But keep this one as it was
+            event.target.classList.toggle("hidden");
+
+            // But do switch if this button is active or not
             event.target.classList.toggle("active");
         })
     }

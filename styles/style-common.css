@@ -11,7 +11,7 @@ p {
     white-space: pre-wrap;
 }
 
-#new-item, #view-item, .collapse-button{
+#new-item, #view-item {
     border: 2px solid black;
 }
 
@@ -46,29 +46,25 @@ img {
 .clothes-category-button {
     background-color: rgb(232, 255, 247);
     font-size: 15px;
-    max-height: 0px;
+    max-height: 20px;
     overflow: hidden;
     transition: max-height 0.2s ease-out;
+    margin: 5px 0px;
+}
+
+.clothes-category-button.hidden {
+    max-height: 0px;
     margin: 0px 0px;
 }
 
-.clothes-category-button.active {
-    margin: 5px 0px;
-    max-height: 20px;
-}
-
-.collapse-button:hover {
-    background-color:  rgb(249, 255, 253);
-}
-
-.collapse-button:before {
+.clothes-category-button:before {
     content: '⮟';
     font-size: 13px;
     float: right;
     margin-left: 5px;
 }
   
-.collapse-button.active:before {
+.clothes-category-button.active:before {
     content: '⮝'; 
 }
 
