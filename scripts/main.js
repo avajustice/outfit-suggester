@@ -242,7 +242,7 @@
             }
 
             // Create button to edit an item
-            this.editButton = document.createElement("p");
+            this.editButton = document.createElement("button");
             this.editButton.textContent = "Edit";
             this.editButton.className = "view-item-button";
             this.editButton.onclick = () => {
@@ -259,25 +259,30 @@
             this.itemInfo.id = "view-item-info";
             viewItemImgAndInfo.append(this.itemInfo);
 
-            wearItemButton = document.createElement("p");
+            wearItemButton = document.createElement("button");
             wearItemButton.textContent = "Wear";
             wearItemButton.className = "view-item-button";
+
+            // If there are none of the item available, make the color light to
+            // show you can't wear it, and disable it
+            if (this.available == 0) {
+                wearItemButton.style.backgroundColor = "rgb(251, 240, 255)";
+                wearItemButton.disabled = true;
+            }
+
             wearItemButton.onclick = async () => {
                 // Disable button so that the user will see that wearing was successful
                 wearItemButton.disabled = true;
+                wearItemButton.style.backgroundColor = "rgb(251, 240, 255)";
                 await wearItem(this);
                 await resetHistory();
-            }
-
-            // If none of this item are available, it cannot be worn
-            if (available == 0) {
-                wearItemButton.disabled = true;
+                this.updateItemCard();
             }
 
             viewItemButtonsContainer.append(wearItemButton);
 
             // Create button to delete an item from the database
-            this.deleteButton = document.createElement("p");
+            this.deleteButton = document.createElement("button");
             this.deleteButton.textContent = "Delete";
             this.deleteButton.className = "view-item-button";
             this.deleteButton.onclick = () => {
@@ -322,7 +327,7 @@
             colorSelect.value = this.color;
             availableSelect.value = this.available;
             numberSelect.value = this.number;
-            lastWornSelect.value = this.lastWorn;
+            lastWornSelect.value = addZerosToDate(this.lastWorn);
 
             // Fill in radio buttons
             for (button of shortLongButtons) {
@@ -356,12 +361,13 @@
             newPictureAdded = false;
 
             // Hide and disable createItemButton
-            createItemButton.style.visibility = "hidden";
+            createItemButton.style.display = "none";
             createItemButton.disabled = true;
 
             // Create update button
             updateItemButton = document.createElement("button");
             updateItemButton.textContent = "Update";
+            updateItemButton.id = "update-item-button";
             updateItemButton.onclick = () => {
                 this.updateItem();
             }
@@ -767,6 +773,18 @@
         createItemButton.disabled = false;
         updateItemButton.remove();
         cancelEditingButton.remove();
+    }
+
+    function addZerosToDate(date) {
+        // Change dates into the format YYYY-MM-DD from YYYY-M-D, YYYY-MM-D, etc.
+        let dateParts = date.split("-");
+        if (dateParts[1].length == 1) {
+            dateParts[1] = "0" + dateParts[1];
+        }
+        if (dateParts[2].length == 1) {
+            dateParts[2] = "0" + dateParts[2];
+        }
+        return dateParts[0] + "-" + dateParts[1] + "-" + dateParts[2];
     }
 
     function findDaysAgo(pastDate) {

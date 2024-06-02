@@ -227,6 +227,11 @@ img {
     vertical-align: middle;
 }
 
+.view-item-button:hover {
+    background-color: rgb(245, 230, 248);
+    cursor: default;
+}
+
 #view-item-buttons-container {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -235,4 +240,8 @@ img {
 
 #new-item {
     margin: auto;
+}
+
+#update-item-button {
+    margin-right: 15px;
 }

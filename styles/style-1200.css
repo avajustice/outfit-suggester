@@ -37,10 +37,6 @@
     line-height: 45px;
 }
 
-.view-item-button:hover {
-    background-color: rgb(245, 230, 248);
-}
-
 #view-item {
     max-width: 700px;
 }
@@ -94,5 +90,9 @@ button {
 input::file-selector-button {
     font-size: medium;
     padding: 4px 3px;
+}
+
+#new-item-img {
+    margin-top: 5px;
 }
 
