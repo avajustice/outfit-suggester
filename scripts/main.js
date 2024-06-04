@@ -22,6 +22,7 @@
     const skirtsContainer = document.getElementById("skirts-container");
     const dressContainer = document.getElementById("dress-container");
     const leggingsContainer = document.getElementById("leggings-container");
+    const switchClosetModeButton = document.getElementById("switch-closet-mode");
 
     // New / edit item
     const selectorsTitle = document.getElementById("selectors-title");
@@ -89,6 +90,13 @@
     // The item buttons will be created if the closet page is selected
     let itemButtonsCreated = false;
 
+    // True when first short sleeve shirt info is shown in the viewItemContainer
+    let itemDisplayed = false;
+
+    // True when the item lists and viewItemContainer are visible
+    // False when the add / edit item selectors are visible
+    let viewClosetMode = true;
+
     // Will contain all of the objects for the articles of clothing
     let itemArray = [];
 
@@ -119,16 +127,18 @@
         washContainer.style.display = "none";
         historyTitle.style.display = "none";
         historyContainer.style.display = "none";
+        switchClosetModeButton.style.display = "none";
     }
 
     function displayClosetPage() {
-        // Display only the item elements
+        // Call when switching from a different page to the closet page
+
+        // Display only the view item elements
         hideAll();
         itemsTitle.style.display = "block";
         viewItemContainer.style.display = "block";
         itemsListContainer.style.display = "block";
-        selectorsTitle.style.display = "block";
-        newItemContainer.style.display = "block";
+        switchClosetModeButton.style.display = "block";
 
         if (!itemButtonsCreated) {
             // Make buttons for all current items and put them in
@@ -145,7 +155,6 @@
         }
 
         // Display the first short sleeve shirt so there isn't an empty box
-        let itemDisplayed = false;
         let i = 0;
         while(!itemDisplayed) {
             if (itemArray[i].clothingType == "Shirt" && itemArray[i].shortLong == "Short") {
@@ -154,6 +163,38 @@
             }
             i++;
         }
+
+        viewClosetMode = true;
+    }
+
+    function displayViewItems() {
+        // Call when switching from closet add / edit mode to
+        // view items mode
+
+        selectorsTitle.style.display = "none";
+        newItemContainer.style.display = "none";
+
+        itemsTitle.style.display = "block";
+        viewItemContainer.style.display = "block";
+        itemsListContainer.style.display = "block";
+
+        switchClosetModeButton.textContent = "Add Items";
+        viewClosetMode = true;
+    }
+
+    function displayAddEditItem() {
+        // Call when switching from closet view mode to 
+        // add / edit mode
+
+        itemsTitle.style.display = "none";
+        viewItemContainer.style.display = "none";
+        itemsListContainer.style.display = "none";
+
+        selectorsTitle.style.display = "block";
+        newItemContainer.style.display = "block";
+
+        switchClosetModeButton.textContent = "View Items";
+        viewClosetMode = false;
     }
 
     function displayOutfitsPage() {
@@ -288,10 +329,21 @@
             this.deleteButton.onclick = () => {
                 this.deleteItemFromDatabase();
                 deleteImageFromDatabase(this.imgId);
-                this.itemCard.remove();
                 const index = itemArray.indexOf(this);
                 itemArray.splice(index, 1);
                 this.itemButton.remove();
+
+                // Display the first short sleeve shirt so there isn't an empty box
+                itemDisplayed = false;
+                let i = 0;
+                while(!itemDisplayed) {
+                    if (itemArray[i].clothingType == "Shirt" && itemArray[i].shortLong == "Short") {
+                        itemArray[i].displayItemCard();
+                        itemDisplayed = true;
+                    }
+                    i++;
+                }
+
             }
             viewItemButtonsContainer.append(this.deleteButton);
 
@@ -328,6 +380,9 @@
             availableSelect.value = this.available;
             numberSelect.value = this.number;
             lastWornSelect.value = addZerosToDate(this.lastWorn);
+
+            // Switch item modes
+            displayAddEditItem();
 
             // Fill in radio buttons
             for (button of shortLongButtons) {
@@ -370,14 +425,22 @@
             updateItemButton.id = "update-item-button";
             updateItemButton.onclick = () => {
                 this.updateItem();
+                resetNewItemContainerPostEditing();
+
+                // Switch item modes
+                displayViewItems()
             }
             newItemContainer.append(updateItemButton);
 
             // Create cancel button
             cancelEditingButton = document.createElement("button");
             cancelEditingButton.textContent = "Cancel";
+            cancelEditingButton.id = "cancel-editing-button";
             cancelEditingButton.onclick = () => {
                 resetNewItemContainerPostEditing();
+
+                // Switch item modes
+                displayViewItems();
             }
             newItemContainer.append(cancelEditingButton);
         }
@@ -423,6 +486,9 @@
 
             this.updateItemInDatabase();
             resetNewItemContainerPostEditing();
+
+            // Switch item modes
+            displayViewItems();
 
             // Update the item card and button to show that the edit was successful
             this.updateItemCard();
@@ -1346,12 +1412,24 @@
         addNewItem(nameSelect.value, typeSelect.value, colorSelect.value,
             currentShortLong, currentPatterned, availableSelect.value,
             currentWashType, numberSelect.value, lastWornSelect.value);
+
+        // Switch item mode
+        displayViewItems();
     }
 
     function toggleHamburgerMenu() {
         // Switch whether the hamburger menu is active or not
         menuButton.classList.toggle("is-active");
         hamMenu.classList.toggle("is-active");
+    }
+
+    function switchClosetMode() {
+        // Toggle between view and add / edit item modes
+        if (viewClosetMode) {
+            displayAddEditItem();
+        } else {
+            displayViewItems();
+        }
     }
 
     // Assign functions to buttons
@@ -1368,6 +1446,7 @@
     washRegularButton.onclick = washRegular;
     washDelicateButton.onclick = washDelicate;
     menuButton.onclick = toggleHamburgerMenu;
+    switchClosetModeButton.onclick = switchClosetMode;
 
     // Add eventListeners to buttons
     previousWeekHistoryButton.addEventListener('click', function() {

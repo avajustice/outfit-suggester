@@ -35,6 +35,7 @@
     margin: 20px;
     min-height: 45px;
     line-height: 45px;
+    font-size: 17px;
 }
 
 #view-item {
@@ -96,3 +97,15 @@ input::file-selector-button {
     margin-top: 5px;
 }
 
+#switch-closet-mode {
+    font-size: 17px;
+    min-height: 45px;
+    min-width: 170px;
+    margin-top: 40px;
+}
+
+#update-item-button, #cancel-editing-button, #create-item {
+    margin-top: 15px;
+    min-height: 40px;
+    min-width: 100px;
+}

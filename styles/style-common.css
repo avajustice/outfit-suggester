@@ -245,3 +245,12 @@ img {
 #update-item-button {
     margin-right: 15px;
 }
+
+#switch-closet-mode {
+    margin: auto;
+    border: none;
+}
+
+#update-item-button, #cancel-editing-button, #create-item {
+    border: none;
+}
