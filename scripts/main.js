@@ -762,7 +762,13 @@
             }
         }
         lastWornSelect.value = "";
+        numberSelect.value = "";
+        availableSelect.value = "";
         newItemImageContainer.firstChild.remove();
+
+        // Display and enable createItemButton
+        createItemButton.style.display = "block";
+        createItemButton.disabled = false;
     }
 
     function resetNewItemContainerPostEditing() {
