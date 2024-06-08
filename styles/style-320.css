@@ -93,11 +93,6 @@ button:not(.hamburger, .item-button) {
     min-width: 75px;
 }
 
-input::file-selector-button {
-    font-size: medium;
-    padding: 4px 3px;
-}
-
 #new-item-img {
     margin-top: 5px;
 }
