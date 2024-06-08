@@ -51,7 +51,8 @@
     margin-bottom: 7px;
     font-size: 20px;
     text-align: center;
-    max-height: 30px;
+    max-height: 40px;
+    line-height: 40px;
     padding: 9px 0px;
 }
 
@@ -70,21 +71,26 @@
 
 #new-item {
     max-width: 704px;
-    font-size: larger;
-    line-height: 45px;
+    font-size: 20px;
+    line-height: 50px;
     padding: 15px;
 }
 
-select {
-    font-size: medium;
+select, #last-worn, #number, #available, #name {
+    font-size: large;
+    min-height: 35px;
 }
 
-input {
-    font-size: medium;
+input::file-selector-button {
+    min-height: 45px;
+    min-width: 110px;
+    font-family: "Segoe UI", SegoeUI, "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-button {
+button:not(.hamburger, .item-button) {
     font-size: medium;
+    min-height: 45px;
+    min-width: 75px;
 }
 
 input::file-selector-button {
@@ -118,7 +124,7 @@ input::file-selector-button {
 }
 
 .item-button {
-    min-height: 30px;
+    min-height: 50px;
     min-width: 300px;
     font-size: large;
     background-color: rgb(229, 200, 255);

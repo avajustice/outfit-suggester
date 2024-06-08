@@ -13,7 +13,7 @@ p {
 
 button {
     font-family: "Segoe UI", SegoeUI, "Helvetica Neue", Helvetica, Arial, sans-serif;
-    border: 1px solid rgb(156, 156, 156);
+    border: none;
     background-color: rgb(246, 219, 255);
 }
 
@@ -31,7 +31,7 @@ input {
 
 input::file-selector-button {
     background-color: rgb(246, 219, 255);
-    border: 1px solid rgb(156, 156, 156);
+    border: none;
 }
 
 input::file-selector-button:hover {
