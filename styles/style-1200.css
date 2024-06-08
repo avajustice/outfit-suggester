@@ -42,6 +42,14 @@
     max-width: 700px;
 }
 
+.item-button {
+    min-height: 30px;
+    min-width: 300px;
+    font-size: medium;
+    background-color: rgb(229, 200, 255);
+    margin-top: 5px;
+}
+
 .clothes-category-button {
     width: 300px;
     margin-top: 7px;
@@ -80,8 +88,17 @@ input {
     font-size: medium;
 }
 
-button {
+input::file-selector-button {
+    min-height: 40px;
+    min-width: 110px;
+    font-family: "Segoe UI", SegoeUI, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    margin-bottom: 10px;
+}
+
+button:not(.hamburger, .item-button) {
     font-size: medium;
+    min-height: 40px;
+    min-width: 75px;
 }
 
 input::file-selector-button {
