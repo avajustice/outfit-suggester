@@ -354,10 +354,11 @@
             // Update item card with relavent information
 
             this.itemInfo.textContent = "Name: " + this.name + "\nType of Clothing: "
-             + this.clothingType + "\nColor: " + this.color + "\nShort/Long: "
-             + this.shortLong + "\nVery Patterned: " + this.patterned + "\nCurrently Avaliable: "
-             + this.available + "\nWash Type: " + this.washType + "\nNumber of this Item: "
-             + this.number + "\nLast Worn: " + this.lastWorn;
+             + this.clothingType + "\nLength: "
+             + this.shortLong + "\nColor: " + this.color + "\nVery Patterned: " + this.patterned +
+             "\nWash Type: " + this.washType +  "\nNumber of Item: "
+             + this.number +  "\nCurrently Avaliable: "
+             + this.available + "\nLast Worn: " + this.lastWorn;
             this.image.src = this.imgPath;
 
             // If the item has been worn before, calculate and display how
