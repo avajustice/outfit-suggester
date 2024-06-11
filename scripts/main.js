@@ -11,9 +11,6 @@
     // Items list
     const itemsTitle = document.getElementById("items-title");
     const itemsListContainer = document.getElementById("items-list");
-    const viewItemContainer = document.getElementById("view-item");
-    const viewItemButtonsContainer = document.getElementById("view-item-buttons-container");
-    const viewItemImgAndInfo = document.getElementById("view-item-info-img-container");
     const clothesCategoryButtons = document.getElementsByClassName("clothes-category-button");
     const shortSleeveContainer = document.getElementById("ss-container");
     const longSleeveContainer = document.getElementById("ls-container");
@@ -23,6 +20,22 @@
     const dressContainer = document.getElementById("dress-container");
     const leggingsContainer = document.getElementById("leggings-container");
     const switchClosetModeButton = document.getElementById("switch-closet-mode");
+
+    // View item
+    const viewItemContainer = document.getElementById("view-item");
+    const viewItemButtonsContainer = document.getElementById("view-item-buttons-container");
+    const viewItemImgAndInfo = document.getElementById("view-item-info-img-container");
+    const viewImage = document.getElementById("view-item-img");
+    const viewName = document.getElementById("v-name");
+    const viewType = document.getElementById("v-type");
+    const viewLength = document.getElementById("v-length");
+    const viewColor = document.getElementById("v-color");
+    const viewPatterened = document.getElementById("v-patterned");
+    const viewWash = document.getElementById("v-wash");
+    const viewNumber = document.getElementById("v-number");
+    const viewAvailable = document.getElementById("v-available");
+    const viewWorn = document.getElementById("v-worn");
+    const viewDaysAgo = document.getElementById("v-days-ago");
 
     // New / edit item
     const selectorsTitle = document.getElementById("selectors-title");
@@ -278,9 +291,6 @@
             while (viewItemButtonsContainer.hasChildNodes()) {
                 viewItemButtonsContainer.firstChild.remove();
             }
-            while (viewItemImgAndInfo.hasChildNodes()) {
-                viewItemImgAndInfo.firstChild.remove();
-            }
 
             // Create button to edit an item
             this.editButton = document.createElement("button");
@@ -291,15 +301,7 @@
             }
             viewItemButtonsContainer.append(this.editButton);
 
-            // Create item info paragraph and image and fill in information
-            this.image = document.createElement("img");
-            this.image.id = "view-item-img";
-            viewItemImgAndInfo.append(this.image);
-
-            this.itemInfo = document.createElement("p");
-            this.itemInfo.id = "view-item-info";
-            viewItemImgAndInfo.append(this.itemInfo);
-
+            // Create wear button
             wearItemButton = document.createElement("button");
             wearItemButton.textContent = "Wear";
             wearItemButton.className = "view-item-button";
@@ -353,19 +355,23 @@
         this.updateItemCard = function() {
             // Update item card with relavent information
 
-            this.itemInfo.textContent = "Name: " + this.name + "\nType of Clothing: "
-             + this.clothingType + "\nLength: "
-             + this.shortLong + "\nColor: " + this.color + "\nVery Patterned: " + this.patterned +
-             "\nWash Type: " + this.washType +  "\nNumber of Item: "
-             + this.number +  "\nCurrently Avaliable: "
-             + this.available + "\nLast Worn: " + this.lastWorn;
-            this.image.src = this.imgPath;
+            viewName.textContent = this.name;
+            viewType.textContent = this.clothingType;
+            viewLength.textContent = this.shortLong;
+            viewColor.textContent = this.color;
+            viewPatterened.textContent = this.patterned;
+            viewWash.textContent = this.washType;
+            viewNumber.textContent = this.number;
+            viewAvailable.textContent = this.available;
+            viewWorn.textContent = this.lastWorn;
+
+            viewImage.src = this.imgPath;
 
             // If the item has been worn before, calculate and display how
             // many days it has been since the item was last worn
             if (this.lastWorn != "") {
                 this.daysSinceWorn = findDaysAgo(this.lastWorn);
-                this.itemInfo.textContent += (" (" + this.daysSinceWorn +
+                viewDaysAgo.textContent = (" (" + this.daysSinceWorn +
                  " days ago)");
             }
         }

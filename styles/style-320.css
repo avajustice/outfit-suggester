@@ -25,10 +25,9 @@
     margin-left: 50px;
 }
 
-#view-item-info {
-   font-size: larger;
+#view-info {
+   font-size: 18px;
    line-height: 28px;
-   max-width: 210px;
    margin: auto;
    padding-bottom: 15px;
 }

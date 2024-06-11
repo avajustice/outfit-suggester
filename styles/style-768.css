@@ -14,20 +14,19 @@
 
 #view-item-info-img-container {
     display: grid;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: 1.2fr 1fr;
 }
 
 #view-item-img {
-    min-height: 200px;
+    min-height: 250px;
     padding: 10px;
     margin: auto;
 }
 
-#view-item-info {
-   font-size: large;
+#view-info {
+   font-size: 17px;
    line-height: 25px;
    max-width: 300px;
-   padding-left: 10px;
 }
 
 .view-item-button {
@@ -38,7 +37,7 @@
 }
 
 #view-item {
-    min-width: 500px;
+    max-width: 550px;
 }
 
 .clothes-category-button {

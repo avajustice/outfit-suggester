@@ -76,6 +76,7 @@ img {
     transition: max-height 0.2s ease-out;
     margin-left: auto;
     margin-right: auto;
+    font-weight: 350;
 }
 
 .clothes-category-button.hidden {

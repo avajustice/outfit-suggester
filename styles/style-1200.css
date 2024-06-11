@@ -18,7 +18,7 @@
 
 #view-item-info-img-container {
     display: grid;
-    grid-template-columns: 1fr 1.5fr;
+    grid-template-columns: 1.3fr 1fr;
 }
 
 #view-item-img {
@@ -26,9 +26,8 @@
     padding: 20px;
 }
 
-#view-item-info {
-   font-size: larger;
-   line-height: 28px;
+#view-info {
+   font-size: 20px;
 }
 
 .view-item-button {
@@ -54,10 +53,10 @@
     width: 300px;
     margin-top: 7px;
     margin-bottom: 7px;
-    font-size: 20px;
+    font-size: 23px;
     text-align: center;
     max-height: 30px;
-    padding: 9px 0px;
+    padding: 11px 0px;
 }
 
 .clothes-category-button.hidden {
