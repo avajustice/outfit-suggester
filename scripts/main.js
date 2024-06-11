@@ -226,7 +226,7 @@
         // Display only the wash elements
         hideAll();
         washTitle.style.display = "block";
-        washContainer.style.display = "block";
+        washContainer.style.display = "grid";
 
         // Collapse menu
         if (menuButton.classList.contains("is-active")) {

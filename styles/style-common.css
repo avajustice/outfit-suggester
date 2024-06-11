@@ -119,20 +119,6 @@ img {
     background-color: rgb(251, 240, 255);
 }
 
-.check {
-    position: fixed;
-    top:200px;
-    visibility: hidden;
-}
-
-#regular-check {
-    left:20px;
-}
-
-#delicate-check {
-    left:430px;
-}
-
 #outfit-check {
     max-height: 100px;
 }
@@ -254,4 +240,24 @@ img {
 
 #update-item-button, #cancel-editing-button, #create-item {
     border: none;
+}
+
+/* Wash */
+#wash-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto;
+}
+
+.wash-label {
+    margin: auto;
+}
+
+.wash-button {
+    margin: auto;
+}
+
+.check {
+    position: fixed;
+    visibility: hidden;
 }

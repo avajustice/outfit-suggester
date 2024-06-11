@@ -122,3 +122,28 @@ input::file-selector-button {
     min-height: 40px;
     min-width: 100px;
 }
+
+
+/* Wash */
+#wash-container {
+    max-width: 1120px;
+    margin: auto;
+}
+
+.wash-label {
+    font-size: 22px;
+    font-weight: 350;
+    padding-bottom: 10px;
+}
+
+.check {
+    top: 245px;
+}
+
+#regular-check {
+    left: 350px;
+}
+
+#delicate-check {
+    left: 910px;
+}
