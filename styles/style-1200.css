@@ -39,6 +39,7 @@
 
 #view-item {
     max-width: 700px;
+    min-height: 462px;
 }
 
 .item-button {
