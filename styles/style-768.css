@@ -111,3 +111,26 @@ input::file-selector-button {
     max-width: 250px;
     margin: auto;
 }
+
+/* Wash */
+#wash-container {
+    grid-template-columns: 1fr 1fr;
+    max-width: 700px;
+    margin: auto;
+}
+
+.wash-label {
+    font-size: 22px;
+    font-weight: 350;
+    margin-left: 80px;
+}
+
+.wash-button {
+    max-height: 300px;
+    padding-top: 10px;
+}
+
+.check {
+    top: -250px;
+    max-width: 300px;
+}

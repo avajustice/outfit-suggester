@@ -245,12 +245,6 @@ img {
 /* Wash */
 #wash-container {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto auto auto;
-}
-
-.wash-label {
-    margin: auto;
 }
 
 .wash-button {
@@ -258,6 +252,8 @@ img {
 }
 
 .check {
-    position: fixed;
     visibility: hidden;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
 }

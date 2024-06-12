@@ -133,3 +133,29 @@ button:not(.hamburger, .item-button) {
 #view-item-buttons-container {
     column-gap: 0px;
 }
+
+/* Wash */
+#wash-container {
+    margin: auto;
+}
+
+.specific-wash-container {
+    max-height: 375px;
+    margin: auto;
+}
+
+.wash-label {
+    font-size: 22px;
+    font-weight: 350;
+    margin-left: 80px;
+}
+
+.wash-button {
+    max-height: 300px;
+    padding-top: 10px;
+}
+
+.check {
+    top: -250px;
+    max-width: 300px;
+}
