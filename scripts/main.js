@@ -1357,6 +1357,7 @@
                     // Add item name to the item names container
                     const itemText = document.createElement("p");
                     itemText.textContent = item.name + ', ';
+                    itemText.className = "history-item-text";
                     itemNamesContainer.append(itemText);
                 }
 
@@ -1364,6 +1365,7 @@
                 const item =  await getItemFromDatabase(itemIDs[itemIDs.length - 1]);
                 const itemText = document.createElement("p");
                 itemText.textContent = item.name;
+                itemText.className = "history-item-text";
                 itemNamesContainer.append(itemText);
 
             } else {
@@ -1371,6 +1373,7 @@
                 // item names container
                 const noneText = document.createElement("p");
                 noneText.textContent = "None";
+                noneText.className = "history-item-text";
                 itemNamesContainer.append(noneText);
             }
 

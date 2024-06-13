@@ -134,3 +134,24 @@ input::file-selector-button {
     top: -250px;
     max-width: 300px;
 }
+
+/* History */
+#history-text {
+    padding: 0px 20px;
+}
+
+#previous-week-history, #history-date, #update-history {
+    padding: 10px 10px;
+}
+
+#history-date {
+    left: 20px;
+}
+
+#update-history {
+    left: -20px
+}
+
+#history-buttons {
+    grid-template-columns: 1fr 1fr 1fr;
+}

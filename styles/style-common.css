@@ -273,6 +273,7 @@ img {
 }
 
 #previous-week-history, #history-date, #update-history {
+    position: relative;
     margin: auto;
 }
 
@@ -280,9 +281,13 @@ img {
     text-align: right;
     vertical-align: middle;
     line-height: 4.5px;
+    margin: 8px;
+}
+
+.history-item-text {
+    margin: 8px;
 }
 
 #history-buttons {
     display: grid;
-    grid-template-columns: auto auto auto;
 }

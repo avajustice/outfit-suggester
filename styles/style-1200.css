@@ -145,3 +145,26 @@ input::file-selector-button {
 .check {
     top: -320px;
 }
+
+/* History */
+#previous-week-history, #history-date, #update-history {
+    padding: 5px 10px;
+}
+
+#previous-week-history {
+    left: 150px;
+}
+
+#history-date {
+    left: 95px;
+}
+
+#update-history {
+    left: -90px
+}
+
+#history-buttons {
+    grid-template-columns: 1fr 1fr 1fr;
+    max-width: 1200px;
+    margin: auto;
+}

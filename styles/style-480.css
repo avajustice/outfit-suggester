@@ -80,8 +80,10 @@ input {
     font-size: medium;
 }
 
-button {
+button:not(.hamburger, .item-button) {
     font-size: medium;
+    min-height: 40px;
+    min-width: 75px;
 }
 
 input::file-selector-button {
@@ -150,4 +152,10 @@ input::file-selector-button {
 .check {
     top: -250px;
     max-width: 300px;
+}
+
+/* History */
+#previous-week-history, #history-date, #update-history {
+    margin-bottom: 25px;
+    padding: 0px 10px;
 }

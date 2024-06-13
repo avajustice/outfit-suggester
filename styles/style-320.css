@@ -75,7 +75,7 @@
     padding: 15px;
 }
 
-select, #last-worn, #number, #available, #name {
+select, #last-worn, #number, #available, #name, #history-date {
     font-size: large;
     min-height: 35px;
 }
@@ -158,4 +158,10 @@ button:not(.hamburger, .item-button) {
 .check {
     top: -250px;
     max-width: 300px;
+}
+
+/* History */
+#previous-week-history, #history-date, #update-history {
+    margin-bottom: 25px;
+    padding: 0px 10px;
 }
