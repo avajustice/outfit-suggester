@@ -1338,31 +1338,49 @@
             const dateYMD = historyStartDate.getFullYear() + "-" + (historyStartDate.getMonth() + 1) + "-" + historyStartDate.getDate();
             const dateID = "date-" + dateYMD;
             const dateData = await getDateFromDatabase(dateID);
-            //console.log(dateData);
 
             // Add the date to the displayed history
             const day = dayNames[historyStartDate.getDay()];
             const month = monthNames[historyStartDate.getMonth()];
             const dayNumber = historyStartDate.getDate();
             // Should be in the format "\nMonday, January 1: "
-            historyText.textContent += '\n\n' + day + ", " + month + " " + dayNumber + ": ";
+            const dateText = document.createElement("p");
+            dateText.textContent = '\n\n' + day + ", " + month + " " + dayNumber + ": ";
+            dateText.style.fontWeight = "bold";
+            dateText.className = "history-date-text";
+            historyText.append(dateText);
+
+            // Create container to hold all the item names for a particular date
+            const itemNamesContainer = document.createElement("div");
+            itemNamesContainer.id = "item-names-container";
+            historyText.append(itemNamesContainer);
 
             if (dateData != "Failed") {
                 const itemIDs = dateData.itemIDs;
 
-                // First item will not have a comma and space before it
-                const item =  await getItemFromDatabase(itemIDs[0]);
-                historyText.textContent += item.name;
-
-                for (let i = 1; i < itemIDs.length; i++) {
-
+                // Loop through all items for a date, except for the last
+                for (let i = 0; i < itemIDs.length - 1; i++) {
                     // Get the item information from the database
                     const item = await getItemFromDatabase(itemIDs[i]);
 
-                    historyText.textContent += ', ' + item.name ;
+                    // Add item name to the item names container
+                    const itemText = document.createElement("p");
+                    itemText.textContent = item.name + ', ';
+                    itemNamesContainer.append(itemText);
                 }
+
+                // Last item will not have a comma and space after it
+                const item =  await getItemFromDatabase(itemIDs[itemIDs.length - 1]);
+                const itemText = document.createElement("p");
+                itemText.textContent = item.name;
+                itemNamesContainer.append(itemText);
+
             } else {
-                historyText.textContent += "None";
+                // If there are no items worn on a date, add "None" to the 
+                // item names container
+                const noneText = document.createElement("p");
+                noneText.textContent = "None";
+                itemNamesContainer.append(noneText);
             }
 
             // Subtract milliseconds in a day to get the previous day
@@ -1379,7 +1397,9 @@
         historyStartDate = new Date(historyStartDate.getTime() + 4 * 60 * 60 * 1000);
 
         // Clear the history displayed so that the requested history is easily seen
-        historyText.textContent = "";
+        while (historyText.hasChildNodes()) {
+            historyText.firstChild.remove();
+        }
         
         getDisplayWeekHistory();
     }
@@ -1388,7 +1408,10 @@
         // Reset historyStartDate to today and redisplay the history
         // to show the new change in the history
         historyStartDate = new Date();
-        historyText.textContent = ""
+        while (historyText.hasChildNodes) {
+            historyText.removeChild();
+        }
+        // historyText.textContent = ""
         getDisplayWeekHistory(); 
     }
 
