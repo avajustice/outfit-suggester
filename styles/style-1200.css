@@ -27,7 +27,8 @@
 }
 
 #view-info {
-   font-size: 20px;
+   font-size: 18px;
+   line-height: 27px;
 }
 
 .view-item-button {
@@ -167,4 +168,8 @@ input::file-selector-button {
     grid-template-columns: 1fr 1fr 1fr;
     max-width: 1200px;
     margin: auto;
+}
+
+#history-text {
+    font-size: 18px;
 }
