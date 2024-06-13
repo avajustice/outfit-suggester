@@ -145,6 +145,7 @@ input::file-selector-button {
 
 .check {
     top: -320px;
+    left: -80px;
 }
 
 /* History */

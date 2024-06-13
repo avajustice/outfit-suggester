@@ -897,7 +897,7 @@
             allOutfitsContainer.replaceChildren();
 
             // Also make the check hidden
-            outfitCheck.style.visibility = "hidden";
+            outfitCheck.style.display = "none";
 
             await resetHistory();
         }
@@ -944,7 +944,7 @@
                 // Set the new location for the check
                 outfitCheck.style.top = checkTopCoordinate + "px";
                 // Make it visible
-                outfitCheck.style.visibility = "visible";
+                outfitCheck.style.display = "block";
                 // Wait for one second to show the check, then call wear outfit
                 setTimeout(this.wearOutfit, 1000);
             }
@@ -991,11 +991,11 @@
         if (item.washType == "Regular") {
             // Once you wear a regular item, make the regular wash check disappear to
             // show that the regular clothes are no longer all clean
-            regularCheck.style.visibility = "hidden";
+            regularCheck.style.display = "none";
         } else {
             // Once you wear a delicate item, make the delicate wash check disappear to
             // show that the delicate clothes are no longer all clean
-            delicateCheck.style.visibility = "hidden";
+            delicateCheck.style.display = "none";
         }
     }
 
@@ -1306,7 +1306,7 @@
         }
 
         // Show the check to indicate success
-        regularCheck.style.visibility = "visible";
+        regularCheck.style.display = "block";
     }
 
     function washDelicate() {
@@ -1318,7 +1318,7 @@
         }
 
         // Show the check to indicate success
-        delicateCheck.style.visibility = "visible";
+        delicateCheck.style.display = "block";
     }
 
     async function getDisplayWeekHistory() {

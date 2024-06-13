@@ -252,7 +252,7 @@ img {
 }
 
 .check {
-    visibility: hidden;
+    display: none;
     margin-left: auto;
     margin-right: auto;
     position: relative;

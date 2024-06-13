@@ -132,6 +132,7 @@ input::file-selector-button {
 
 .check {
     top: -250px;
+    left: -25px;
     max-width: 300px;
 }
 
