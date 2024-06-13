@@ -965,8 +965,6 @@
     }
 
     async function wearItem(item) {
-        //console.log("wearing " + item.name);
-
         // Find today's date
         // This includes seconds and other extra information
         const d = new Date();
@@ -979,20 +977,14 @@
         await item.updateItemInDatabase();
 
         databaseDate = await getDateFromDatabase("date-" + date);
-        //console.log("Date from database: " + databaseDate);
 
         if (databaseDate == "Failed") {
             // If the date cannot be retrieved, create a new date
             await addDateToDatabase(date, [item.id]);
-            //console.log("Only " + item.id + "in " + date);
         } else {
             // Otherwise, add the id of item to the list of ids for the date
             itemIDs = databaseDate.itemIDs;
-            //console.log("past ids: " + itemIDs);
-            //console.log("new id: " + item.id);
             itemIDs.push(item.id);
-            //console.log("updated ids: " + itemIDs);
-            // itemIDs is updating correctly
             await updateDateInDatabase(databaseDate.id, databaseDate.date, itemIDs);
         }
 
@@ -1027,7 +1019,6 @@
           || (item.clothingType == "Skirt")
           || (item.clothingType == "Athletic Pants")
           || (item.clothingType == "Leggings")));
-        console.log(bottomsArray);
 
         // Match tops with bottoms
         for (const top of topsArray) {
@@ -1514,8 +1505,6 @@
                 event.target.nextElementSibling.style.maxHeight = null;
             } else {
                 // Otherwise, we wan to display it
-                console.log(event.target.nextElementSibling)
-                console.log(event.target.nextElementSibling.scrollHeight)
                 event.target.nextElementSibling.style.maxHeight = 
                     event.target.nextElementSibling.scrollHeight + "px";
             }
