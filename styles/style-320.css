@@ -195,7 +195,7 @@ button:not(.hamburger, .item-button) {
     margin-left: 10px;
 }
 
-img:not(#view-item-img) {
+img:not(#view-item-img, .wash-button, .check) {
     max-height: 160px;
 }
 

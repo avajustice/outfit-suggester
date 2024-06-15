@@ -218,7 +218,7 @@ input::file-selector-button {
     margin-left: 18px;
 }
 
-img:not(#view-item-img) {
+img:not(#view-item-img, .wash-button, .check) {
     max-height: 180px;
 }
 
