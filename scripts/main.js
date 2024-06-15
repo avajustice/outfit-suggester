@@ -909,6 +909,7 @@
             // Add header to show the name of the outfit
             this.outfitTitle = document.createElement("h3");
             this.outfitTitle.textContent = this.name;
+            this.outfitTitle.className = "outfit-title";
             this.outfitContainer.append(this.outfitTitle);
 
             // Add text to show when the items were last worn

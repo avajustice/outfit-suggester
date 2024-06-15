@@ -159,3 +159,52 @@ input::file-selector-button {
     margin-bottom: 25px;
     padding: 0px 10px;
 }
+
+/* Outfits */
+#outfit-options {
+    text-align: center;
+    line-height: 35px;
+}
+
+#create-outfits {
+    margin: 15px 0px;
+}
+
+#outfits {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 15px;
+    row-gap: 15px;
+    line-height: 10px;
+}
+
+.outfit-container {
+    text-align: center;
+    line-height: 25px;
+    margin-bottom: 20px;
+}
+
+.outfit-title {
+    margin: 10px;
+}
+
+.outfit-images-buttons {
+    display: grid;
+    grid-template-columns: auto auto;
+}
+
+.outfit-buttons {
+   margin-top: 100px;
+}
+
+.outfit-images {
+    margin-left: 10px;
+}
+
+img:not(#view-item-img) {
+    max-height: 160px;
+}
+
+.wear-outfit-button {
+    margin: 30px 0px;
+}
