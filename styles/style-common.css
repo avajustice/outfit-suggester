@@ -291,3 +291,8 @@ img {
 #history-buttons {
     display: grid;
 }
+
+/* Outfits */
+.outfit-container {
+    border: 1px solid black;
+}

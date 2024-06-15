@@ -214,7 +214,7 @@
         // Display only the outfit elements
         hideAll();
         outfitsTitle.style.display = "block";
-        outfitsBody.style.display = "block";
+        outfitsBody.style.display = "grid";
         
         // Collapse menu
         if (menuButton.classList.contains("is-active")) {
@@ -904,6 +904,7 @@
 
         this.displayOutfitCard = function() {
             this.outfitContainer = document.createElement("div");
+            this.outfitContainer.className = "outfit-container";
 
             // Add header to show the name of the outfit
             this.outfitTitle = document.createElement("h3");
@@ -915,26 +916,42 @@
             this.lastWornAverageText.textContent = "Average Days Since Worn: " + lastWornAverage;
             this.outfitContainer.append(this.lastWornAverageText);
 
+            // Create container for lower half of outfit card
+            this.outfitImagesAndButtons = document.createElement("div");
+            this.outfitImagesAndButtons.className = "outfit-images-buttons";
+            this.outfitContainer.append(this.outfitImagesAndButtons);
+
+            // Create container for outfit images
+            this.outfitImagesContainer = document.createElement("div");
+            this.outfitImagesContainer.className = "outfit-images";
+            this.outfitImagesAndButtons.append(this.outfitImagesContainer);
+
             // Insert line break to outfit
             this.outfitContainer.append(document.createElement("br"));
             // Add top/dress image to outfit
             this.topImage = document.createElement("img");
             this.topImage.src = top.imgPath;
-            this.outfitContainer.append(this.topImage);
+            this.outfitImagesContainer.append(this.topImage);
 
             // Insert line break
-            this.outfitContainer.append(document.createElement("br"));
+            this.outfitImagesContainer.append(document.createElement("br"));
             // Add pants/skirt image
             this.bottomImg = document.createElement("img");
             this.bottomImg.src = bottom.imgPath;
-            this.outfitContainer.append(this.bottomImg);
+            this.outfitImagesContainer.append(this.bottomImg);
 
             // Insert line break
             this.outfitContainer.append(document.createElement("br"));
 
+            // Create container for outfit buttons
+            this.outfitButtonsContainer = document.createElement("div");
+            this.outfitButtonsContainer.className = "outfit-buttons";
+            this.outfitImagesAndButtons.append(this.outfitButtonsContainer);
+
             // Add wear outfit button
             this.wearOutfitButton = document.createElement("button");
-            this.wearOutfitButton.textContent = "Wear Outfit";
+            this.wearOutfitButton.textContent = "Wear";
+            this.wearOutfitButton.className = "wear-outfit-button";
             this.wearOutfitButton.onclick = () => {
                 // Find the coordinates of the top image
                 const topImgRect = this.topImage.getBoundingClientRect();
@@ -948,16 +965,19 @@
                 // Wait for one second to show the check, then call wear outfit
                 setTimeout(this.wearOutfit, 1000);
             }
-            this.outfitContainer.append(this.wearOutfitButton);
+            this.outfitButtonsContainer.append(this.wearOutfitButton);
+
+            // Insert line break between buttons 
+            this.outfitButtonsContainer.append(document.createElement("br"));
 
             // Add ban outfit button
             this.banOutfitButton = document.createElement("button");
-            this.banOutfitButton.textContent = "Don't make this outfit again";
+            this.banOutfitButton.textContent = "Don't Make Again";
             this.banOutfitButton.onclick = () => {
                 this.top.bannedPairs.push(this.bottom.id);
                 this.top.updateItemInDatabase();
             }
-            this.outfitContainer.append(this.banOutfitButton);
+            this.outfitButtonsContainer.append(this.banOutfitButton);
 
             // Add the whole outfit info card to the allOutfitsContainer
             allOutfitsContainer.appendChild(this.outfitContainer);
