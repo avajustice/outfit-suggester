@@ -24,7 +24,6 @@
     // View item
     const viewItemContainer = document.getElementById("view-item");
     const viewItemButtonsContainer = document.getElementById("view-item-buttons-container");
-    const viewItemImgAndInfo = document.getElementById("view-item-info-img-container");
     const viewImage = document.getElementById("view-item-img");
     const viewName = document.getElementById("v-name");
     const viewType = document.getElementById("v-type");
@@ -61,7 +60,6 @@
     const occasionButtons = document.getElementsByName("occasion");
     const weatherButtons = document.getElementsByName("weather");
     const createOutfitsButton = document.getElementById("create-outfits");
-    const outfitCheck = document.getElementById("outfit-check");
     const loadingSymbol = document.getElementById("loading");
 
     // Wash
