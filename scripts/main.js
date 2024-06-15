@@ -886,19 +886,14 @@
         this.top = top;
         this.bottom = bottom;
         this.lastWornAverage = lastWornAverage;
+        this.justWorn = false;
 
         this.wearOutfit = async function() {
-
+            // Wear both outfit pieces
             await wearItem(top);
             await wearItem(bottom);
-            
-            // Clear the outfit container because probably the user isn't going to wear two outfits of
-            // the same type in one day
-            allOutfitsContainer.replaceChildren();
 
-            // Also make the check hidden
-            outfitCheck.style.display = "none";
-
+            // Reset history to show the change
             await resetHistory();
         }
 
@@ -914,7 +909,11 @@
 
             // Add text to show when the items were last worn
             this.lastWornAverageText = document.createElement("p");
-            this.lastWornAverageText.textContent = "Average Days Since Worn: " + lastWornAverage;
+            if (this.justWorn) {
+                this.lastWornAverageText.textContent = "Average Days Since Worn: 0";
+            } else {
+                this.lastWornAverageText.textContent = "Average Days Since Worn: " + lastWornAverage;
+            }
             this.outfitContainer.append(this.lastWornAverageText);
 
             // Create container for lower half of outfit card
@@ -954,17 +953,22 @@
             this.wearOutfitButton.textContent = "Wear";
             this.wearOutfitButton.className = "wear-outfit-button";
             this.wearOutfitButton.onclick = () => {
-                // Find the coordinates of the top image
-                const topImgRect = this.topImage.getBoundingClientRect();
-                // The check should be further down the page so that it overlaps
-                // both the top and bottom image
-                const checkTopCoordinate = topImgRect.top + 150;
-                // Set the new location for the check
-                outfitCheck.style.top = checkTopCoordinate + "px";
-                // Make it visible
-                outfitCheck.style.display = "block";
-                // Wait for one second to show the check, then call wear outfit
-                setTimeout(this.wearOutfit, 1000);
+                // Clear the outfit container
+                allOutfitsContainer.replaceChildren();
+                // But show the adjusted outfit container so that the user
+                // can remember what they just chose to wear
+                this.justWorn = true;
+                this.displayOutfitCard();
+
+                // Wear the outfit
+                this.wearOutfit();
+            }
+
+            if (this.justWorn) {
+                // Disable the wear button so that the user can't chose it again and 
+                // mess the history up
+                this.wearOutfitButton.disabled = true;
+                this.wearOutfitButton.style.backgroundColor = "rgb(251, 240, 255)";
             }
             this.outfitButtonsContainer.append(this.wearOutfitButton);
 
@@ -977,6 +981,10 @@
             this.banOutfitButton.onclick = () => {
                 this.top.bannedPairs.push(this.bottom.id);
                 this.top.updateItemInDatabase();
+                // Disable the button to show that it was successful and to 
+                // prevent the data being added multiple times
+                this.banOutfitButton.style.backgroundColor = "rgb(251, 240, 255)";
+                this.banOutfitButton.disabled = true;
             }
             this.outfitButtonsContainer.append(this.banOutfitButton);
 
