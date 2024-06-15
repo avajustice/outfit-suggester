@@ -167,6 +167,10 @@ button:not(.hamburger, .item-button) {
 }
 
 /* Outfits */
+#loading {
+    margin-top: 20px;
+}
+
 #outfit-options {
     text-align: center;
     line-height: 35px;

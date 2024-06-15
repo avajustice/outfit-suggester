@@ -296,3 +296,11 @@ img {
 .outfit-container {
     border: 1px solid black;
 }
+
+#outfit-options {
+    margin: auto;
+}
+
+#loading {
+    margin: auto;
+}

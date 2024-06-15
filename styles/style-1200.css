@@ -177,6 +177,11 @@ input::file-selector-button {
 }
 
 /* Outfits */
+#loading {
+    margin-top: 40px;
+    margin-left: 100px;
+}
+
 #outfit-options {
     line-height: 30px;
     font-size: 17px;
@@ -185,7 +190,7 @@ input::file-selector-button {
 
 #create-outfits {
     margin-top: 10px;
-    margin-left: 80px;
+    margin-left: 90px;
 }
 
 #outfits-body {
