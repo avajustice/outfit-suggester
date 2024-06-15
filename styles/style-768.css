@@ -83,6 +83,7 @@ input {
 
 button {
     font-size: medium;
+    padding: 8px 15px;
 }
 
 input::file-selector-button {
@@ -155,4 +156,54 @@ input::file-selector-button {
 
 #history-buttons {
     grid-template-columns: 1fr 1fr 1fr;
+}
+
+/* Outfits */
+#outfit-options {
+    line-height: 30px;
+    font-size: 17px;
+    margin-left: 10px;
+}
+
+#create-outfits {
+    margin-top: 10px;
+    margin-left: 90px;
+}
+
+#outfits-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+#outfits {
+    display: grid;
+    grid-template-columns: 1fr;
+    column-gap: 15px;
+    row-gap: 15px;
+    line-height: 22px;
+}
+
+.outfit-container {
+    text-align: center;
+}
+
+.outfit-images-buttons {
+    display: grid;
+    grid-template-columns: auto auto;
+}
+
+.outfit-buttons {
+   margin-top: 100px;
+}
+
+.outfit-images {
+    margin-left: 18px;
+}
+
+img:not(#view-item-img) {
+    max-height: 180px;
+}
+
+.wear-outfit-button {
+    margin: 20px;
 }
