@@ -1423,10 +1423,11 @@
         // Reset historyStartDate to today and redisplay the history
         // to show the new change in the history
         historyStartDate = new Date();
-        while (historyText.hasChildNodes) {
-            historyText.removeChild();
+
+        while (historyText.hasChildNodes()) {
+            historyText.firstChild.remove();
         }
-        // historyText.textContent = ""
+
         getDisplayWeekHistory(); 
     }
 
