@@ -12,6 +12,7 @@
     margin-right: 10px;
 }
 
+/* Closet */
 #view-item-info-img-container {
     display: grid;
     grid-template-columns: 1.5fr 1fr;
@@ -58,7 +59,9 @@
 }
 
 .clothes-category-button:after {
-    padding-right: 10px;
+    font-size: 15px;
+    padding-right: 18px;
+    padding-top: 6px;
 }
 
 .item-section {

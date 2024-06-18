@@ -85,13 +85,13 @@ img {
 }
 
 .clothes-category-button:after {
-    content: '⮟';
-    font-size: 13px;
+    content: '▼';
+    padding-right: 10px;
     float: right;
 }
   
 .clothes-category-button.active:after {
-    content: '⮝'; 
+    content: '▲'; 
 }
 
 .clothes-category-button:hover {
