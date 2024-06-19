@@ -1,3 +1,4 @@
+/* General */
 html {
     font-family: "Segoe UI", SegoeUI, "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-weight: normal;
@@ -13,6 +14,20 @@ p {
 
 h3 {
     font-weight: 500;
+}
+
+h1 {
+    font-size: x-large;
+    padding-left: 25px;
+    font-weight: 450;
+}
+
+h2 {
+    font-weight: normal;
+}
+
+img {
+    max-height: 400px;
 }
 
 button {
@@ -42,92 +57,7 @@ input::file-selector-button:hover {
     background-color: rgb(252, 227, 246);
 }
 
-#new-item, #view-item {
-    background-color: rgb(227, 242, 255);
-}
-
-#history-container {
-    white-space: pre;
-}
-
-header {
-    position: fixed;
-    z-index: 99;
-    /* background-color: rgb(227, 242, 255); */
-    background-color: rgb(248, 223, 255);
-    width: 100%;
-    top: 0;
-    left: 0;
-    display: flex;
-}
-
-h1 {
-    font-size: x-large;
-    padding-left: 25px;
-    font-weight: 450;
-}
-
-h2 {
-    font-weight: normal;
-}
-
-img {
-    max-height: 400px;
-}
-
-.clothes-category-button {
-    background-color: rgb(214, 255, 241);
-    overflow: hidden;
-    transition: max-height 0.2s ease-out;
-    margin-left: auto;
-    margin-right: auto;
-    font-weight: 350;
-}
-
-.clothes-category-button.hidden {
-    max-height: 0px;
-    padding: 0px;
-}
-
-.clothes-category-button:after {
-    content: '▼';
-    padding-right: 10px;
-    float: right;
-}
-  
-.clothes-category-button.active:after {
-    content: '▲'; 
-}
-
-.clothes-category-button:hover {
-    cursor: default;
-    background-color: rgb(228, 253, 245);
-}
-
-.item-section {
-    display: flex;
-    flex-direction: column;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.2s ease-out;
-    margin: auto;
-}
-
-.item-button {
-    max-width: 200px;
-    background-color: rgb(234, 211, 255);
-    border: none;
-    margin: auto;
-}
-
-.item-button:hover {
-    background-color: rgb(239, 223, 255);
-}
-
-#outfit-check {
-    max-height: 100px;
-}
-
+/* Navigation */
 .hamburger {
     position: relative;
     display: block;
@@ -208,8 +138,69 @@ img {
     font-weight: 300;
 }
 
+header {
+    position: fixed;
+    z-index: 99;
+    /* background-color: rgb(227, 242, 255); */
+    background-color: rgb(248, 223, 255);
+    width: 100%;
+    top: 0;
+    left: 0;
+    display: flex;
+}
+
 .page-nav:hover {
     cursor: pointer;
+}
+
+/* Closet */
+.clothes-category-button {
+    background-color: rgb(214, 255, 241);
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+    margin-left: auto;
+    margin-right: auto;
+    font-weight: 350;
+}
+
+.clothes-category-button.hidden {
+    max-height: 0px;
+    padding: 0px;
+}
+
+.clothes-category-button:after {
+    content: '▼';
+    padding-right: 10px;
+    float: right;
+}
+  
+.clothes-category-button.active:after {
+    content: '▲'; 
+}
+
+.clothes-category-button:hover {
+    cursor: default;
+    background-color: rgb(228, 253, 245);
+}
+
+.item-section {
+    display: flex;
+    flex-direction: column;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+    margin: auto;
+}
+
+.item-button {
+    max-width: 200px;
+    background-color: rgb(234, 211, 255);
+    border: none;
+    margin: auto;
+}
+
+.item-button:hover {
+    background-color: rgb(239, 223, 255);
 }
 
 .view-item-button {
@@ -228,6 +219,10 @@ img {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     column-gap: 30px;
+}
+
+#new-item, #view-item {
+    background-color: rgb(227, 242, 255);
 }
 
 #new-item {
@@ -295,6 +290,10 @@ img {
 
 #history-buttons {
     display: grid;
+}
+
+#history-container {
+    white-space: pre;
 }
 
 /* Outfits */
