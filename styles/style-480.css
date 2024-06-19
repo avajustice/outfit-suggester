@@ -188,6 +188,7 @@ input::file-selector-button {
     text-align: center;
     line-height: 25px;
     margin-bottom: 20px;
+    padding-top: 8px;
 }
 
 .outfit-title {

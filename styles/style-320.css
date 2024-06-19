@@ -186,6 +186,7 @@ button:not(.hamburger, .item-button) {
     text-align: center;
     line-height: 16px;
     margin-bottom: 20px;
+    padding-top: 8px;
 }
 
 .outfit-images-buttons {
