@@ -124,7 +124,6 @@ button:not(.hamburger, .item-button) {
     min-height: 50px;
     min-width: 300px;
     font-size: large;
-    background-color: rgb(229, 200, 255);
     margin-top: 5px;
 }
 
