@@ -490,7 +490,6 @@
             }
 
             this.updateItemInDatabase();
-            resetNewItemContainerPostEditing();
 
             // Switch item modes
             displayViewItems();
@@ -835,7 +834,6 @@
         lastWornSelect.value = "";
         numberSelect.value = "";
         availableSelect.value = "";
-        newItemImageContainer.firstChild.remove();
 
         // Display and enable createItemButton
         createItemButton.style.display = "block";
