@@ -1097,7 +1097,9 @@
             }
         } else {
             // All other types have their own rules
-            if (bottom.color === "Blue" || isNeutralColor(bottom)) {
+            if (bottom.color == top.color && bottom.color != "Blue") {
+                return false;
+            } else if (bottom.color === "Blue" || isNeutralColor(bottom)) {
                 return true;
             } else if (bottom.color === "Pink") {
                 if (isNeutralColor(top) || top.color === "Green" ||
