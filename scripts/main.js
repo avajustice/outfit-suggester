@@ -1052,10 +1052,19 @@
                 if ((colorsMatch(top, bottom))
                  && (patternsMatch(top, bottom))
                  && typesMatch(top, bottom)
-                 && !isBanned(top, bottom)){
-                    // Find the average of the two last worn dates
-                    const lastWornAverage = (findDaysAgo(top.lastWorn) +
-                    findDaysAgo(bottom.lastWorn)) / 2;
+                 && !isBanned(top, bottom)) {
+                    // Find a rating to describe how long it's been since the 
+                    // items in the outfit were last worn
+                    let lastWornAverage;
+                    if (bottom.clothingType == "Leggings") {
+                        // Leggings hardly show, so they shouldn't be factored 
+                        // into the last worn average
+                        lastWornAverage = findDaysAgo(top.lastWorn);
+                    } else {
+                        // Find the average of the two last worn dates
+                        lastWornAverage = (findDaysAgo(top.lastWorn) +
+                        findDaysAgo(bottom.lastWorn)) / 2;
+                    }
                     // Create a joint name
                     const name = top.name + " and " + bottom.name
                     // Create a new outfit object and add it to the outfit array
