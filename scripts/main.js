@@ -465,17 +465,17 @@
             // Get values from radio buttons
             for (let button of shortLongButtons) {
                 if (button.checked) {
-                    shortLong = button.value;
+                    this.shortLong = button.value;
                 }
             }
             for (let button of patternedButtons) {
                 if (button.checked) {
-                    patterned = button.value;
+                    this.patterned = button.value;
                 }
             }
             for (let button of washButtons) {
                 if (button.checked) {
-                    washType = button.value;
+                    this.washType = button.value;
                 }
             }
 
