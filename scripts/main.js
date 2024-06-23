@@ -413,9 +413,9 @@
             }
 
             // Add image
-            let img = document.createElement("img");
-            img.src = this.imgPath;
-            newItemImageContainer.appendChild(img);
+            let imgEdit = document.createElement("img");
+            imgEdit.src = this.imgPath;
+            newItemImageContainer.append(imgEdit);
 
             // Reset to false to track whether or not the image is replaced
             newPictureAdded = false;
@@ -834,6 +834,11 @@
         lastWornSelect.value = "";
         numberSelect.value = "";
         availableSelect.value = "";
+
+        // Remove image
+        if (newItemImageContainer.hasChildNodes()) {
+            newItemImageContainer.firstChild.remove();
+        }
 
         // Display and enable createItemButton
         createItemButton.style.display = "block";
