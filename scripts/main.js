@@ -87,7 +87,7 @@
     const goHistoryButton = document.getElementById("history-nav");
 
     // Constants
-    const webServiceURL = "https://5a562d9d-ecb7-4661-b268-bcc1ac3ef0c2-00-2u3o7ifjw9vh1.worf.repl.co/";
+    const webServiceURL = "https://outfit-suggester-service.replit.app/";
     let imageFilePath = "";
     const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     const monthNames = [
