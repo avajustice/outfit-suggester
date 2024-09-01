@@ -1,0 +1,217 @@
+.page-nav {
+    display: none;
+}
+
+.ham-nav p {
+    max-width: 300px;
+    font-size: 25px;
+}
+
+#body-except-header {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+/* Closet */
+#view-item-info-img-container {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+}
+
+#view-item-img {
+    min-height: 200px;
+    padding: 20px;
+    margin: auto;
+}
+
+#view-info {
+   font-size: 17px;
+   line-height: 25px;
+   margin: auto;
+   padding-bottom: 15px;
+}
+
+.view-item-button {
+    margin: 20px;
+    min-height: 45px;
+    line-height: 45px;
+    font-size: 17px;
+}
+
+#view-item {
+    max-width: 550px;
+    margin: auto;
+}
+
+.clothes-category-button {
+    width: 300px;
+    margin-top: 7px;
+    margin-bottom: 7px;
+    font-size: 20px;
+    text-align: center;
+    max-height: 30px;
+    padding: 9px 0px;
+}
+
+.clothes-category-button.hidden {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.clothes-category-button:after {
+    font-size: 15px;
+    padding-right: 18px;
+    padding-top: 6px;
+}
+
+.item-section {
+    width: 300px;
+}
+
+#new-item {
+    max-width: 704px;
+    font-size: larger;
+    line-height: 45px;
+    padding: 15px;
+}
+
+select {
+    font-size: medium;
+}
+
+input {
+    font-size: medium;
+}
+
+button:not(.hamburger, .item-button) {
+    font-size: medium;
+    min-height: 40px;
+    min-width: 75px;
+}
+
+input::file-selector-button {
+    font-size: medium;
+    padding: 4px 3px;
+}
+
+#new-item-img {
+    margin-top: 5px;
+}
+
+#switch-closet-mode {
+    font-size: 17px;
+    min-height: 45px;
+    min-width: 170px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+#update-item-button, #cancel-editing-button, #create-item {
+    margin-top: 15px;
+    min-height: 50px;
+    min-width: 120px;
+    margin-right: 60px;
+}
+
+#items-list {
+    padding-bottom: 20px;
+    min-height: 420px;
+}
+
+.item-button {
+    min-height: 30px;
+    min-width: 300px;
+    font-size: large;
+    margin-top: 5px;
+}
+
+#name, #color {
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+/* Wash */
+#wash-container {
+    margin: auto;
+}
+
+.specific-wash-container {
+    max-height: 375px;
+    margin: auto;
+}
+
+.wash-label {
+    font-size: 22px;
+    font-weight: 350;
+    margin-left: 80px;
+}
+
+.wash-button {
+    max-height: 300px;
+    padding-top: 10px;
+}
+
+.check {
+    top: -250px;
+    max-width: 300px;
+}
+
+/* History */
+#previous-week-history, #history-date, #update-history {
+    margin-bottom: 25px;
+    padding: 0px 10px;
+}
+
+/* Outfits */
+#loading {
+    margin-top: 20px;
+}
+
+#outfit-options {
+    text-align: center;
+    line-height: 35px;
+}
+
+#create-outfits {
+    margin: 15px 0px;
+}
+
+#outfits {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 15px;
+    row-gap: 15px;
+    line-height: 10px;
+}
+
+.outfit-container {
+    text-align: center;
+    line-height: 25px;
+    margin-bottom: 20px;
+    padding-top: 8px;
+}
+
+.outfit-title {
+    margin: 10px;
+}
+
+.outfit-images-buttons {
+    display: grid;
+    grid-template-columns: auto auto;
+}
+
+.outfit-buttons {
+   margin-top: 100px;
+}
+
+.outfit-images {
+    margin-left: 10px;
+}
+
+img:not(#view-item-img, .wash-button, .check) {
+    max-height: 160px;
+}
+
+.wear-outfit-button {
+    margin: 30px 0px;
+}

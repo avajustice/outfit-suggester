@@ -1,0 +1,346 @@
+/* General */
+html {
+    font-family: "Segoe UI", SegoeUI, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: normal;
+}
+
+body {
+    padding-top: 50px;
+}
+
+p {
+    white-space: pre-wrap;
+}
+
+h3 {
+    font-weight: 500;
+}
+
+h1 {
+    font-size: x-large;
+    padding-left: 25px;
+    font-weight: 450;
+}
+
+h2 {
+    font-weight: normal;
+}
+
+img {
+    max-height: 400px;
+}
+
+button {
+    font-family: "Segoe UI", SegoeUI, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background-color: rgb(255, 219, 240);
+    border: 1px solid rgb(255, 201, 241);
+}
+
+button:hover {
+    background-color: rgb(252, 227, 246);
+}
+
+select {
+    font-family: "Segoe UI", SegoeUI, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+input {
+    font-family: "Segoe UI", SegoeUI, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+input::file-selector-button {
+    background-color: rgb(255, 219, 240);
+    border: 1px solid rgb(255, 201, 241);
+}
+
+input::file-selector-button:hover {
+    background-color: rgb(252, 227, 246);
+}
+
+/* Navigation */
+.hamburger {
+    position: relative;
+    display: block;
+    width: 35px;
+    cursor: pointer;
+    appearance: none;
+    background: none;
+    outline: none;
+    border: none;
+}
+
+/* Makes three hamburger lines */
+.hamburger .bar, .hamburger:after, .hamburger:before {
+    content: '';
+    display: block;
+    width: 100%;
+    height:  5px;
+    background-color: #000000;
+    margin: 6px 8px;
+    transition: 0.4s;
+}
+
+/* Twist top line*/
+.hamburger.is-active:before {
+    transform: rotate(45deg) translate(0px, 15px);
+}
+
+/* Make middle line disappear */
+.hamburger.is-active .bar {
+    opacity: 0;
+}
+
+/* Twist bottom line other direction*/
+.hamburger.is-active:after {
+    transform: rotate(-45deg) translate(0px, -16px);
+}
+
+.ham-nav {
+    display: block;
+    position: fixed;
+    top: 0;
+    right: 100%;
+    width: 100%;
+    min-height: 100vh;
+    z-index: 98;
+    background-color: rgb(200, 226, 249);
+    padding-top: 120px;
+    transition: 0.4s;
+}
+
+.ham-nav.is-active {
+    right:0;
+}
+
+.ham-nav p {
+    display: block;
+    width: 100%;
+    max-width: 200px;
+    margin: 0 auto 16px;
+    text-align: center;
+    margin-bottom: 16px;
+    padding: 12px 16px;
+    background-color: rgb(255, 219, 240);
+    border: 1px solid rgb(255, 201, 241);
+
+    color: black;
+    font-size: large;
+    font-weight: 300;
+    font: "Segoe UI";
+}
+
+.ham-nav p:hover {
+    background-color: rgb(252, 227, 246);
+    cursor: pointer;
+}
+
+.page-nav {
+    padding-left: 50px;
+    font-weight: 300;
+}
+
+header {
+    position: fixed;
+    z-index: 99;
+    background-color: rgb(248, 223, 255);
+    width: 100%;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+#header-left {
+    display: flex;
+}
+
+.page-nav:hover {
+    cursor: pointer;
+}
+
+/* Closet */
+.clothes-category-button {
+    background-color: rgb(214, 255, 241);
+    border: 1px solid rgb(179, 253, 228);;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+    margin-left: auto;
+    margin-right: auto;
+    font-weight: 350;
+}
+
+.clothes-category-button.hidden {
+    max-height: 0px;
+    padding: 0px;
+    border: none;
+}
+
+.clothes-category-button:after {
+    content: '▼';
+    padding-right: 10px;
+    float: right;
+}
+  
+.clothes-category-button.active:after {
+    content: '▲'; 
+}
+
+.clothes-category-button:hover {
+    cursor: default;
+    background-color: rgb(228, 253, 245);
+}
+
+.item-section {
+    display: flex;
+    flex-direction: column;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+    margin: auto;
+}
+
+.item-button {
+    max-width: 200px;
+    background-color: rgb(234, 211, 255);
+    border: 1px solid rgb(222, 186, 255);;
+    margin: auto;
+}
+
+.item-button:hover {
+    background-color: rgb(239, 223, 255);
+}
+
+.view-item-button {
+    background-color: rgb(255, 219, 240);
+    border: 1px solid rgb(255, 201, 241);
+    text-align: center;
+    vertical-align: middle;
+}
+
+.view-item-button:hover {
+    background-color: rgb(245, 230, 248);
+    cursor: default;
+}
+
+#view-item-buttons-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 30px;
+}
+
+#new-item, #view-item {
+    background-color: rgb(227, 242, 255);
+    border: 1px solid rgb(186, 223, 255);
+}
+
+#new-item {
+    margin: auto;
+}
+
+#update-item-button {
+    margin-right: 15px;
+}
+
+#switch-closet-mode {
+    margin: auto;
+}
+
+#update-item-button, #cancel-editing-button, #create-item {
+    border: none;
+}
+
+/* Wash */
+#wash-container {
+    display: grid;
+}
+
+.wash-button {
+    margin: auto;
+}
+
+.check {
+    display: none;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+}
+
+/* History */
+#history-text {
+    margin: auto;
+    text-align: left;
+    display: grid;
+    grid-template-columns: auto auto;
+}
+
+#item-names-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+#previous-week-history, #history-date, #update-history {
+    position: relative;
+    margin: auto;
+}
+
+.history-date-text {
+    text-align: right;
+    vertical-align: middle;
+    line-height: 4.5px;
+    margin: 8px;
+}
+
+.history-item-text {
+    margin: 8px;
+}
+
+#history-buttons {
+    display: grid;
+}
+
+#history-container {
+    white-space: pre;
+}
+
+/* Outfits */
+.outfit-container {
+    background-color: rgb(227, 242, 255);
+    border: 1px solid rgb(186, 223, 255);
+}
+
+#outfit-options {
+    margin-top: 10px;
+}
+
+#loading {
+    margin: auto;
+}
+
+#user-icon {
+    width: 24px;
+}
+
+#profile-button:hover {
+    background-color: transparent;
+}
+
+#profile-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    width: 60px;
+    min-width: 0;
+    padding: 0px;
+}
+
+#profile-image {
+    width: 100px;
+}
+
+#profile-detail {
+    white-space: pre;
+    font-family: monospace;
+    overflow: auto;
+    margin-top: 30px;
+}
