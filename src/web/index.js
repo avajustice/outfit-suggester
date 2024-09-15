@@ -142,8 +142,8 @@ async function imagesIDHttpGetHandler(req, res) {
   // Get item with specified id
   const id = req.params.id;
 
-  // Send the url of the requested image
-  res.send("This is image is located at https://outfit-suggester-service.avajustice.repl.co/images/" + id);
+  // Send the URL of the requested image
+  res.send("This is image is located at https://outfitsuggester.avajustice.com/images/" + id);
 }
 
 // Handles HTTP POST requests to /api/images
