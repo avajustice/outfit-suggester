@@ -1,5 +1,5 @@
-# outfit-app express-auth
-A project based on [avajustice's outfit-suggester](https://github.com/avajustice/outfit-suggester/) using express for client and server, with Auth0's `express-openid-connect` package.
+# Outfit Suggester
+
 
 ## Configuration
 Set `webServiceURL` in `main.js` to the URL of the web service instance. By default, it points to root of the site.
@@ -62,13 +62,28 @@ $ npm start
 ## Browse site
 Go to http://localhost:3000/
 
-## Test authentication
+## Using the site
+Outfit Suggester is a work in progress, so some aspects of using the site are not self-explanatory yet.
+Here is a brief tutorial to demonstrate how to get started using Outfit Suggester.
 
-Login:
-http://localhost:3000/login
+1. Go to https://outfitsuggester.avajustice.com.
 
-Profile:
-http://localhost:3000/profile
+2. First, create an account. Click the person icon in the righthand corner, then click the login link to 
+create an account.
 
-Logout:
-http://localhost:3000/logout
+4. Now you need to add your clothes to the closet! Click "Closet" at the top of the screen, then click
+the "Add Items" button.
+
+5. For each item you want to add, fill in all the fields with information about that item, then click "Create
+Item."
+
+6. Now you can create outfits! Click "Outfits" at the top of the screen, then choose the desired occasion and
+weather before clicking "Create Outfits."
+
+7. Click "Wear" to choose the outfit that you want to wear today. Your selection will show up under "History" 
+and the items will be marked as unavailable until they are washed.
+
+Note: If you want to select individual items to wear, you can choose them in the "Closet" section.
+
+8. After you wash clothes, click on the "Wash Regular" or "Wash Delicates" dials to make the items available
+for creating outfits again.
