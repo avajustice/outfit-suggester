@@ -298,9 +298,6 @@
                 profileImage.src = "images/user.svg";
                 userIcon.src = "images/user.svg";
             }
-
-            // Show the profile detail.
-            profileDetail.innerHTML = JSON.stringify(profile, null, 2);
         } else {
             // Hide the user profile and show the login option
             profileUser.style.display = "none";
