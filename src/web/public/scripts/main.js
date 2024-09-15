@@ -584,8 +584,8 @@
         }
 
         this.addItemToDatabase = async function() {
-            // Sends a POST request to outfit-suggester-service on Replit, which
-            // adds the clothing item to the database also on Replt
+            // Sends a POST request to the web service, which adds the clothing item
+            // to the database
             const rawResponse = await fetch(webServiceURL + 'api/items', {
                 method: 'POST',
                 headers: {
@@ -605,8 +605,8 @@
         }
 
         this.deleteItemFromDatabase = async function() {
-            // Sends a DELETE request to outfit-suggester-service on Replit, which
-            // removes the clothing item from the database also on Replt
+            // Sends a DELETE request to the web service, which
+            // removes the clothing item from the database
             const itemURL = webServiceURL + 'api/items/' + this.id;
             const rawResponse = await fetch(itemURL, {
                 method: 'DELETE'
@@ -614,7 +614,7 @@
         }
 
         this.updateItemInDatabase = async function() {
-            // Sends a PUT request to outfit-suggester-service on Replit, which
+            // Sends a PUT request to the web service, which
             // modifies the clothing item to the database also on Replt
             const rawResponse = await fetch(webServiceURL + 'api/items/' + this.id, {
                 method: 'PUT',
@@ -710,7 +710,7 @@
     }
 
     getItemFromDatabase = async function(id) {
-        // Sends a GET request to outfit-suggester-service on Replit, which gets the
+        // Sends a GET request to the web service, which gets the
         // item information from the database
         const rawResponse = await fetch(webServiceURL + 'api/items/' + id, {
             method: 'GET',
@@ -807,8 +807,8 @@
     }
 
     addImageToDatabase = async function(imgData) {
-        // Sends a POST request to outfit-suggester-service on Replit, which
-        // adds the image to the Replit filesystem
+        // Sends a POST request to the web service, which
+        // adds the image to the filesystem
             const rawResponse = await fetch(webServiceURL + 'api/images', {
                 method: 'POST',
                 headers: {
@@ -824,15 +824,15 @@
         }
 
     deleteImageFromDatabase = async function(id) {
-        // Sends a DELETE request to outfit-suggester-service on Replit, which
-        // deletes the image with the specified ID from the Replit filesystem
+        // Sends a DELETE request to the web service, which
+        // deletes the image with the specified ID from the filesystem
         const rawResponse = await fetch(webServiceURL + 'api/images/' + id, {
             method: 'DELETE'
         });
     }
 
     addDateToDatabase = async function(date, itemIDs) {
-        // Sends a POST request to outfit-suggester-service on Replit, which
+        // Sends a POST request to the web service, which
         // adds the date to the database also on Replt
         const rawResponse = await fetch(webServiceURL + 'api/dates', {
             method: 'POST',
@@ -849,7 +849,7 @@
     }
 
     updateDateInDatabase = async function(id, date, itemIDs) {
-        // Sends a PUT request to outfit-suggester-service on Replit, which
+        // Sends a PUT request to the web service, which
         // modifies the clothing item to the database also on Replt
         const rawResponse = await fetch(webServiceURL + 'api/dates/' + id, {
             method: 'PUT',
@@ -866,7 +866,7 @@
     }
 
     getDateFromDatabase = async function(id) {
-        // Sends a PUT request to outfit-suggester-service on Replit, which
+        // Sends a PUT request to the web service, which
         // modifies the clothing item to the database also on Replt
         const rawResponse = await fetch(webServiceURL + 'api/dates/' + id, {
             method: 'GET',

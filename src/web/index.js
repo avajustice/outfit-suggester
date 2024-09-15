@@ -183,7 +183,7 @@ async function imagesHttpPutHandler(req, res) {
     // tool to PUT without the base64 header
     const binaryData = Buffer.from(base64Image, 'base64');
     
-    // Write the image to the replit filesystem
+    // Write the image to the filesystem
     fs.writeFile(imageDir + '/' + id, binaryData, 'binary', (err) => {
         if (err) {
             console.error('Error writing file:', err);
