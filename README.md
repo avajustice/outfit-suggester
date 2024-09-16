@@ -1,12 +1,11 @@
 # Outfit Suggester
 Outfit Suggester is a three-tier application that suggests outfits from clothes in your wardrobe!
-The client is a web app, the server uses Node.js, and the database uses SQLite. To try out the website,
-go to https://outfitsuggester.avajustice.com and follow the instructions at the bottom of the README.
+The client is a web app, the server uses Node.js, and it uses a SQLite database. To try out the website,
+go to https://outfitsuggester.avajustice.com and follow the [instructions](#tutorial) at the bottom of the README.
 
-## Configuration
-Set `webServiceURL` in `main.js` to the URL of the web service instance. By default, it points to root of the site.
+## Developer Instructions
 
-## Install Node
+### Install Node
 On Ubuntu:
 ```
 $ curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
@@ -14,13 +13,13 @@ $ curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
 $ sudo apt-get install -y nodejs
 ```
 
-## Install App
+### Install App
 ```
 $ cd src/web
 $ npm install
 ```
 
-## Configure environment variables
+### Configure environment variables
 Create a `.env` file beside `index.js`. This file contains secrets and install-specific data, so it isn't checked into git. The file should contain the following...
 
 ```
@@ -40,31 +39,31 @@ Details:
 - `PORT` is the port where the app will run.
 
 
-## Create data directories
+### Create data directories
 By default, the path is `/var/lib/outfit-data2`. If you set a different `OUTFIT_DATA_DIR` value, use that path instead in the commands below.
 
 Ensure the folder and subfolder exist and grant access if needed:
 ```
-$ sudo mkdir /var/lib/outfit-data2
-$ sudo mkdir /var/lib/outfit-data2/images
+$ sudo mkdir /var/lib/outfit-data
+$ sudo mkdir /var/lib/outfit-data/images
 
-$ sudo chown USERNAME /var/lib/outfit-data2
-$ sudo chmod 700 /var/lib/outfit-data2
+$ sudo chown USERNAME /var/lib/outfit-data
+$ sudo chmod 700 /var/lib/outfit-data
 
-$ sudo chown USERNAME /var/lib/outfit-data2/images
-$ sudo chmod 700 /var/lib/outfit-data2/images
+$ sudo chown USERNAME /var/lib/outfit-data/images
+$ sudo chmod 700 /var/lib/outfit-data/images
 ```
 
-## Run server
+### Run server
 ```
 $ cd src/web
 $ npm start
 ```
 
-## Browse site
+### Browse site
 Go to http://localhost:3000/
 
-## Using the site
+## <a name="tutorial"></a>Using the Site
 Outfit Suggester is a work in progress, so some aspects of using the site are not self-explanatory yet.
 Here is a brief tutorial to demonstrate getting started with Outfit Suggester.
 
