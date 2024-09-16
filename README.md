@@ -1,6 +1,6 @@
 # Outfit Suggester
 Outfit Suggester is a three-tier application that suggests outfits from clothes in your wardrobe!
-The client is a web app, the server uses Node.js, and it uses a SQLite database. To try out the website,
+The client is a web app, the server uses Node.js, and it uses an SQLite database. To try out the website,
 go to https://outfitsuggester.avajustice.com and follow the [instructions](#tutorial) at the bottom of the README.
 
 ## Developer Instructions
@@ -40,7 +40,7 @@ Details:
 
 
 ### Create data directories
-By default, the path is `/var/lib/outfit-data2`. If you set a different `OUTFIT_DATA_DIR` value, use that path instead in the commands below.
+By default, the path is `/var/lib/outfit-data`. If you set a different `OUTFIT_DATA_DIR` value, use that path instead in the commands below.
 
 Ensure the folder and subfolder exist and grant access if needed:
 ```
